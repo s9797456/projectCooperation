@@ -1,0 +1,24 @@
+/**
+ * 
+ */
+package com.credit.service.person;
+
+import com.credit.model.person.PerBaseInfo;
+
+/**
+ * @author Administrator
+ *
+ */
+public interface PerBaseInfoService {
+    int deleteByPrimaryKey(String uuid);
+
+    int insert(PerBaseInfo record);
+
+    int insertSelective(PerBaseInfo record);
+
+    PerBaseInfo selectByPrimaryKey(String uuid);
+
+    int updateByPrimaryKeySelective(PerBaseInfo record);
+
+    int updateByPrimaryKey(PerBaseInfo record);
+}

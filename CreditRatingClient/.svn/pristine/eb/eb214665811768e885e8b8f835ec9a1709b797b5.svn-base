@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<InitDatas>
+	<Permissions>
+		<!-- 客户 -->
+		<Permission name="客户主页" model="customer" privilegeValue="main" />
+		<Permission name="客户阅读协议" model="customer" privilegeValue="readProtocols" />
+
+		<Permission name="客户录入信息" model="customer" privilegeValue="inputInfo" />
+		<Permission name="客户状态信息" model="customer" privilegeValue="processState" />
+        <Permission name="客户基本信息" model="customer" privilegeValue="entBaseInfo" />
+        <Permission name="客户股东信息" model="customer" privilegeValue="shareholder" />
+		<Permission name="客户高管信息" model="customer" privilegeValue="executives" />
+		<Permission name="客户指标信息" model="customer" privilegeValue="index" />
+		<Permission name="客户财务信息" model="customer" privilegeValue="finance" />
+		<Permission name="客户附件信息" model="customer" privilegeValue="uploadFile" />
+
+		<Permission name="客户查看驳回项" model="customer" privilegeValue="lookOpinion" />
+		<Permission name="客户初评" model="customer" privilegeValue="preliminary" />
+		<Permission name="客户下载报告" model="customer" privilegeValue="downloadReport" />
+		<Permission name="客户查看历史信息" model="customer" privilegeValue="history" />
+		<Permission name="客户信息" model="customer" privilegeValue="ownInfo" />
+		<Permission name="客户修改密码" model="customer" privilegeValue="updatePwd" />
+
+
+		<!-- 机构 -->
+		<Permission name="机构主页" model="organization" privilegeValue="main" />
+		<Permission name="机构企业评分列表" model="organization" privilegeValue="scoreList" />
+
+		<!-- 领导 -->
+		<Permission name="政府主页" model="government" privilegeValue="main" />
+		<Permission name="全部企业评分列表" model="government" privilegeValue="scoreList" />
+		
+
+	</Permissions>
+	
+	
+	
+  <Roles>
+    <Role name="企业" menuUrl="/menu/customerEnt.xml">
+
+	    <Permission name="企业主页" model="customer" privilegeValue="main" />
+		<Permission name="企业阅读协议" model="customer" privilegeValue="readProtocols" />
+
+		<Permission name="企业录入信息" model="customer" privilegeValue="inputInfo" />
+		<Permission name="企业状态信息" model="customer" privilegeValue="processState" />
+        <Permission name="企业基本信息" model="customer" privilegeValue="entBaseInfo" />
+        <Permission name="企业股东信息" model="customer" privilegeValue="shareholder" />
+		<Permission name="企业高管信息" model="customer" privilegeValue="executives" />
+		<Permission name="企业指标信息" model="customer" privilegeValue="index" />
+		<Permission name="企业财务信息" model="customer" privilegeValue="finance" />
+		<Permission name="企业附件信息" model="customer" privilegeValue="uploadFile" />
+
+		<Permission name="企业查看驳回项" model="customer" privilegeValue="lookOpinion" />
+		<Permission name="企业初评" model="customer" privilegeValue="preliminary" />
+		<Permission name="企业下载报告" model="customer" privilegeValue="downloadReport" />
+		<Permission name="企业查看历史信息" model="customer" privilegeValue="history" />
+		<Permission name="企业信息" model="customer" privilegeValue="ownInfo" />
+		<Permission name="企业修改密码" model="customer" privilegeValue="updatePwd" />
+    </Role>
+    <Role name="个人" menuUrl="/menu/customerPer.xml">
+
+	    <Permission name="个人主页" model="customer" privilegeValue="main" />
+		<Permission name="个人阅读协议" model="customer" privilegeValue="readProtocols" />
+    </Role>
+    
+    <Role name="机构" menuUrl="/menu/organization.xml">
+		<Permission name="机构主页" model="organization" privilegeValue="main" />
+		<Permission name="机构企业评分列表" model="organization" privilegeValue="scoreList" />
+		<Permission name="客户信息" model="customer" privilegeValue="ownInfo" />
+		<Permission name="客户修改密码" model="customer" privilegeValue="updatePwd" />
+    </Role>
+    
+    <Role name="领导" menuUrl="/menu/government.xml">
+		<Permission name="政府主页" model="government" privilegeValue="main" />
+		<Permission name="全部企业评分列表" model="government" privilegeValue="scoreList" />
+		<Permission name="客户信息" model="customer" privilegeValue="ownInfo" />
+		<Permission name="客户修改密码" model="customer" privilegeValue="updatePwd" />
+    </Role>
+
+  </Roles>
+</InitDatas>

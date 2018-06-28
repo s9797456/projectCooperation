@@ -1,0 +1,167 @@
+.x-grid-cell-inner{
+    line-height:25px;
+    vertical-align:top;
+    border-right: 1px solid #eceff6 !important;
+    border-top: 1px solid #eceff6 !important;
+}
+.accept
+{
+  background-image: url(../Resources/extjs/resources/icons/accept.png);
+  background-repeat:no-repeat;   
+  background-position:left; 
+  padding-left:12px;  
+}
+.decline
+{
+  background-image: url(../Resources/extjs/resources/icons/decline.png);
+  background-repeat:no-repeat;   
+  background-position:left; 
+  padding-left:12px;  
+}
+.x-action-col-cell img.inactive
+{
+  background-image: url(../Images/icon/inactive.png);
+}
+.x-action-col-cell img.active
+{
+  background-image: url(../Images/icon/active.png);
+}
+.x-action-col-cell img.history
+{
+  background-image: url(../Images/icon/history.png);
+  width : 80px;
+  height:25px;
+}
+.x-action-col-cell img.assignmentModel
+{
+  background-image: url(../Images/icon/assignmentModel.png);
+  width : 80px;
+  height:25px;
+}
+.x-action-col-cell img.lockAccounts
+{
+  background-image: url(../Images/icon/lockAccounts.png);
+  width : 80px;
+  height:25px;
+}
+.x-action-col-cell img.unlockAccount
+{
+  background-image: url(../Images/icon/unlockAccount.png);
+  width : 80px;
+  height:25px;
+}
+.x-action-col-cell img.inputInformation
+{
+  background-image: url(../Images/icon/inputInformation.png);
+   width : 80px;
+  height:25px;
+}
+.x-action-col-cell img.investigate
+{
+  background-image: url(../Images/icon/investigate.png);
+   width : 80px;
+  height:25px;
+}
+.x-action-col-cell img.editInvestigate
+{
+  background-image: url(../Images/icon/editInvestigate.png);
+  width : 80px;
+  height:25px;
+}
+.x-action-col-cell img.waitconfirm
+{
+  background-image: url(../Images/icon/waitconfirm.png);
+  width : 80px;
+  height:25px;
+}
+.x-action-col-cell img.score
+{
+  background-image: url(../Images/icon/score.png);
+  width : 80px;
+  height:25px;
+}
+.x-action-col-cell img.wirteScoreReport
+{
+  background-image: url(../Images/icon/wirteScoreReport.png);
+   width : 80px;
+  height:25px;
+}
+.x-action-col-cell  img.manageScoreReport
+{
+  background-image: url(../Images/icon/manageScoreReport.png);
+   width : 80px;
+  height:25px;
+}
+.x-action-col-cell  img.viewBasicInfo
+{
+ background-image: url(../Images/icon/viewInfo.png);
+  width : 80px;
+  height:25px;
+}
+.x-action-col-cell img.endInvestigate
+{
+  background-image: url(../Images/icon/endInvestigate.png);
+  width : 80px;
+  height:25px;
+}
+.x-action-col-cell img.confirmScore
+{
+  background-image: url(../Images/icon/confirmScore.png);
+  width : 80px;
+  height:25px;
+}
+.x-action-col-cell img.confirmSocreReport
+{
+  background-image: url(../Images/icon/confirmSocreReport.png);
+   width : 80px;
+  height:25px;
+}
+
+.x-action-col-cell img.confirmstatus
+{
+  background-image: url(../Images/icon/confirmstatus.png);
+   width : 80px;
+  height:25px;
+}
+
+.x-action-col-cell img.edit
+{
+  background-image: url(../Images/icon/edit.png);
+   width : 80px;
+  height:25px;
+}
+.tdValign
+{vertical-align: middle;}
+
+.x-grid3-cell-text-visible .x-grid-cell-inner{
+	overflow:visible;
+	padding:3px 6px 4px 6px;
+	white-space:normal;
+	line-height: 20px;
+}
+.ui-button
+{
+  background-image:url(../Images/icon/wirteScoreReport.png)!important;
+     
+}
+.csstextfield{  
+color:red;  
+}  
+ .x-grid-cell-text-visible .x-grid-cell-inner
+{
+overflow:visible;
+line-height:30px;   
+vertical-align: middle;   
+padding:3px 3px 3px 5px;
+white-space:normal;
+text-align: center; 
+}
+ .x-grid-cell-text-visible .x-panel-default {
+ border-color:#000;
+ }  
+
+.ce{
+
+background-image: url('+_ctxPath+'/Styles/DWZ/themes/default/images/logo.png);
+
+}

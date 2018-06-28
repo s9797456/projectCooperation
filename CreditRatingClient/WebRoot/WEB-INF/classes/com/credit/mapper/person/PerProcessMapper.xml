@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.person.PerProcessMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.person.PerProcess" >
+    <id column="UUID" property="uuid" jdbcType="VARCHAR" />
+    <result column="APPLYREPORTSTATE" property="applyreportstate" jdbcType="DECIMAL" />
+    <result column="BASEINFOSTATE" property="baseinfostate" jdbcType="DECIMAL" />
+    <result column="CAREERSTATE" property="careerstate" jdbcType="DECIMAL" />
+    <result column="EDUCATIONSTATE" property="educationstate" jdbcType="DECIMAL" />
+    <result column="PUSHMODELSTATE" property="pushmodelstate" jdbcType="DECIMAL" />
+    <result column="READSTATE" property="readstate" jdbcType="DECIMAL" />
+    <result column="SCORESTATE" property="scorestate" jdbcType="DECIMAL" />
+    <result column="SKILLSTATE" property="skillstate" jdbcType="DECIMAL" />
+    <result column="TRAINSTATE" property="trainstate" jdbcType="DECIMAL" />
+    <result column="UPLOADFILESTATE" property="uploadfilestate" jdbcType="DECIMAL" />
+    <result column="PERID" property="perid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UUID, APPLYREPORTSTATE, BASEINFOSTATE, CAREERSTATE, EDUCATIONSTATE, PUSHMODELSTATE, 
+    READSTATE, SCORESTATE, SKILLSTATE, TRAINSTATE, UPLOADFILESTATE, PERID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TI_PROCESS
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TI_PROCESS
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.person.PerProcess" >
+    insert into TI_PROCESS (UUID, APPLYREPORTSTATE, BASEINFOSTATE, 
+      CAREERSTATE, EDUCATIONSTATE, PUSHMODELSTATE, 
+      READSTATE, SCORESTATE, SKILLSTATE, 
+      TRAINSTATE, UPLOADFILESTATE, PERID
+      )
+    values (#{uuid,jdbcType=VARCHAR}, #{applyreportstate,jdbcType=DECIMAL}, #{baseinfostate,jdbcType=DECIMAL}, 
+      #{careerstate,jdbcType=DECIMAL}, #{educationstate,jdbcType=DECIMAL}, #{pushmodelstate,jdbcType=DECIMAL}, 
+      #{readstate,jdbcType=DECIMAL}, #{scorestate,jdbcType=DECIMAL}, #{skillstate,jdbcType=DECIMAL}, 
+      #{trainstate,jdbcType=DECIMAL}, #{uploadfilestate,jdbcType=DECIMAL}, #{perid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.person.PerProcess" >
+    insert into TI_PROCESS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        UUID,
+      </if>
+      <if test="applyreportstate != null" >
+        APPLYREPORTSTATE,
+      </if>
+      <if test="baseinfostate != null" >
+        BASEINFOSTATE,
+      </if>
+      <if test="careerstate != null" >
+        CAREERSTATE,
+      </if>
+      <if test="educationstate != null" >
+        EDUCATIONSTATE,
+      </if>
+      <if test="pushmodelstate != null" >
+        PUSHMODELSTATE,
+      </if>
+      <if test="readstate != null" >
+        READSTATE,
+      </if>
+      <if test="scorestate != null" >
+        SCORESTATE,
+      </if>
+      <if test="skillstate != null" >
+        SKILLSTATE,
+      </if>
+      <if test="trainstate != null" >
+        TRAINSTATE,
+      </if>
+      <if test="uploadfilestate != null" >
+        UPLOADFILESTATE,
+      </if>
+      <if test="perid != null" >
+        PERID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="applyreportstate != null" >
+        #{applyreportstate,jdbcType=DECIMAL},
+      </if>
+      <if test="baseinfostate != null" >
+        #{baseinfostate,jdbcType=DECIMAL},
+      </if>
+      <if test="careerstate != null" >
+        #{careerstate,jdbcType=DECIMAL},
+      </if>
+      <if test="educationstate != null" >
+        #{educationstate,jdbcType=DECIMAL},
+      </if>
+      <if test="pushmodelstate != null" >
+        #{pushmodelstate,jdbcType=DECIMAL},
+      </if>
+      <if test="readstate != null" >
+        #{readstate,jdbcType=DECIMAL},
+      </if>
+      <if test="scorestate != null" >
+        #{scorestate,jdbcType=DECIMAL},
+      </if>
+      <if test="skillstate != null" >
+        #{skillstate,jdbcType=DECIMAL},
+      </if>
+      <if test="trainstate != null" >
+        #{trainstate,jdbcType=DECIMAL},
+      </if>
+      <if test="uploadfilestate != null" >
+        #{uploadfilestate,jdbcType=DECIMAL},
+      </if>
+      <if test="perid != null" >
+        #{perid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.person.PerProcess" >
+    update TI_PROCESS
+    <set >
+      <if test="applyreportstate != null" >
+        APPLYREPORTSTATE = #{applyreportstate,jdbcType=DECIMAL},
+      </if>
+      <if test="baseinfostate != null" >
+        BASEINFOSTATE = #{baseinfostate,jdbcType=DECIMAL},
+      </if>
+      <if test="careerstate != null" >
+        CAREERSTATE = #{careerstate,jdbcType=DECIMAL},
+      </if>
+      <if test="educationstate != null" >
+        EDUCATIONSTATE = #{educationstate,jdbcType=DECIMAL},
+      </if>
+      <if test="pushmodelstate != null" >
+        PUSHMODELSTATE = #{pushmodelstate,jdbcType=DECIMAL},
+      </if>
+      <if test="readstate != null" >
+        READSTATE = #{readstate,jdbcType=DECIMAL},
+      </if>
+      <if test="scorestate != null" >
+        SCORESTATE = #{scorestate,jdbcType=DECIMAL},
+      </if>
+      <if test="skillstate != null" >
+        SKILLSTATE = #{skillstate,jdbcType=DECIMAL},
+      </if>
+      <if test="trainstate != null" >
+        TRAINSTATE = #{trainstate,jdbcType=DECIMAL},
+      </if>
+      <if test="uploadfilestate != null" >
+        UPLOADFILESTATE = #{uploadfilestate,jdbcType=DECIMAL},
+      </if>
+      <if test="perid != null" >
+        PERID = #{perid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.person.PerProcess" >
+    update TI_PROCESS
+    set APPLYREPORTSTATE = #{applyreportstate,jdbcType=DECIMAL},
+      BASEINFOSTATE = #{baseinfostate,jdbcType=DECIMAL},
+      CAREERSTATE = #{careerstate,jdbcType=DECIMAL},
+      EDUCATIONSTATE = #{educationstate,jdbcType=DECIMAL},
+      PUSHMODELSTATE = #{pushmodelstate,jdbcType=DECIMAL},
+      READSTATE = #{readstate,jdbcType=DECIMAL},
+      SCORESTATE = #{scorestate,jdbcType=DECIMAL},
+      SKILLSTATE = #{skillstate,jdbcType=DECIMAL},
+      TRAINSTATE = #{trainstate,jdbcType=DECIMAL},
+      UPLOADFILESTATE = #{uploadfilestate,jdbcType=DECIMAL},
+      PERID = #{perid,jdbcType=VARCHAR}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+   <select id="selectByPerID" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TI_PROCESS
+    where PERID = #{_parameter,jdbcType=VARCHAR}
+  </select>
+</mapper>

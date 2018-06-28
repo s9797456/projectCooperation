@@ -1,0 +1,208 @@
+package com.credit.bean.person;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+
+
+@Entity
+@Table(name = "TI_Career")
+public class Career implements Serializable {
+	private static final long serialVersionUID = -842346738099422575L;
+
+	@Id
+	@Column(length = 32)
+	private String uuid;// 主键
+	
+	@Column(length = 32)
+	private String PerID;//个人信息表外键
+	
+	@Temporal(TemporalType.DATE)
+	@Column
+	private Date startTime;//开始时间
+	
+	@Temporal(TemporalType.DATE)
+	@Column
+	private Date endTime;//结束时间
+	
+	@Column(length = 200)
+	private String remarks;//备注
+	
+	@Column(length = 200)
+	private String inauguralUnit;//就职单位
+	
+	@Column(length = 50)
+	private String unitScale; //单位规模
+	
+	@Column(length = 50)
+	private String unitProperties;//单位性质
+	
+	@Column(length = 200)
+	private String qualifications;//职业资质
+	
+	@Column(length = 50)
+	private String industry; //从事行业
+	
+	@Column(length = 20)
+	private String workingLife; //工作年限
+	
+	@Column(length = 20)
+	private String post; //职务
+	
+	@Column(length = 10)
+	private String averageSalary; //平均薪资
+
+	public Career() {
+		super();
+	}
+
+	public Career(String uuid) {
+		super();
+		this.uuid = uuid;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Career other = (Career) obj;
+		if (uuid == null) {
+			if (other.uuid != null)
+				return false;
+		} else if (!uuid.equals(other.uuid))
+			return false;
+		return true;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
+	public String getPerID() {
+		return PerID;
+	}
+
+	public void setPerID(String perID) {
+		PerID = perID;
+	}
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
+	public String getInauguralUnit() {
+		return inauguralUnit;
+	}
+
+	public void setInauguralUnit(String inauguralUnit) {
+		this.inauguralUnit = inauguralUnit;
+	}
+
+	public String getIndustry() {
+		return industry;
+	}
+
+	public void setIndustry(String industry) {
+		this.industry = industry;
+	}
+
+	public String getWorkingLife() {
+		return workingLife;
+	}
+
+	public void setWorkingLife(String workingLife) {
+		this.workingLife = workingLife;
+	}
+
+	public String getPost() {
+		return post;
+	}
+
+	public void setPost(String post) {
+		this.post = post;
+	}
+
+	public String getAverageSalary() {
+		return averageSalary;
+	}
+
+	public void setAverageSalary(String averageSalary) {
+		this.averageSalary = averageSalary;
+	}
+
+	public String getQualifications() {
+		return qualifications;
+	}
+
+	public void setQualifications(String qualifications) {
+		this.qualifications = qualifications;
+	}
+
+	public String getUnitScale() {
+		return unitScale;
+	}
+
+	public void setUnitScale(String unitScale) {
+		this.unitScale = unitScale;
+	}
+
+	public String getUnitProperties() {
+		return unitProperties;
+	}
+
+	public void setUnitProperties(String unitProperties) {
+		this.unitProperties = unitProperties;
+	}
+
+
+	
+}

@@ -1,0 +1,17 @@
+package com.credit.mapper.person;
+
+import com.credit.model.person.PerUploadFile;
+
+public interface PerUploadFileMapper {
+    int deleteByPrimaryKey(String uuid);
+
+    int insert(PerUploadFile record);
+
+    int insertSelective(PerUploadFile record);
+
+    PerUploadFile selectByPrimaryKey(String uuid);
+
+    int updateByPrimaryKeySelective(PerUploadFile record);
+
+    int updateByPrimaryKey(PerUploadFile record);
+}

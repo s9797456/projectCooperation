@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.person.PerHistoryMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.person.PerHistory" >
+    <id column="UUID" property="uuid" jdbcType="VARCHAR" />
+    <result column="HISTORICALXMLURL" property="historicalxmlurl" jdbcType="VARCHAR" />
+    <result column="SNAPSHOTURL" property="snapshoturl" jdbcType="VARCHAR" />
+    <result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="PERID" property="perid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UUID, HISTORICALXMLURL, SNAPSHOTURL, UPDATETIME, PERID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TI_PERHISTORY
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TI_PERHISTORY
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.person.PerHistory" >
+    insert into TI_PERHISTORY (UUID, HISTORICALXMLURL, SNAPSHOTURL, 
+      UPDATETIME, PERID)
+    values (#{uuid,jdbcType=VARCHAR}, #{historicalxmlurl,jdbcType=VARCHAR}, #{snapshoturl,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{perid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.person.PerHistory" >
+    insert into TI_PERHISTORY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        UUID,
+      </if>
+      <if test="historicalxmlurl != null" >
+        HISTORICALXMLURL,
+      </if>
+      <if test="snapshoturl != null" >
+        SNAPSHOTURL,
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME,
+      </if>
+      <if test="perid != null" >
+        PERID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="historicalxmlurl != null" >
+        #{historicalxmlurl,jdbcType=VARCHAR},
+      </if>
+      <if test="snapshoturl != null" >
+        #{snapshoturl,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="perid != null" >
+        #{perid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.person.PerHistory" >
+    update TI_PERHISTORY
+    <set >
+      <if test="historicalxmlurl != null" >
+        HISTORICALXMLURL = #{historicalxmlurl,jdbcType=VARCHAR},
+      </if>
+      <if test="snapshoturl != null" >
+        SNAPSHOTURL = #{snapshoturl,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="perid != null" >
+        PERID = #{perid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.person.PerHistory" >
+    update TI_PERHISTORY
+    set HISTORICALXMLURL = #{historicalxmlurl,jdbcType=VARCHAR},
+      SNAPSHOTURL = #{snapshoturl,jdbcType=VARCHAR},
+      UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      PERID = #{perid,jdbcType=VARCHAR}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  
+    <select id="selectByPerID" resultMap="BaseResultMap" resultType="list" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TI_PERHISTORY
+    where PERID = #{_parameter,jdbcType=VARCHAR}
+    ORDER by UPDATETIME desc
+  </select>
+    <select id="exists" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select 
+  	count(uuid)
+    from TI_PERHISTORY
+    where PERID = #{_parameter,jdbcType=VARCHAR}
+  </select>
+</mapper>

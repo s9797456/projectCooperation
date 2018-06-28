@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Model>
+  <Index uuid="1b9d02afd17947bbac78213a71d48801" name="法定代表人" level="1">
+    <Index uuid="1b9d02afd17947bbac78213a71d48802" name="个人信息" level="2">
+      <Index uuid="1b9d02afd17947bbac78213a71d48803" name="年龄" level="3" weight="2">
+        <option name="35-55" value="1"/>
+        <option name="30-34或56-60" value="0.75"/>
+        <option name="25-29或59-65" value="0.5" selected="true"/>
+        <option name="20-24或64-70" value="0.25"/>
+        <option name="20以下或70以上" value="0"/>
+      </Index>
+    </Index>
+    <Index uuid="1b9d02afd17947bbac78213a71d48804" name="征信记录" level="2">
+      <Index uuid="1b9d02afd17947bbac78213a71d48805" name="失信记录" level="3" weight="6">
+        <option name="0" value="1"/>
+        <option name="1" value="0.5" selected="true"/>
+        <option name="1以上" value="0"/>
+      </Index>
+    </Index>
+  </Index>
+  <Index uuid="1b9d02afd17947bbac78213a71d48806" name="企业特征" level="1">
+    <Index uuid="1b9d02afd17947bbac78213a71d48807" name="股权特征" level="2">
+      <Index uuid="1b9d02afd17947bbac78213a71d48808" name="股权结构(单一或联合体拥有股份)" level="3" weight="3">
+        <option name="0.67以上" value="1"/>
+        <option name="0.51-0.67" value="0.75" selected="true"/>
+        <option name="0.34-0.50" value="0.5"/>
+        <option name="0.34以下" value="0"/>
+      </Index>
+      <Index uuid="1b9d02afd17947bbac78213a71d48809" name="股权结构稳定性" level="3" weight="4">
+        <option name="成立以来没有发生变化" value="1"/>
+        <option name="最近三年没有发生股权变化" value="0.75" selected="true"/>
+        <option name="最近三年发生了股权变化，但实际控制人未变更" value="0.25"/>
+        <option name="最近三年发生了重大股权变更，股权变更发生了30%以上的变化或实际控制人已变更" value="0"/>
+      </Index>
+    </Index>
+    <Index uuid="1b9d02afd17947bbac78213a71d48810" name="成熟度" level="2">
+      <Index uuid="1b9d02afd17947bbac78213a71d48811" name="企业年龄" level="3" weight="2">
+        <option name="10年以上" value="1"/>
+        <option name="10-8年" value="0.75" selected="true"/>
+        <option name="8-6年" value="0.5"/>
+        <option name="6-3年" value="0.25"/>
+        <option name="3年以下" value="0"/>
+      </Index>
+      <Index uuid="1b9d02afd17947bbac78213a71d48812" name="ISO9000质量管理系列认证" level="3" weight="2">
+        <option name="有" value="1"/>
+        <option name="无" value="0" selected="true"/>
+      </Index>
+      <Index uuid="1b9d02afd17947bbac78213a71d48813" name="ISO27000信息安全管理系列认证" level="3" weight="1">
+        <option name="有" value="1"/>
+        <option name="无" value="0" selected="true"/>
+      </Index>
+    </Index>
+    <Index uuid="1b9d02afd17947bbac78213a71d48814" name="征信记录" level="2">
+      <Index uuid="1b9d02afd17947bbac78213a71d48815" name="失信记录" level="3" weight="8">
+        <option name="0" value="1" selected="true"/>
+        <option name="1" value="0.5"/>
+        <option name="1以上" value="0"/>
+      </Index>
+      <Index uuid="1b9d02afd17947bbac78213a71d48816" name="案件纠纷" level="3" weight="2">
+        <option name="0" value="1"/>
+        <option name="1" value="0.75" selected="true"/>
+        <option name="2" value="0.5"/>
+        <option name="3" value="0.25"/>
+        <option name="3以上" value="0"/>
+      </Index>
+    </Index>
+    <Index uuid="1b9d02afd17947bbac78213a71d48817" name="社会责任" level="2">
+      <Index uuid="1b9d02afd17947bbac78213a71d48818" name="员工保险办理情况" level="3" weight="2">
+        <option name="全部员工都已办理" value="1"/>
+        <option name="大部分员工办理" value="0.75" selected="true"/>
+        <option name="少部分老员工办理" value="0.5"/>
+        <option name="都未办理" value="0"/>
+      </Index>
+    </Index>
+  </Index>
+  <Index uuid="1b9d02afd17947bbac78213a71d48819" name="经营管理能力" level="1">
+    <Index uuid="1b9d02afd17947bbac78213a71d48820" name="经营稳定性" level="2">
+      <Index uuid="1b9d02afd17947bbac78213a71d48821" name="经营场所的所属权" level="3" weight="4">
+        <option name="自有" value="1"/>
+        <option name="长期租赁(剩余租期在3年以上)" value="0.75"/>
+        <option name="租赁(剩余租期在2年以上)" value="0.5" selected="true"/>
+        <option name="租赁(剩余租期在1年以上)" value="0.25"/>
+        <option name="其它情况" value="0"/>
+      </Index>
+    </Index>
+    <Index uuid="1b9d02afd17947bbac78213a71d48822" name="营运性财务指标" level="2">
+      <Index uuid="1b9d02afd17947bbac78213a71d48823" name="总资产周转率" level="3" weight="4">
+        <option name="0.9以上" value="1"/>
+        <option name="0.9-0.8" value="0.75"/>
+        <option name="0.79-0.65" value="0.5" selected="true"/>
+        <option name="0.64-0.5" value="0.25"/>
+        <option name="0.5以下" value="0"/>
+      </Index>
+      <Index uuid="1b9d02afd17947bbac78213a71d48824" name="营运资金占总资产比率" level="3" weight="6">
+        <option name="0.3以上" value="1"/>
+        <option name="0.29-0.25" value="0.75" selected="true"/>
+        <option name="0.24-0.18" value="0.5"/>
+        <option name="0.17-0.10" value="0.25"/>
+        <option name="0.10以下" value="0"/>
+      </Index>
+    </Index>
+  </Index>
+  <Index uuid="1b9d02afd17947bbac78213a71d48825" name="互联网应用" level="1">
+    <Index uuid="1b9d02afd17947bbac78213a71d48826" name="网络传播" level="2">
+      <Index uuid="1b9d02afd17947bbac78213a71d48827" name="网站及平台" level="3" weight="3">
+        <option name="拥有网站及自主销售平台" value="1"/>
+        <option name="拥有网站并在其他平台拥有销售网点或旗舰店" value="0.75" selected="true"/>
+        <option name="在其他平台拥有销售网点或旗舰店" value="0.5"/>
+        <option name="拥有网站" value="0.25"/>
+        <option name="没有网站" value="0"/>
+      </Index>
+      <Index uuid="1b9d02afd17947bbac78213a71d48828" name="企业的微信公众号或官方微博" level="3" weight="2">
+        <option name="都有" value="1"/>
+        <option name="只有企业的微信或微博" value="0.5"/>
+        <option name="无" value="0" selected="true"/>
+      </Index>
+    </Index>
+  </Index>
+  <Index uuid="1b9d02afd17947bbac78213a71d48829" name="财务综合能力" level="1">
+    <Index uuid="1b9d02afd17947bbac78213a71d48830" name="盈利能力" level="2">
+      <Index uuid="1b9d02afd17947bbac78213a71d48831" name="总资产报酬率" level="3" weight="4">
+        <option name="0.05以上" value="1"/>
+        <option name="0.05-0.045" value="0.75"/>
+        <option name="0.044-0.04" value="0.5" selected="true"/>
+        <option name="0.039-0.03" value="0.25"/>
+        <option name="0.03以下" value="0"/>
+      </Index>
+      <Index uuid="1b9d02afd17947bbac78213a71d48832" name="净资产报酬率" level="3" weight="3">
+        <option name="0.07以上" value="1"/>
+        <option name="0.07-0.06" value="0.75" selected="true"/>
+        <option name="0.059-0.05" value="0.5"/>
+        <option name="0.049-0.04" value="0.25"/>
+        <option name="0.04以下" value="0"/>
+      </Index>
+      <Index uuid="1b9d02afd17947bbac78213a71d48833" name="资本回报率" level="3" weight="4">
+        <option name="0.15以上" value="1"/>
+        <option name="0.15-0.10" value="0.75" selected="true"/>
+        <option name="0.09-0.05" value="0.5"/>
+        <option name="0.04-0.0" value="0.25"/>
+        <option name="0以下" value="0"/>
+      </Index>
+      <Index uuid="1b9d02afd17947bbac78213a71d48834" name="销售利润率" level="3" weight="5">
+        <option name="0.3以上" value="1"/>
+        <option name="0.3-0.2" value="0.75" selected="true"/>
+        <option name="0.19-0.1" value="0.5"/>
+        <option name="0.09-0.05" value="0.25"/>
+        <option name="0.05以下" value="0"/>
+      </Index>
+    </Index>
+    <Index uuid="1b9d02afd17947bbac78213a71d48835" name="债务偿还/支付能力" level="2">
+      <Index uuid="1b9d02afd17947bbac78213a71d48836" name="资产负债率" level="3" weight="7">
+        <option name="0.55以下" value="1"/>
+        <option name="0.55-0.60" value="0.75" selected="true"/>
+        <option name="0.61-0.65" value="0.5"/>
+        <option name="0.66-0.70" value="0.25"/>
+        <option name="0.70以上" value="0"/>
+      </Index>
+      <Index uuid="1b9d02afd17947bbac78213a71d48837" name="流动比率" level="3" weight="6">
+        <option name="1.5以上" value="1"/>
+        <option name="1.5-1.4" value="0.75" selected="true"/>
+        <option name="1.39-1.2" value="0.5"/>
+        <option name="1.19-1.00" value="0.25"/>
+        <option name="1.00以下" value="0"/>
+      </Index>
+    </Index>
+  </Index>
+  <Index uuid="1b9d02afd17947bbac78213a71d48838" name="制造业行业特征" level="1">
+    <Index uuid="1b9d02afd17947bbac78213a71d48839" name="行业特性指标" level="2">
+      <Index uuid="1b9d02afd17947bbac78213a71d48840" name="销售收入" level="3" weight="2">
+        <option name="2000万以上" value="1"/>
+        <option name="2000万以下到1000万" value="0.75"/>
+        <option name="999万以下到300万" value="0.5" selected="true"/>
+        <option name="299万以下到100万" value="0.25"/>
+        <option name="100万以下" value="0"/>
+      </Index>
+      <Index uuid="1b9d02afd17947bbac78213a71d48841" name="人员规模" level="3" weight="1">
+        <option name="300以上" value="1"/>
+        <option name="300-100" value="0.75" selected="true"/>
+        <option name="99-50" value="0.5"/>
+        <option name="49-10" value="0.25"/>
+        <option name="10以下" value="0"/>
+      </Index>
+    </Index>
+    <Index uuid="1b9d02afd17947bbac78213a71d48842" name="技术储备" level="2">
+      <Index uuid="1b9d02afd17947bbac78213a71d48843" name="发明专利" level="3" weight="2">
+        <option name="4以上" value="1"/>
+        <option name="4-3" value="0.75" selected="true"/>
+        <option name="3-2" value="0.5"/>
+        <option name="1" value="0.25"/>
+        <option name="0" value="0"/>
+      </Index>
+      <Index uuid="1b9d02afd17947bbac78213a71d48844" name="实用新型专利" level="3" weight="2">
+        <option name="8以上" value="1"/>
+        <option name="8-6" value="0.75" selected="true"/>
+        <option name="5-3" value="0.5"/>
+        <option name="2-1" value="0.25"/>
+        <option name="0" value="0"/>
+      </Index>
+      <Index uuid="1b9d02afd17947bbac78213a71d48845" name="外观设计专利" level="3" weight="1">
+        <option name="10以上" value="1"/>
+        <option name="10-7" value="0.75" selected="true"/>
+        <option name="6-4" value="0.5"/>
+        <option name="3-1" value="0.25"/>
+        <option name="0" value="0"/>
+      </Index>
+    </Index>
+    <Index uuid="1b9d02afd17947bbac78213a71d48846" name="成长能力" level="2">
+      <Index uuid="1b9d02afd17947bbac78213a71d48847" name="利润增长率" level="3" weight="4">
+        <option name="0.2以上" value="1"/>
+        <option name="0.2-0.12" value="0.75" selected="true"/>
+        <option name="0.12-0.05" value="0.5"/>
+        <option name="0.05-0.00" value="0.25"/>
+        <option name="0.00以下" value="0"/>
+      </Index>
+      <Index uuid="1b9d02afd17947bbac78213a71d48848" name="销售增长率" level="3" weight="4">
+        <option name="0.3以上" value="1"/>
+        <option name="0.3-0.2" value="0.75" selected="true"/>
+        <option name="0.2-0.1" value="0.5"/>
+        <option name="0.1-0.00" value="0.25"/>
+        <option name="0.00以下" value="0"/>
+      </Index>
+      <Index uuid="1b9d02afd17947bbac78213a71d48849" name="资本积累率" level="3" weight="4">
+        <option name="0.25以上" value="1"/>
+        <option name="0.25-0.18" value="0.75"/>
+        <option name="0.17-0.10" value="0.5" selected="true"/>
+        <option name="0.09-0.00" value="0.25"/>
+        <option name="0.00以下" value="0"/>
+      </Index>
+    </Index>
+  </Index>
+</Model>

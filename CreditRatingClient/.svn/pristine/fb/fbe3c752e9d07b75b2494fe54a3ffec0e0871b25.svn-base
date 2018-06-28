@@ -1,0 +1,21 @@
+package com.credit.mapper.addition;
+
+import java.util.List;
+
+import com.credit.model.addition.UploadFileCategory;
+
+public interface UploadFileCategoryMapper {
+    int deleteByPrimaryKey(String uuid);
+
+    int insert(UploadFileCategory record);
+
+    int insertSelective(UploadFileCategory record);
+
+    UploadFileCategory selectByPrimaryKey(String uuid);
+
+    int updateByPrimaryKeySelective(UploadFileCategory record);
+
+    int updateByPrimaryKey(UploadFileCategory record);
+
+	List<UploadFileCategory> selectAll();
+}

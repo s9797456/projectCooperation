@@ -1,0 +1,87 @@
+
+同步DataService，运行并重新生成接口。变动的接口：
+新增两个：
+QueryResult<License> selectLicenseByAreacode(int pageNum,int pageSize, String areacode);
+QueryResult<Penalty> selectPenaltyByAreacode(int pageNum,int pageSize, String areacode);
+
+1.高级查询的接口
+
+BaseInterface.advanceSelect
+
+
+QueryResult<Enterprise> advanceSelect(int pageNum,int pageSize,String citycode, String yearFrom, String yearTo,
+			String status, String capiFrom, String capiTo);
+
+参数格式：
+
+citycode: 江苏省：32____(4个下划线)  苏州大市：3205__(2个下划线)   吴中区：320506
+yearFrom yearTo的格式：yyyy-mm-dd
+status:传入数字，对应如下：
+
+3	吊销3205
+4	注销
+5	清算中
+6	迁入
+7	撤销
+8	停业
+9	筹建
+10	营业期限届满
+11	拟注销
+13	其他
+12	迁出
+1	营业中
+2	开业经营异常
+
+在dataservice中可以查询到：select * FROM EI_CODE WHERE CATEGARY='entstatus';
+
+capiFrom，capiTo   以元为单位  100万则为：'1000000'
+
+实现：
+<select id="advanceSelect" resultMap="BaseResultMap" parameterType="map">
+		select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from DATASERVICE.EI_ENTERPRISE ent
+		<where>
+				 <if test="paramMap.citycode != '' and  paramMap.citycode !=null" >
+					 AREACODE  like #{paramMap.citycode}
+				</if>
+				<if test="paramMap.yearFrom != '' and  paramMap.yearFrom !=null">
+				<![CDATA[and ent.SETUPDATE >= to_date(#{paramMap.yearFrom},'yyyy-mm-dd') 
+								and ent.SETUPDATE <= to_date(#{paramMap.yearTo},'yyyy-mm-dd')]]>
+				</if>
+				<if test="paramMap.statusCode !='' and  paramMap.statusCode !=null">
+				and ent.STATUS=#{paramMap.statusCode}
+				</if>
+				<if test="paramMap.capiFrom!='' and  paramMap.capiFrom!=null and paramMap.capiTo!='' and  paramMap.capiTo!=null ">
+				
+				
+				
+				<![CDATA[and ent.REGISCAPITAL_S >= #{paramMap.capiFrom}
+								and ent.REGISCAPITAL_S <= #{paramMap.capiTo}]]>
+				</if>
+				<if test="paramMap.capiFrom!='' and  paramMap.capiFrom!=null and paramMap.capiTo==''">
+				<![CDATA[and ent.REGISCAPITAL_S >= #{paramMap.capiFrom}
+				]]>
+				</if>
+		</where>
+	</select>
+
+
+2.推荐企业的列表
+
+	参数：地区代码areacode,  拉取企业的数量：num
+	
+	使用同上接口，添加 areacode和int pageNum,int pageSize  三个参数即可。
+	
+3.双公示
+
+	苏州大市：3205__
+
+	QueryResult<License> selectLicenseByAreacode(int pageNum,int pageSize, String areacode);
+
+	QueryResult<Penalty> selectPenaltyByAreacode(int pageNum,int pageSize, String areacode);
+	
+	
+	

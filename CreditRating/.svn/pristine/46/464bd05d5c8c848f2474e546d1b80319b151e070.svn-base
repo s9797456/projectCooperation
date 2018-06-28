@@ -1,0 +1,434 @@
+//确认信息窗口
+Ext.define('PM.view.perScore.personInfoWin',{
+	extend:'Ext.window.Window',
+	alias:"widget.personInfoWin",
+	layout: 'anchor',
+	border : false,
+	width : 950,
+	height : 600,
+	autoScroll:true,
+	modal : true,
+	autoShow : true,
+	title:"信息展示",
+	closable:true, 
+	maximizable :true,
+	initComponent : function(){
+		Ext.apply(this,{
+			items : [{
+				xtype:'tabpanel',
+				layout:'anchor',
+				anchor:'100%',
+				activeTab:0,//当前标签为第1个tab（从0开始索引）
+				items: [{
+					xtype:'form',
+					layout: 'column',
+					margin:'5 5 5 5',
+					title:"基本信息",
+					defaults : {
+						xtype : 'textfield',
+						margin : '5',
+						labelSeparator : "：",
+						labelAlign : 'right',
+						labelWidth : '150px',
+						width : 350,
+						readOnly : true
+					},
+					items:[{
+						fieldLabel : "UUID",
+						name : 'uuid',
+						hidden : true
+					},{
+						fieldLabel : "姓名",
+						name : 'name'
+					},{
+						fieldLabel : "身份证号",
+						name : 'IDCard'
+					},{
+						fieldLabel : "曾用名",
+						name : 'usedName'
+					},{
+						fieldLabel : "性别",
+						name : 'gender'
+					},{
+						fieldLabel : "政治面貌",
+				        name : 'politicalOutlook'
+					},{
+						fieldLabel : "民族",
+						name : 'nation'
+					},{
+						fieldLabel : "国籍",
+						name : 'nationality'
+					},{
+						fieldLabel : "籍贯",
+						name : 'nativePlace'
+					},{
+						fieldLabel : "婚姻状况",
+						name : 'maritalStatus'
+					},{
+						fieldLabel : "生育情况",
+						name : 'fertilityCondition'
+					},{
+						fieldLabel : "身份证签发机关",
+						name : 'IDIssuingAgency'
+					},{
+						fieldLabel : "现居住地邮政编码",
+						name : 'presentZipCode'
+					},{
+						xtype : 'datefield',
+						fieldLabel : "身份证有效期始",
+						name : 'IDTermStart'
+					},{
+						xtype : 'datefield',
+						fieldLabel : "身份证有效期至",
+						name : 'IDTermEnd'
+					},{
+						xtype : 'textarea',
+						fieldLabel : "现居住地址",
+						name : 'presentAddress',
+						width : 710,
+						height:70
+					},{
+						xtype: 'checkboxgroup',
+				        fieldLabel: '驳回选项',
+				        columns: 4,
+				        vertical: true,
+				        items: [
+				            { boxLabel: '基本信息', name: 'baseInfoState', inputValue: 0,width:120},
+				            { boxLabel: '教育信息', name: 'educationState', inputValue: 0,width:120},
+				            { boxLabel: '培训经历', name: 'trainState', inputValue: 0,width:120}, 
+				            { boxLabel: '职业生涯', name: 'careerState', inputValue: 0,width:120},
+				            { boxLabel: '专业技能', name: 'skillState', inputValue: 0 ,width:120},
+				            { boxLabel: '附件信息', name: 'uploadFileState', inputValue: 0 ,width:120},
+				        ]
+					},{
+						xtype : 'textarea',
+						fieldLabel:'评审人员的相关意见',
+						name : 'dealContent',
+						width : 710,
+						height:70,
+						readOnly : false,
+						allowBlank:false
+					}],
+					buttons: [{
+						text : '信息通过',
+						action : 'confirmMsg'
+					},{
+						text : '信息驳回',
+						action : 'rejectMsg'
+					}]
+			    },{
+					xtype : 'panel',
+					itemId : 'educationPanel',
+					layout : 'anchor',
+					anchor: '100%',
+					title : '教育经历',
+					items : [{
+						xtype : 'grid',
+						layout : 'anchor',
+						margin:'5 5 5 5',
+						anchor: '100%',
+						forceFit : true,
+						store: educationStore,
+						collapsible : true,
+						titleCollapse : true,
+						columnLines : true,
+						title : '教育经历',
+						itemId : "educationGrid",
+						columns : {
+							items : [{
+								text:'uuid',
+								dataIndex : 'uuid',
+								hidden : true
+							},{
+								text:'起始时间',
+								dataIndex : 'startTime',
+							},{
+								text:'结束时间',
+								dataIndex : 'endTime',
+							},{
+								text:'学历',
+								dataIndex : 'education',
+								width : 50
+							},{
+								text:'毕业院校',
+								dataIndex : 'university',
+								width : 180
+							},{
+								text:'专业',
+								dataIndex : 'major',
+								width : 100
+							},{
+								text:'毕业证编号',
+								dataIndex : 'diplomaNo',
+								width : 100
+							}],
+							defaults: {
+								align: 'center',
+								menuDisabled: true,
+								sortable : false
+							}
+						},
+						dockedItems : [ {
+							xtype : 'pagingtoolbar',
+							store : educationStore,
+							itemId : 'educationPagingtoolbar',
+							dock : 'bottom',
+							displayInfo : true
+						}],
+					}]
+			    	
+				},{
+					xtype : 'panel',
+					itemId : 'trainPanel',
+					layout : 'anchor',
+					anchor: '100%',
+					title : '培训经历',
+					items :[{
+						xtype : 'grid',
+						layout : 'anchor',
+						title : '培训经历',
+						margin:'5 5 5 5',
+						anchor:'100%',
+						store : trainStore,
+						itemId : "trainGrid",
+						collapsible : true,
+						titleCollapse : true,
+						columnLines : true,
+						forceFit : true,
+						columns : {
+							items : [{
+								text:'uuid',
+								dataIndex : 'uuid',
+								hidden : true
+							},{
+								text:'起始时间',
+								dataIndex : 'startTime',
+							},{
+								text:'结束时间',
+								dataIndex : 'endTime',
+							},{
+								text:'培训机构',
+								dataIndex : 'trainOrg',
+								width : 120
+							},{
+								text:'培训地址',
+								dataIndex : 'trainAddress',
+								width :120
+							},{
+								text:'培训内容',
+								dataIndex : 'trainContent',
+								width :120
+							},{
+								text:'培训证书编号',
+								dataIndex : 'certificateNo',
+								width : 100
+							}],
+							defaults: {
+								align: 'center',
+								menuDisabled: true,
+								sortable : false
+							}
+						},
+						dockedItems : [ {
+							xtype : 'pagingtoolbar',
+							store : trainStore,
+							itemId : 'trainPagingtoolbar',
+							dock : 'bottom',
+							displayInfo : true
+						}],
+					}]
+				},{
+					xtype : 'panel',
+					itemId : 'careerPanel',
+					layout : 'anchor',
+					anchor: '100%',
+					title : '职业生涯',
+					items :[{
+						xtype : 'grid',
+						layout : 'anchor',
+						title : '职业生涯',
+						margin:'5 5 5 5',
+						anchor:'100%',
+						store : careerStore,
+						itemId : "careerGrid",
+						collapsible : true,
+						titleCollapse : true,
+						columnLines : true,
+						forceFit : true,
+						columns : {
+							items : [{
+								text:'uuid',
+								dataIndex : 'uuid',
+								hidden : true
+							},{
+								text:'起始时间',
+								dataIndex : 'startTime',
+							},{
+								text:'结束时间',
+								dataIndex : 'endTime',
+							},{
+								text:'就职单位',
+								dataIndex : 'inauguralUnit',
+								width : 120
+							},{
+								text:'单位规模',
+								dataIndex : 'unitScale',
+								width :50
+							},{
+								text:'从事行业',
+								dataIndex : 'industry',
+								width :100
+							},{
+								text:'工作年限',
+								dataIndex : 'workingLife',
+								width : 50
+							},{
+								text:'职务',
+								dataIndex : 'post',
+								width : 80
+							},{
+								text:'平均薪资',
+								dataIndex : 'averageSalary',
+								width : 80
+							}],
+							defaults: {
+								align: 'center',
+								menuDisabled: true,
+								sortable : false
+							}
+						},
+						dockedItems : [ {
+							xtype : 'pagingtoolbar',
+							store : careerStore,
+							itemId : 'careerPagingtoolbar',
+							dock : 'bottom',
+							displayInfo : true
+						}],
+					}]
+				},{
+					xtype : 'panel',
+					itemId : 'skillsPanel',
+					layout : 'anchor',
+					anchor: '100%',
+					title : '专业技能',
+					items :[{
+						xtype : 'grid',
+						layout : 'anchor',
+						title : '专业技能',
+						margin:'5 5 5 5',
+						anchor:'100%',
+						store : skillsStore,
+						itemId : "skillsGrid",
+						collapsible : true,
+						titleCollapse : true,
+						columnLines : true,
+						forceFit : true,
+						columns : {
+							items : [{
+								text:'uuid',
+								dataIndex : 'uuid',
+								hidden : true
+							},{
+								text:'技能名',
+								dataIndex : 'skillName',
+								width : 120
+							},{
+								text:'熟练度',
+								dataIndex : 'skillProficiency',
+								width :120
+							}],
+							defaults: {
+								align: 'center',
+								menuDisabled: true,
+								sortable : false
+							}
+						},
+						dockedItems : [ {
+							xtype : 'pagingtoolbar',
+							store : skillsStore,
+							itemId : 'skillsPagingtoolbar',
+							dock : 'bottom',
+							displayInfo : true
+						}],
+					}]
+				},{
+					xtype : 'panel',
+					itemId : 'perUploadFilesPanel',
+					layout : 'anchor',
+					anchor: '100%',
+					title : '附件',
+					items:[{
+						xtype : 'grid',
+						title : '附件列表',
+						anchor:'100%',
+					    columnLines : true,
+						autoScroll: true,
+						store : perUploadFilesStore,
+						itemId : 'perUploadFilesGird',
+						columns : {
+					    	items:[
+                                {text: '文件类型',flex:2,dataIndex: 'type'},
+                                {text: '文件路径',flex:2,dataIndex: 'fileUrl',hidden:true},
+					   			{text: '文件名',flex:2,dataIndex: 'fileName',hidden:true},
+					   			{text: '大小', flex:2,dataIndex: 'fileSize',renderer:function(v){
+					   			    return Ext.util.Format.fileSize(v);
+					   			}},
+					   			{
+					   				xtype:'actioncolumn',
+					   				flex:1,
+					   			    text:'管理',
+					   			    items: [{
+					   			    	icon: _ctxPath+'/Images/icon/down.png',
+					   			    	tooltip: '下载',
+					   			    	handler: function(grid, rowIndex, colIndex) {
+					   			    		this.up('grid').fireEvent('download',grid, rowIndex, colIndex);
+					   			    	}
+					   			    },{
+					   			    	icon: _ctxPath+'/Images/icon/preview.png',
+					   			    	tooltip: '查看',
+					   			    	handler: function(grid, rowIndex, colIndex) {
+					   			    		this.up('grid').fireEvent('preview',grid, rowIndex, colIndex);
+					   			    	}
+					   			    }]
+					   			} ],
+					   			defaults: {
+					   			align: 'center',
+					   			menuDisabled: true,
+					   			sortable : false
+					   		}
+					   	},
+					   	dockedItems : [ {
+							dock : 'top',
+							xtype : 'toolbar',
+							items : {
+								itemId : 'topHis',
+								width : 300,
+								emptyText : '请输入文件类型（证件名称）'  ,
+								fieldLabel : '搜索',
+								labelWidth : 50,
+								xtype : 'searchfield',
+								store : perUploadFilesStore,
+								onTrigger2Click : function(obj,e){ // 节点单击事件监听
+									var name = this.getRawValue();
+									var perUploadFilesStore = Ext.ComponentQuery.query("personInfoWin tabpanel grid#perUploadFilesGird")[0];
+									perUploadFilesStore.getStore().load({
+										params : {
+											perID: Ext.ComponentQuery.query("personInfoWin tabpanel form textfield[name=uuid]")[0].getValue(),
+											name : name
+										}
+									});
+								}
+							}
+		                },{
+							xtype : 'pagingtoolbar',
+							store : perUploadFilesStore,
+							dock : 'bottom',
+							displayInfo : true
+						}]
+					}]
+				}]
+			}]
+		});
+		this.callParent(arguments);
+	}
+});

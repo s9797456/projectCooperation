@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.person.PerUploadFileMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.person.PerUploadFile" >
+    <id column="UUID" property="uuid" jdbcType="VARCHAR" />
+    <result column="PERID" property="perid" jdbcType="VARCHAR" />
+    <result column="ADDDATE" property="adddate" jdbcType="TIMESTAMP" />
+    <result column="CROSSSTATE" property="crossstate" jdbcType="DECIMAL" />
+    <result column="FILENAME" property="filename" jdbcType="VARCHAR" />
+    <result column="FILESIZE" property="filesize" jdbcType="VARCHAR" />
+    <result column="FILEURL" property="fileurl" jdbcType="VARCHAR" />
+    <result column="UPLOADFILECATEGORYID" property="uploadfilecategoryid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UUID, PERID, ADDDATE, CROSSSTATE, FILENAME, FILESIZE, FILEURL, UPLOADFILECATEGORYID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TI_PERUPLOADFILE
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TI_PERUPLOADFILE
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.person.PerUploadFile" >
+    insert into TI_PERUPLOADFILE (UUID, PERID, ADDDATE, 
+      CROSSSTATE, FILENAME, FILESIZE, 
+      FILEURL, UPLOADFILECATEGORYID)
+    values (#{uuid,jdbcType=VARCHAR}, #{perid,jdbcType=VARCHAR}, #{adddate,jdbcType=TIMESTAMP}, 
+      #{crossstate,jdbcType=DECIMAL}, #{filename,jdbcType=VARCHAR}, #{filesize,jdbcType=VARCHAR}, 
+      #{fileurl,jdbcType=VARCHAR}, #{uploadfilecategoryid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.person.PerUploadFile" >
+    insert into TI_PERUPLOADFILE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        UUID,
+      </if>
+      <if test="perid != null" >
+        PERID,
+      </if>
+      <if test="adddate != null" >
+        ADDDATE,
+      </if>
+      <if test="crossstate != null" >
+        CROSSSTATE,
+      </if>
+      <if test="filename != null" >
+        FILENAME,
+      </if>
+      <if test="filesize != null" >
+        FILESIZE,
+      </if>
+      <if test="fileurl != null" >
+        FILEURL,
+      </if>
+      <if test="uploadfilecategoryid != null" >
+        UPLOADFILECATEGORYID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="perid != null" >
+        #{perid,jdbcType=VARCHAR},
+      </if>
+      <if test="adddate != null" >
+        #{adddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crossstate != null" >
+        #{crossstate,jdbcType=DECIMAL},
+      </if>
+      <if test="filename != null" >
+        #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="filesize != null" >
+        #{filesize,jdbcType=VARCHAR},
+      </if>
+      <if test="fileurl != null" >
+        #{fileurl,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadfilecategoryid != null" >
+        #{uploadfilecategoryid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.person.PerUploadFile" >
+    update TI_PERUPLOADFILE
+    <set >
+      <if test="perid != null" >
+        PERID = #{perid,jdbcType=VARCHAR},
+      </if>
+      <if test="adddate != null" >
+        ADDDATE = #{adddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crossstate != null" >
+        CROSSSTATE = #{crossstate,jdbcType=DECIMAL},
+      </if>
+      <if test="filename != null" >
+        FILENAME = #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="filesize != null" >
+        FILESIZE = #{filesize,jdbcType=VARCHAR},
+      </if>
+      <if test="fileurl != null" >
+        FILEURL = #{fileurl,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadfilecategoryid != null" >
+        UPLOADFILECATEGORYID = #{uploadfilecategoryid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.person.PerUploadFile" >
+    update TI_PERUPLOADFILE
+    set PERID = #{perid,jdbcType=VARCHAR},
+      ADDDATE = #{adddate,jdbcType=TIMESTAMP},
+      CROSSSTATE = #{crossstate,jdbcType=DECIMAL},
+      FILENAME = #{filename,jdbcType=VARCHAR},
+      FILESIZE = #{filesize,jdbcType=VARCHAR},
+      FILEURL = #{fileurl,jdbcType=VARCHAR},
+      UPLOADFILECATEGORYID = #{uploadfilecategoryid,jdbcType=VARCHAR}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

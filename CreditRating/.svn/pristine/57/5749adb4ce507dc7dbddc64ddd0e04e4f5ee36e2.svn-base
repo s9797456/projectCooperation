@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<InitDatas>
+	<Permissions>
+		<!-- UserManageAction、UserAction、UserValidAction -->
+		<Permission name="管理员列表" model="user" privilegeValue="list" />
+		<Permission name="管理员新增" model="user" privilegeValue="insert" />
+		<Permission name="管理员编辑" model="user" privilegeValue="update" />
+		<Permission name="管理员删除" model="user" privilegeValue="delete" />
+        <Permission name="管理员验证" model="user" privilegeValue="valid" />
+        
+		<Permission name="管理员部门设置" model="user" privilegeValue="setDep" />
+		<Permission name="管理员分配角色" model="user" privilegeValue="setRole" />
+		<Permission name="管理员分配权限" model="user" privilegeValue="setPrivilege" />
+		
+		<Permission name="管理员初始化密码" model="user" privilegeValue="initPassword" />
+		<Permission name="管理员密码修改" model="user" privilegeValue="updatePassword" />
+
+
+		<!-- MenuAction、MenuManageAction 、MenuValidAction-->
+		<Permission name="菜单列表" model="menu" privilegeValue="list" />
+		<Permission name="菜单预览" model="menu" privilegeValue="view" />
+		<Permission name="菜单新增" model="menu" privilegeValue="insert" />
+		<Permission name="菜单编辑" model="menu" privilegeValue="update" />
+		<Permission name="菜单删除" model="menu" privilegeValue="delete" />
+		<Permission name="菜单验证" model="menu" privilegeValue="valid" />
+
+		<Permission name="菜单分配权限" model="menu" privilegeValue="setPrivilege" />
+		<Permission name="菜单分配地址" model="menu" privilegeValue="setUrl" />
+
+		<!-- DepartmentAction、DepartmentManageAction 、DepartmentValidAction-->
+		<Permission name="部门列表" model="department" privilegeValue="list" />
+		<Permission name="部门预览" model="department" privilegeValue="view" />
+		<Permission name="部门新增" model="department" privilegeValue="insert" />
+		<Permission name="部门编辑" model="department" privilegeValue="update" />
+		<Permission name="部门删除" model="department" privilegeValue="delete" />
+		<Permission name="部门验证" model="department" privilegeValue="valid" />
+
+		<Permission name="部门分配角色" model="department" privilegeValue="setRole" />
+		<Permission name="部门分配权限" model="department" privilegeValue="setPrivilege" />
+
+		<!-- DepartmentAction、DepartmentManageAction 、DepartmentValidAction-->
+		<Permission name="机构列表" model="organization" privilegeValue="list" />
+		<Permission name="机构新增" model="organization" privilegeValue="insert" />
+		<Permission name="机构编辑" model="organization" privilegeValue="update" />
+		<Permission name="机构删除" model="organization" privilegeValue="delete" />
+
+		<!-- PrivilegeGroupAction、PrivilegeGroupManageAction 、PrivilegeGroupValidAction -->
+		<Permission name="角色列表" model="privilegeGroup" privilegeValue="list" />
+		<Permission name="角色预览" model="privilegeGroup" privilegeValue="view" />
+		<Permission name="角色新增" model="privilegeGroup" privilegeValue="insert" />
+		<Permission name="角色编辑" model="privilegeGroup" privilegeValue="update" />
+		<Permission name="角色删除" model="privilegeGroup" privilegeValue="delete" />
+		<Permission name="角色验证" model="privilegeGroup" privilegeValue="valid" />
+				
+		<Permission name="角色分配权限" model="privilegeGroup" privilegeValue="setPrivilege" />
+
+		<!-- ==============================以上系统权限核心============================ -->
+         <!--  菜单权限 -->
+         <Permission name="附件列表" model="uploadFile" privilegeValue="list" />
+         <Permission name="附件新增" model="uploadFile" privilegeValue="insert" />
+		 <Permission name="附件编辑" model="uploadFile" privilegeValue="update" />
+		 <Permission name="附件删除" model="uploadFile" privilegeValue="delete" />
+         
+         <Permission name="模型列表" model="model" privilegeValue="list" />
+         <Permission name="模型新增" model="model" privilegeValue="insert" />
+		 <Permission name="模型编辑" model="model" privilegeValue="update" />
+		 <Permission name="模型删除" model="model" privilegeValue="delete" />
+		 
+		 <Permission name="客户列表" model="customer" privilegeValue="list" />
+         <Permission name="客户新增" model="customer" privilegeValue="insert" />
+		 <Permission name="客户编辑" model="customer" privilegeValue="update" />
+		 <Permission name="客户删除" model="customer" privilegeValue="delete" />
+		 <Permission name="客户验证" model="customer" privilegeValue="valid" />
+		 <Permission name="客户添加机构" model="customer" privilegeValue="appointOrganization" />
+		 <Permission name="客户初始化密码" model="customer" privilegeValue="initPassword" />
+		 
+		 <Permission name="企业评分" model="entScore" privilegeValue="list" />
+		 <Permission name="企业评分流程" model="entScore" privilegeValue="process" />
+		 <Permission name="企业评分报告" model="reportTemplate" privilegeValue="report" />
+		 <Permission name="企业评分历史" model="resetEntScore" privilegeValue="history" />
+	</Permissions>
+	
+	
+	
+  <Menus>
+
+   
+   <Menu name="评分管理" orderNO="1" target="" rel="" url="" imgUrl="/Images/menuIcon/entmanage.png">
+   		<Menu name="企业评分" orderNO="1" target="entScoreManageView" rel="enterprise.entScoreManage" url="/control/entScore/manage/entScoreLists.do" imgUrl="/Images/menuIcon/entscore.png">
+		 <Permission name="企业评分" model="entScore" privilegeValue="list" />
+		 <Permission name="企业评分流程" model="entScore" privilegeValue="process" />
+		 <Permission name="企业评分报告" model="reportTemplate" privilegeValue="report" />
+		 <Permission name="企业评分历史" model="resetEntScore" privilegeValue="history" />
+   		</Menu>
+   </Menu>
+   
+    <Menu name="系统管理" orderNO="2" target="" rel="" url="" imgUrl="/Images/menuIcon/sysmanage.png">
+      <Menu name="用户授权" orderNO="1" target="" rel="" url="" imgUrl="/Images/menuIcon/userprivilege.png">
+        <Menu name="用户管理" orderNO="1" target="userManageView" rel="user.userManage" url="/control/user/listUI.do" imgUrl="/Images/menuIcon/usermanage.png">
+		<Permission name="管理员列表" model="user" privilegeValue="list" />
+		<Permission name="管理员新增" model="user" privilegeValue="insert" />
+		<Permission name="管理员编辑" model="user" privilegeValue="update" />
+		<Permission name="管理员删除" model="user" privilegeValue="delete" />
+        <Permission name="管理员验证" model="user" privilegeValue="valid" />
+		<Permission name="管理员部门设置" model="user" privilegeValue="setDep" />
+		<Permission name="管理员分配角色" model="user" privilegeValue="setRole" />
+		<Permission name="管理员分配权限" model="user" privilegeValue="setPrivilege" />
+		<Permission name="管理员初始化密码" model="user" privilegeValue="initPassword" />
+		<Permission name="管理员密码修改" model="user" privilegeValue="updatePassword" />
+        </Menu>
+        <Menu name="客户管理" orderNO="2" target="customerManageView" rel="customer.customerManage" url="/control/customer/listUI.do" imgUrl="/Images/menuIcon/customermanage.png">
+		 <Permission name="客户列表" model="customer" privilegeValue="list" />
+         <Permission name="客户新增" model="customer" privilegeValue="insert" />
+		 <Permission name="客户编辑" model="customer" privilegeValue="update" />
+		 <Permission name="客户删除" model="customer" privilegeValue="delete" />
+		 <Permission name="客户验证" model="customer" privilegeValue="valid" />
+		 <Permission name="客户初始化密码" model="customer" privilegeValue="initPassword" />
+		 <Permission name="客户添加机构" model="customer" privilegeValue="appointOrganization" />
+        </Menu>
+        <Menu name="菜单管理" orderNO="3" target="menuManageView" rel="menu.menuManage" url="/control/menu/listUI.do" imgUrl="/Images/menuIcon/menumanage.png">
+		<Permission name="菜单列表" model="menu" privilegeValue="list" />
+		<Permission name="菜单预览" model="menu" privilegeValue="view" />
+		<Permission name="菜单新增" model="menu" privilegeValue="insert" />
+		<Permission name="菜单编辑" model="menu" privilegeValue="update" />
+		<Permission name="菜单删除" model="menu" privilegeValue="delete" />
+		<Permission name="菜单验证" model="menu" privilegeValue="valid" />
+		<Permission name="菜单分配权限" model="menu" privilegeValue="setPrivilege" />
+		<Permission name="菜单分配地址" model="menu" privilegeValue="setUrl" />
+        </Menu>
+        <Menu name="部门管理" orderNO="4" target="departmentManageView" rel="department.departmentManage" url="/control/department/listUI.do" imgUrl="/Images/menuIcon/departmentmanage.png">
+		<Permission name="部门列表" model="department" privilegeValue="list" />
+		<Permission name="部门预览" model="department" privilegeValue="view" />
+		<Permission name="部门新增" model="department" privilegeValue="insert" />
+		<Permission name="部门编辑" model="department" privilegeValue="update" />
+		<Permission name="部门删除" model="department" privilegeValue="delete" />
+		<Permission name="部门验证" model="department" privilegeValue="valid" />
+		<Permission name="部门分配角色" model="department" privilegeValue="setRole" />
+		<Permission name="部门分配权限" model="department" privilegeValue="setPrivilege" />
+        </Menu>
+        <Menu name="机构管理" orderNO="5" target="organizationManageView" rel="organization.organizationManage" url="/control/organization/listUI.do" imgUrl="/Images/menuIcon/organization.png">
+		<Permission name="机构列表" model="organization" privilegeValue="list" />
+		<Permission name="机构新增" model="organization" privilegeValue="insert" />
+		<Permission name="机构编辑" model="organization" privilegeValue="update" />
+		<Permission name="机构删除" model="organization" privilegeValue="delete" />
+        </Menu>
+        <Menu name="角色管理" orderNO="6" target="privilegeGroupView" rel="privilegegroup.privilegeGroupManage" url="/control/privilegegroup/listUI.do" imgUrl="/Images/menuIcon/rolemanage.png">
+		<Permission name="角色列表" model="privilegeGroup" privilegeValue="list" />
+		<Permission name="角色预览" model="privilegeGroup" privilegeValue="view" />
+		<Permission name="角色新增" model="privilegeGroup" privilegeValue="insert" />
+		<Permission name="角色编辑" model="privilegeGroup" privilegeValue="update" />
+		<Permission name="角色删除" model="privilegeGroup" privilegeValue="delete" />
+		<Permission name="角色验证" model="privilegeGroup" privilegeValue="valid" />
+		<Permission name="角色分配权限" model="privilegeGroup" privilegeValue="setPrivilege" />	
+        </Menu>
+        
+      </Menu>
+      <Menu name="系统功能" orderNO="2" target="" rel="" url="" imgUrl="/Images/menuIcon/system.png">
+      	<Menu name="附件分类" orderNO="1" target="uploadFilesView" rel="uploadFilesManages.uploadFilesManage" url="/control/addition/uploadFiles/listUI.do" imgUrl="/Images/menuIcon/uploadfilemanage.png">
+         <Permission name="附件列表" model="uploadFile" privilegeValue="list" />
+         <Permission name="附件新增" model="uploadFile" privilegeValue="insert" />
+		 <Permission name="附件编辑" model="uploadFile" privilegeValue="update" />
+		 <Permission name="附件删除" model="uploadFile" privilegeValue="delete" />
+      			
+      	</Menu>
+        <Menu name="模型管理" orderNO="2" target="modelView" rel="model.modelManage" url="/control/addition/model/listUI.do" imgUrl="/Images/menuIcon/modelmanage.png">
+		 <Permission name="模型列表" model="model" privilegeValue="list" />
+         <Permission name="模型新增" model="model" privilegeValue="insert" />
+		 <Permission name="模型编辑" model="model" privilegeValue="update" />
+		 <Permission name="模型删除" model="model" privilegeValue="delete" />
+        </Menu>
+      </Menu>
+    </Menu>
+    
+  </Menus>
+</InitDatas>

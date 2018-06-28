@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.enterprise.ShareholderMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.enterprise.Shareholder" >
+    <id column="UUID" property="uuid" jdbcType="VARCHAR" />
+    <result column="ENTID" property="entid" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="REALTIME" property="realtime" jdbcType="TIMESTAMP" />
+    <result column="REALCAPI" property="realcapi" jdbcType="VARCHAR" />
+    <result column="SHOULDTIME" property="shouldtime" jdbcType="TIMESTAMP" />
+    <result column="SHOULDCAPI" property="shouldcapi" jdbcType="VARCHAR" />
+    <result column="STOCKPERCENT" property="stockpercent" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UUID, ENTID, NAME, REALTIME, REALCAPI, SHOULDTIME, SHOULDCAPI, STOCKPERCENT, TYPE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TE_SHAREHOLDER
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TE_SHAREHOLDER
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.enterprise.Shareholder" >
+    insert into TE_SHAREHOLDER (UUID, ENTID, NAME, 
+      REALTIME, REALCAPI, SHOULDTIME, 
+      SHOULDCAPI, STOCKPERCENT, TYPE
+      )
+    values (#{uuid,jdbcType=VARCHAR}, #{entid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{realtime,jdbcType=TIMESTAMP}, #{realcapi,jdbcType=VARCHAR}, #{shouldtime,jdbcType=TIMESTAMP}, 
+      #{shouldcapi,jdbcType=VARCHAR}, #{stockpercent,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.enterprise.Shareholder" >
+    insert into TE_SHAREHOLDER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        UUID,
+      </if>
+      <if test="entid != null" >
+        ENTID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="realtime != null" >
+        REALTIME,
+      </if>
+      <if test="realcapi != null" >
+        REALCAPI,
+      </if>
+      <if test="shouldtime != null" >
+        SHOULDTIME,
+      </if>
+      <if test="shouldcapi != null" >
+        SHOULDCAPI,
+      </if>
+      <if test="stockpercent != null" >
+        STOCKPERCENT,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="entid != null" >
+        #{entid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="realtime != null" >
+        #{realtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realcapi != null" >
+        #{realcapi,jdbcType=VARCHAR},
+      </if>
+      <if test="shouldtime != null" >
+        #{shouldtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shouldcapi != null" >
+        #{shouldcapi,jdbcType=VARCHAR},
+      </if>
+      <if test="stockpercent != null" >
+        #{stockpercent,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.enterprise.Shareholder" >
+    update TE_SHAREHOLDER
+    <set >
+      <if test="entid != null" >
+        ENTID = #{entid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="realtime != null" >
+        REALTIME = #{realtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realcapi != null" >
+        REALCAPI = #{realcapi,jdbcType=VARCHAR},
+      </if>
+      <if test="shouldtime != null" >
+        SHOULDTIME = #{shouldtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shouldcapi != null" >
+        SHOULDCAPI = #{shouldcapi,jdbcType=VARCHAR},
+      </if>
+      <if test="stockpercent != null" >
+        STOCKPERCENT = #{stockpercent,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.enterprise.Shareholder" >
+    update TE_SHAREHOLDER
+    set ENTID = #{entid,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      REALTIME = #{realtime,jdbcType=TIMESTAMP},
+      REALCAPI = #{realcapi,jdbcType=VARCHAR},
+      SHOULDTIME = #{shouldtime,jdbcType=TIMESTAMP},
+      SHOULDCAPI = #{shouldcapi,jdbcType=VARCHAR},
+      STOCKPERCENT = #{stockpercent,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectByEntBaseInfo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TE_SHAREHOLDER
+    where ENTID = #{entBaseInfouuid,jdbcType=VARCHAR}
+  </select>
+  <select id="countShareholder" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select 
+    count(UUID)
+    from TE_SHAREHOLDER
+    where ENTID = #{entBaseInfouuid,jdbcType=VARCHAR}
+  </select>
+</mapper>

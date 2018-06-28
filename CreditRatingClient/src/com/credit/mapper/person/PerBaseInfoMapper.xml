@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.person.PerBaseInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.person.PerBaseInfo" >
+    <id column="UUID" property="uuid" jdbcType="VARCHAR" />
+    <result column="IDCARD" property="idcard" jdbcType="VARCHAR" />
+    <result column="IDISSUINGAGENCY" property="idissuingagency" jdbcType="VARCHAR" />
+    <result column="IDTERMEND" property="idtermend" jdbcType="TIMESTAMP" />
+    <result column="IDTERMSTART" property="idtermstart" jdbcType="TIMESTAMP" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="FERTILITYCONDITION" property="fertilitycondition" jdbcType="VARCHAR" />
+    <result column="GENDER" property="gender" jdbcType="VARCHAR" />
+    <result column="MARITALSTATUS" property="maritalstatus" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="NATION" property="nation" jdbcType="VARCHAR" />
+    <result column="NATIONALITY" property="nationality" jdbcType="VARCHAR" />
+    <result column="NATIVEPLACE" property="nativeplace" jdbcType="VARCHAR" />
+    <result column="PERMANENTADDRESS" property="permanentaddress" jdbcType="VARCHAR" />
+    <result column="POLITICALOUTLOOK" property="politicaloutlook" jdbcType="VARCHAR" />
+    <result column="PRESENTADDRESS" property="presentaddress" jdbcType="VARCHAR" />
+    <result column="PRESENTZIPCODE" property="presentzipcode" jdbcType="VARCHAR" />
+    <result column="USCC" property="uscc" jdbcType="VARCHAR" />
+    <result column="USEDNAME" property="usedname" jdbcType="VARCHAR" />
+    <result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UUID, IDCARD, IDISSUINGAGENCY, IDTERMEND, IDTERMSTART, CREATETIME, FERTILITYCONDITION, 
+    GENDER, MARITALSTATUS, NAME, NATION, NATIONALITY, NATIVEPLACE, PERMANENTADDRESS, 
+    POLITICALOUTLOOK, PRESENTADDRESS, PRESENTZIPCODE, USCC, USEDNAME, UPDATETIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CREDITRATING.TI_PERBASEINFO
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CREDITRATING.TI_PERBASEINFO
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.person.PerBaseInfo" >
+    insert into CREDITRATING.TI_PERBASEINFO (UUID, IDCARD, IDISSUINGAGENCY, 
+      IDTERMEND, IDTERMSTART, CREATETIME, 
+      FERTILITYCONDITION, GENDER, MARITALSTATUS, 
+      NAME, NATION, NATIONALITY, 
+      NATIVEPLACE, PERMANENTADDRESS, POLITICALOUTLOOK, 
+      PRESENTADDRESS, PRESENTZIPCODE, USCC, 
+      USEDNAME, UPDATETIME)
+    values (#{uuid,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{idissuingagency,jdbcType=VARCHAR}, 
+      #{idtermend,jdbcType=TIMESTAMP}, #{idtermstart,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{fertilitycondition,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{maritalstatus,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR}, #{nationality,jdbcType=VARCHAR}, 
+      #{nativeplace,jdbcType=VARCHAR}, #{permanentaddress,jdbcType=VARCHAR}, #{politicaloutlook,jdbcType=VARCHAR}, 
+      #{presentaddress,jdbcType=VARCHAR}, #{presentzipcode,jdbcType=VARCHAR}, #{uscc,jdbcType=VARCHAR}, 
+      #{usedname,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.person.PerBaseInfo" >
+    insert into CREDITRATING.TI_PERBASEINFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        UUID,
+      </if>
+      <if test="idcard != null" >
+        IDCARD,
+      </if>
+      <if test="idissuingagency != null" >
+        IDISSUINGAGENCY,
+      </if>
+      <if test="idtermend != null" >
+        IDTERMEND,
+      </if>
+      <if test="idtermstart != null" >
+        IDTERMSTART,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="fertilitycondition != null" >
+        FERTILITYCONDITION,
+      </if>
+      <if test="gender != null" >
+        GENDER,
+      </if>
+      <if test="maritalstatus != null" >
+        MARITALSTATUS,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="nation != null" >
+        NATION,
+      </if>
+      <if test="nationality != null" >
+        NATIONALITY,
+      </if>
+      <if test="nativeplace != null" >
+        NATIVEPLACE,
+      </if>
+      <if test="permanentaddress != null" >
+        PERMANENTADDRESS,
+      </if>
+      <if test="politicaloutlook != null" >
+        POLITICALOUTLOOK,
+      </if>
+      <if test="presentaddress != null" >
+        PRESENTADDRESS,
+      </if>
+      <if test="presentzipcode != null" >
+        PRESENTZIPCODE,
+      </if>
+      <if test="uscc != null" >
+        USCC,
+      </if>
+      <if test="usedname != null" >
+        USEDNAME,
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="idissuingagency != null" >
+        #{idissuingagency,jdbcType=VARCHAR},
+      </if>
+      <if test="idtermend != null" >
+        #{idtermend,jdbcType=TIMESTAMP},
+      </if>
+      <if test="idtermstart != null" >
+        #{idtermstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fertilitycondition != null" >
+        #{fertilitycondition,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="maritalstatus != null" >
+        #{maritalstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null" >
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="nationality != null" >
+        #{nationality,jdbcType=VARCHAR},
+      </if>
+      <if test="nativeplace != null" >
+        #{nativeplace,jdbcType=VARCHAR},
+      </if>
+      <if test="permanentaddress != null" >
+        #{permanentaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="politicaloutlook != null" >
+        #{politicaloutlook,jdbcType=VARCHAR},
+      </if>
+      <if test="presentaddress != null" >
+        #{presentaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="presentzipcode != null" >
+        #{presentzipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="uscc != null" >
+        #{uscc,jdbcType=VARCHAR},
+      </if>
+      <if test="usedname != null" >
+        #{usedname,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.person.PerBaseInfo" >
+    update CREDITRATING.TI_PERBASEINFO
+    <set >
+      <if test="idcard != null" >
+        IDCARD = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="idissuingagency != null" >
+        IDISSUINGAGENCY = #{idissuingagency,jdbcType=VARCHAR},
+      </if>
+      <if test="idtermend != null" >
+        IDTERMEND = #{idtermend,jdbcType=TIMESTAMP},
+      </if>
+      <if test="idtermstart != null" >
+        IDTERMSTART = #{idtermstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fertilitycondition != null" >
+        FERTILITYCONDITION = #{fertilitycondition,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        GENDER = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="maritalstatus != null" >
+        MARITALSTATUS = #{maritalstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null" >
+        NATION = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="nationality != null" >
+        NATIONALITY = #{nationality,jdbcType=VARCHAR},
+      </if>
+      <if test="nativeplace != null" >
+        NATIVEPLACE = #{nativeplace,jdbcType=VARCHAR},
+      </if>
+      <if test="permanentaddress != null" >
+        PERMANENTADDRESS = #{permanentaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="politicaloutlook != null" >
+        POLITICALOUTLOOK = #{politicaloutlook,jdbcType=VARCHAR},
+      </if>
+      <if test="presentaddress != null" >
+        PRESENTADDRESS = #{presentaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="presentzipcode != null" >
+        PRESENTZIPCODE = #{presentzipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="uscc != null" >
+        USCC = #{uscc,jdbcType=VARCHAR},
+      </if>
+      <if test="usedname != null" >
+        USEDNAME = #{usedname,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.person.PerBaseInfo" >
+    update CREDITRATING.TI_PERBASEINFO
+    set IDCARD = #{idcard,jdbcType=VARCHAR},
+      IDISSUINGAGENCY = #{idissuingagency,jdbcType=VARCHAR},
+      IDTERMEND = #{idtermend,jdbcType=TIMESTAMP},
+      IDTERMSTART = #{idtermstart,jdbcType=TIMESTAMP},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      FERTILITYCONDITION = #{fertilitycondition,jdbcType=VARCHAR},
+      GENDER = #{gender,jdbcType=VARCHAR},
+      MARITALSTATUS = #{maritalstatus,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      NATION = #{nation,jdbcType=VARCHAR},
+      NATIONALITY = #{nationality,jdbcType=VARCHAR},
+      NATIVEPLACE = #{nativeplace,jdbcType=VARCHAR},
+      PERMANENTADDRESS = #{permanentaddress,jdbcType=VARCHAR},
+      POLITICALOUTLOOK = #{politicaloutlook,jdbcType=VARCHAR},
+      PRESENTADDRESS = #{presentaddress,jdbcType=VARCHAR},
+      PRESENTZIPCODE = #{presentzipcode,jdbcType=VARCHAR},
+      USCC = #{uscc,jdbcType=VARCHAR},
+      USEDNAME = #{usedname,jdbcType=VARCHAR},
+      UPDATETIME = #{updatetime,jdbcType=TIMESTAMP}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

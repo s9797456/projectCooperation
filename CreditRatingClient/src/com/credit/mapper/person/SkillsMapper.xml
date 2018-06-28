@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.person.SkillsMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.person.Skills" >
+    <id column="UUID" property="uuid" jdbcType="VARCHAR" />
+    <result column="PERID" property="perid" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="SKILLNAME" property="skillname" jdbcType="VARCHAR" />
+    <result column="SKILLPROFICIENCY" property="skillproficiency" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UUID, PERID, REMARKS, SKILLNAME, SKILLPROFICIENCY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TI_SKILLS
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TI_SKILLS
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.person.Skills" >
+    insert into TI_SKILLS (UUID, PERID, REMARKS, 
+      SKILLNAME, SKILLPROFICIENCY)
+    values (#{uuid,jdbcType=VARCHAR}, #{perid,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{skillname,jdbcType=VARCHAR}, #{skillproficiency,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.person.Skills" >
+    insert into TI_SKILLS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        UUID,
+      </if>
+      <if test="perid != null" >
+        PERID,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="skillname != null" >
+        SKILLNAME,
+      </if>
+      <if test="skillproficiency != null" >
+        SKILLPROFICIENCY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="perid != null" >
+        #{perid,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="skillname != null" >
+        #{skillname,jdbcType=VARCHAR},
+      </if>
+      <if test="skillproficiency != null" >
+        #{skillproficiency,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.person.Skills" >
+    update TI_SKILLS
+    <set >
+      <if test="perid != null" >
+        PERID = #{perid,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="skillname != null" >
+        SKILLNAME = #{skillname,jdbcType=VARCHAR},
+      </if>
+      <if test="skillproficiency != null" >
+        SKILLPROFICIENCY = #{skillproficiency,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.person.Skills" >
+    update TI_SKILLS
+    set PERID = #{perid,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      SKILLNAME = #{skillname,jdbcType=VARCHAR},
+      SKILLPROFICIENCY = #{skillproficiency,jdbcType=VARCHAR}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+    <select id="selectByPerID" resultType="list" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TI_SKILLS
+    where PERID = #{_parameter,jdbcType=VARCHAR}
+  </select>
+  <select id="countSkills" resultType="int" parameterType="java.lang.String" >
+    select 
+    count(UUID)
+    from TI_SKILLS
+    where PERID = #{_parameter,jdbcType=VARCHAR}
+  </select>
+</mapper>

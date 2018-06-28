@@ -1,0 +1,89 @@
+html,body{height: 100%; width: 100%;}
+::-webkit-scrollbar{width:8px;height: 8px;}
+::-webkit-scrollbar-thumb{/*background-color:rgba(254,81,74,0.8);*/background-color:#a9a9a9;border-radius: 4px;}
+::-webkit-scrollbar-track{border-radius: 4px; background: #dedede;  }
+.registerContent{width: 100%; min-width: 1000px; min-height: 100%;  background: url(../../Images/regBg.png) center no-repeat #00a7f2;}
+.registerMain{width: 640px; padding: 80px; margin: 0 auto; font-size: 14px;}
+.regLogo{width: 620px; height: 50px; margin: 0 auto;text-align: center;}
+.regDiv a{color: #03c5ff;}
+.regDiv{padding-top: 38px;}
+.tabReg a{float:left; display: block; width: 240px; height: 50px; line-height: 50px; margin-top: 6px; text-align: center; color: #bbb; background: #efefef; font-size: 16px;}
+.tabReg .active{height: 56px; line-height: 56px; color: #03c5ff; background: #fff; margin-top: 0; font-weight: bold;}
+.tabReg a:first-child{border-top-left-radius: 2px;}
+.tabReg a:last-child{border-top-right-radius: 2px;}
+.regForm{width: 480px; padding: 50px 70px 30px; color: #909090; background: #fff; border-bottom-left-radius: 2px; border-bottom-right-radius: 2px;}
+.borderRadius{border-radius: 2px;padding-top: 36px;}
+.inputDiv{padding-bottom: 20px;}
+.inputDiv .regInput{width: 340px; height: 42px; line-height: 30px; padding: 5px 10px; font-size: 14px; color: #606060; border: 1px solid #e7e7e7; border-radius: 2px; font-family: inherit;}
+.inputDiv .regInput:focus{border: 1px solid #b3b3b3;}
+.regInput::-webkit-input-placeholder {
+	color:#d3d3d3;
+}
+
+.regInput:-moz-placeholder {
+	color:#d3d3d3;
+}
+.regInput::-moz-placeholder {
+	color:#d3d3d3;
+}
+.regInput:-ms-input-placeholder {
+	color:#d3d3d3;
+}
+.inputDiv input[type=checkbox]{height: 16px; width: 16px; vertical-align: middle;}
+.inputDiv label{line-height: 16px;}
+.have{text-align: right; height: 20px; line-height: 20px; padding-top: 16px;}
+.have i{height: 20px; padding: 0 10px;}
+.errorTips{display: none; font-size: 13px; color: #fe514a; height: 20px; line-height: 20px; position: relative; top: 5px;}
+.errorTips i{padding: 0 9px; height: 20px; line-height: 20px; vertical-align: middle; display:inline-block;}
+.errorTips em{font-style: normal;height: 20px; line-height: 20px; vertical-align:middle;display:inline-block;}
+.getCode{position: relative;}
+.getCode .regInput{width: 232px; border-top-right-radius: 0; border-bottom-right-radius: 0; z-index: 3; position: relative;}
+.getCode .getCodea{position: absolute; right: -1px; top: 0px; width: 110px; height: 42px; border: 0; border: 1px solid #e7e7e7; background: #f7f7f7; border-top-right-radius: 2px; border-bottom-right-radius: 2px; color: #909090;}
+.regBtn{width: 100%; height: 42px; margin-top: 20px; font-size: 16px; border: 0 none; background: #02c5ff; color: #fff; letter-spacing: 2px; border-radius: 2px;}
+.regBtn:hover{background: #04bff7;}
+
+.emailTitle{font-size: 22px; color: #606060; padding-bottom: 26px; font-weight: normal;}
+.emailP{line-height: 24px; color: #606060;}
+.emailDl{border-top: 1px solid #e7e7e7; margin-top: 20px; width: 100%; padding: 0 40px;line-height: 20px; position: relative; left: -40px;}
+.emailDl dt{font-weight: bold; font-size: 14px; padding: 18px 0 10px; color: #606060;}
+.emailDl dd{font-size: 12px;}
+.emailDl dd a{color: #03c5ff; text-decoration: underline;}
+
+.title{position: relative;height: 20px; line-height: 20px; padding-bottom: 40px;}
+.title h3{color: #03c5ff; font-size: 16px;}
+.title .have{position: absolute; right: 0;  top: 0; padding-top: 0; height: 20px; line-height: 20px;}
+.title .have a{color: #909090;text-decoration: underline;}
+.title .have a:hover{color: #03c5ff;}
+
+
+
+/*注册*/
+.regBtn:disabled{ background: #ddd; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

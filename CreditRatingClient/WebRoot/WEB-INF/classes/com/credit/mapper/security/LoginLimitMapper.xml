@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.security.LoginLimitMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.security.LoginLimit" >
+    <id column="UUID" property="uuid" jdbcType="VARCHAR" />
+    <result column="CUSTOMERID" property="customerid" jdbcType="VARCHAR" />
+    <result column="FAILRESULT" property="failresult" jdbcType="VARCHAR" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="ISSUCCESS" property="issuccess" jdbcType="DECIMAL" />
+    <result column="LOGINNAME" property="loginname" jdbcType="VARCHAR" />
+    <result column="LOGINTIME" property="logintime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UUID, CUSTOMERID, FAILRESULT, IP, ISSUCCESS, LOGINNAME, LOGINTIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TS_LOGINLIMIT
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TS_LOGINLIMIT
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.security.LoginLimit" >
+    insert into TS_LOGINLIMIT (UUID, CUSTOMERID, FAILRESULT, 
+      IP, ISSUCCESS, LOGINNAME, 
+      LOGINTIME)
+    values (#{uuid,jdbcType=VARCHAR}, #{customerid,jdbcType=VARCHAR}, #{failresult,jdbcType=VARCHAR}, 
+      #{ip,jdbcType=VARCHAR}, #{issuccess,jdbcType=DECIMAL}, #{loginname,jdbcType=VARCHAR}, 
+      #{logintime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.security.LoginLimit" >
+    insert into TS_LOGINLIMIT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        UUID,
+      </if>
+      <if test="customerid != null" >
+        CUSTOMERID,
+      </if>
+      <if test="failresult != null" >
+        FAILRESULT,
+      </if>
+      <if test="ip != null" >
+        IP,
+      </if>
+      <if test="issuccess != null" >
+        ISSUCCESS,
+      </if>
+      <if test="loginname != null" >
+        LOGINNAME,
+      </if>
+      <if test="logintime != null" >
+        LOGINTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="customerid != null" >
+        #{customerid,jdbcType=VARCHAR},
+      </if>
+      <if test="failresult != null" >
+        #{failresult,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="issuccess != null" >
+        #{issuccess,jdbcType=DECIMAL},
+      </if>
+      <if test="loginname != null" >
+        #{loginname,jdbcType=VARCHAR},
+      </if>
+      <if test="logintime != null" >
+        #{logintime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.security.LoginLimit" >
+    update TS_LOGINLIMIT
+    <set >
+      <if test="customerid != null" >
+        CUSTOMERID = #{customerid,jdbcType=VARCHAR},
+      </if>
+      <if test="failresult != null" >
+        FAILRESULT = #{failresult,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="issuccess != null" >
+        ISSUCCESS = #{issuccess,jdbcType=DECIMAL},
+      </if>
+      <if test="loginname != null" >
+        LOGINNAME = #{loginname,jdbcType=VARCHAR},
+      </if>
+      <if test="logintime != null" >
+        LOGINTIME = #{logintime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.security.LoginLimit" >
+    update TS_LOGINLIMIT
+    set CUSTOMERID = #{customerid,jdbcType=VARCHAR},
+      FAILRESULT = #{failresult,jdbcType=VARCHAR},
+      IP = #{ip,jdbcType=VARCHAR},
+      ISSUCCESS = #{issuccess,jdbcType=DECIMAL},
+      LOGINNAME = #{loginname,jdbcType=VARCHAR},
+      LOGINTIME = #{logintime,jdbcType=TIMESTAMP}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+	<select id="selectByIP" resultMap="BaseResultMap" resultType="list" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from TS_LOGINLIMIT where IP = #{ip,jdbcType=VARCHAR}
+		order by LOGINTIME desc
+	</select>
+	<select id="countByLimit" resultType="long">
+		select count(uuid) from TS_LOGINLIMIT where IP=#{ip} and LOGINNAME =
+		#{loginname} and
+		LOGINTIME between to_date(#{startDate},'yyyy-mm-dd hh24:mi:ss') and
+		to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss')
+	</select>
+</mapper>

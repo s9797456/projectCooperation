@@ -1,0 +1,94 @@
+/**
+ * 
+ */
+package com.credit.controller.personal;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.credit.model.member.Customer;
+import com.credit.model.person.PerBaseInfo;
+import com.credit.model.person.PerProcess;
+import com.credit.modelvo.Permission;
+import com.credit.modelvo.SessionName;
+import com.credit.service.person.PerBaseInfoService;
+import com.credit.service.person.PerProcessService;
+
+/**
+ * 个人信用
+ * @author Administrator
+ */
+@Controller
+@RequestMapping("/initPersonal")
+public class PersonalController {
+	
+	private static final Logger logger = Logger.getLogger(PersonalController.class);
+
+	private String moduleName = "用户操作情况";
+	
+	@Resource
+	private PerProcessService perProcessService;
+	
+	@Resource
+	private PerBaseInfoService perBaseInfoService;
+	
+	/**
+	 * @Title spring mvc在绑定表单之前，会先进入该方法（从jsp -> java）本方法是str转换为date类型
+	 * 		      或者使用   实体类 属性上注入方式（    @DateTimeFormat(pattern = "yyyy-MM-dd")）
+	 * @author  Administrator  @date 2017-8-23 
+	 * @Description 
+	 */
+	@InitBinder  
+    public void initBinder(WebDataBinder binder) {  
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+    	dateFormat.setLenient(false);  
+    	binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true)); //"true":允许输入空值，"false":不能为空值 
+    }
+	
+	/**
+	 * @Title 阅读协议
+	 * @author  Administrator  @date 2017-9-15 
+	 * @Description 
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "readProtocols")
+	@RequestMapping("/readProtocols")
+	@ResponseBody
+	public Map<String, Object> readProtocols(HttpServletRequest request){
+		logger.info(moduleName + "[阅读协议]");
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		if(customer != null){
+			PerProcess process = perProcessService.selectByPerIDKey(customer.getPerid());
+		    if(process!=null){
+		    	process.setReadstate(1);
+		    	perProcessService.updateByPrimaryKeySelective(process);
+		    }else{
+		    	process = new PerProcess();
+		    	process.setReadstate(1);
+		    	process.setUuid(UUID.randomUUID().toString().replace("-", ""));
+		    	process.setPerid(customer.getPerid());
+		    	perProcessService.insertSelective(process);
+		    }
+		    msgMap.put("msg", "阅读协议状态更新成功");
+		}else{
+			msgMap.put("msg", "网络错误，请重新登录    错误代码：204");
+		}
+		return msgMap;
+	}
+	
+}

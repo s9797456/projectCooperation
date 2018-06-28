@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.addition.IndustryMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.addition.Industry" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="INDUSTRY" property="industry" jdbcType="VARCHAR" />
+    <result column="PARENTCODE" property="parentcode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CODE, INDUSTRY, PARENTCODE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TB_INDUSTRY
+    where CODE = #{code,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TB_INDUSTRY
+    where CODE = #{code,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.addition.Industry" >
+    insert into TB_INDUSTRY (CODE, INDUSTRY, PARENTCODE
+      )
+    values (#{code,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR}, #{parentcode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.addition.Industry" >
+    insert into TB_INDUSTRY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="industry != null" >
+        INDUSTRY,
+      </if>
+      <if test="parentcode != null" >
+        PARENTCODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="parentcode != null" >
+        #{parentcode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.addition.Industry" >
+    update TB_INDUSTRY
+    <set >
+      <if test="industry != null" >
+        INDUSTRY = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="parentcode != null" >
+        PARENTCODE = #{parentcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.addition.Industry" >
+    update TB_INDUSTRY
+    set INDUSTRY = #{industry,jdbcType=VARCHAR},
+      PARENTCODE = #{parentcode,jdbcType=VARCHAR}
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+  
+    <select id="findAll" resultMap="BaseResultMap" resultType="list">
+    select 
+    <include refid="Base_Column_List" />
+    from TB_INDUSTRY where PARENTCODE is not null 
+  </select>
+</mapper>

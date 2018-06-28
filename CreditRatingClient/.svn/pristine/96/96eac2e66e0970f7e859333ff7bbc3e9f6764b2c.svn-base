@@ -1,0 +1,17 @@
+package com.credit.mapper.person;
+
+import com.credit.model.person.PerHistory;
+
+public interface PerHistoryMapper {
+    int deleteByPrimaryKey(String uuid);
+
+    int insert(PerHistory record);
+
+    int insertSelective(PerHistory record);
+
+    PerHistory selectByPrimaryKey(String uuid);
+
+    int updateByPrimaryKeySelective(PerHistory record);
+
+    int updateByPrimaryKey(PerHistory record);
+}

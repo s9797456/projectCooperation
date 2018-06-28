@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.person.EducationMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.person.Education" >
+    <id column="UUID" property="uuid" jdbcType="VARCHAR" />
+    <result column="PERID" property="perid" jdbcType="VARCHAR" />
+    <result column="DIPLOMANO" property="diplomano" jdbcType="VARCHAR" />
+    <result column="EDUCATION" property="education" jdbcType="VARCHAR" />
+    <result column="ENDTIME" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="MAJOR" property="major" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="STARTTIME" property="starttime" jdbcType="TIMESTAMP" />
+    <result column="UNIVERSITY" property="university" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UUID, PERID, DIPLOMANO, EDUCATION, ENDTIME, MAJOR, REMARKS, STARTTIME, UNIVERSITY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TI_EDUCATION
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TI_EDUCATION
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.person.Education" >
+    insert into TI_EDUCATION (UUID, PERID, DIPLOMANO, 
+      EDUCATION, ENDTIME, MAJOR, 
+      REMARKS, STARTTIME, UNIVERSITY
+      )
+    values (#{uuid,jdbcType=VARCHAR}, #{perid,jdbcType=VARCHAR}, #{diplomano,jdbcType=VARCHAR}, 
+      #{education,jdbcType=VARCHAR}, #{endtime,jdbcType=TIMESTAMP}, #{major,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{starttime,jdbcType=TIMESTAMP}, #{university,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.person.Education" >
+    insert into TI_EDUCATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        UUID,
+      </if>
+      <if test="perid != null" >
+        PERID,
+      </if>
+      <if test="diplomano != null" >
+        DIPLOMANO,
+      </if>
+      <if test="education != null" >
+        EDUCATION,
+      </if>
+      <if test="endtime != null" >
+        ENDTIME,
+      </if>
+      <if test="major != null" >
+        MAJOR,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="starttime != null" >
+        STARTTIME,
+      </if>
+      <if test="university != null" >
+        UNIVERSITY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="perid != null" >
+        #{perid,jdbcType=VARCHAR},
+      </if>
+      <if test="diplomano != null" >
+        #{diplomano,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="major != null" >
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null" >
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="university != null" >
+        #{university,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.person.Education" >
+    update TI_EDUCATION
+    <set >
+      <if test="perid != null" >
+        PERID = #{perid,jdbcType=VARCHAR},
+      </if>
+      <if test="diplomano != null" >
+        DIPLOMANO = #{diplomano,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        EDUCATION = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null" >
+        ENDTIME = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="major != null" >
+        MAJOR = #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null" >
+        STARTTIME = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="university != null" >
+        UNIVERSITY = #{university,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.person.Education" >
+    update TI_EDUCATION
+    set PERID = #{perid,jdbcType=VARCHAR},
+      DIPLOMANO = #{diplomano,jdbcType=VARCHAR},
+      EDUCATION = #{education,jdbcType=VARCHAR},
+      ENDTIME = #{endtime,jdbcType=TIMESTAMP},
+      MAJOR = #{major,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      STARTTIME = #{starttime,jdbcType=TIMESTAMP},
+      UNIVERSITY = #{university,jdbcType=VARCHAR}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPerID" resultType="list" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TI_EDUCATION
+    where PERID = #{_parameter,jdbcType=VARCHAR}
+  </select>
+  <select id="countEducation" resultType="int" parameterType="java.lang.String" >
+    select 
+    count(UUID)
+    from TI_EDUCATION
+    where PERID = #{_parameter,jdbcType=VARCHAR}
+  </select>
+</mapper>

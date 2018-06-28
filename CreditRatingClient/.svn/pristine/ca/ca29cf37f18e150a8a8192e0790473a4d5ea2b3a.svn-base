@@ -1,0 +1,88 @@
+/**
+ * 
+ */
+package com.credit.service.person.impl;
+
+import javax.annotation.Resource;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.credit.mapper.person.PerResultMapper;
+import com.credit.model.person.PerResult;
+import com.credit.service.person.PerResultService;
+
+/**
+ * @author Administrator
+ *
+ */
+@Service
+@Transactional
+public class PerResultServiceBean implements PerResultService {
+
+	private static final Logger logger = Logger.getLogger(PerResultServiceBean.class);
+	@Resource
+	private PerResultMapper mapper;
+	
+	/* (non-Javadoc)
+	 * @see com.credit.service.person.PerResultService#deleteByPrimaryKey(java.lang.String)
+	 */
+	@Override
+	public int deleteByPrimaryKey(String uuid) {
+		logger.info("PerResultService _ deleteByPrimaryKey;uuid:" + uuid);
+		return mapper.deleteByPrimaryKey(uuid);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.credit.service.person.PerResultService#insert(com.credit.model.person.PerResult)
+	 */
+	@Override
+	public int insert(PerResult record) {
+		logger.info("PerResultService _ insert;record:" + record);
+		return mapper.insert(record);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.credit.service.person.PerResultService#insertSelective(com.credit.model.person.PerResult)
+	 */
+	@Override
+	public int insertSelective(PerResult record) {
+		logger.info("PerResultService _ insertSelective;record:" + record);
+		return mapper.insertSelective(record);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.credit.service.person.PerResultService#selectByPrimaryKey(java.lang.String)
+	 */
+	@Override
+	public PerResult selectByPrimaryKey(String uuid) {
+		logger.info("PerResultService _ selectByPrimaryKey;uuid:" + uuid);
+		return mapper.selectByPrimaryKey(uuid);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.credit.service.person.PerResultService#updateByPrimaryKeySelective(com.credit.model.person.PerResult)
+	 */
+	@Override
+	public int updateByPrimaryKeySelective(PerResult record) {
+		logger.info("PerResultService _ updateByPrimaryKeySelective;uuid:" + record);
+		return mapper.updateByPrimaryKeySelective(record);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.credit.service.person.PerResultService#updateByPrimaryKey(com.credit.model.person.PerResult)
+	 */
+	@Override
+	public int updateByPrimaryKey(PerResult record) {
+		logger.info("PerResultService _ updateByPrimaryKey;record:" + record);
+		return mapper.updateByPrimaryKey(record);
+	}
+
+	@Override
+	public PerResult selectByPerID(String perid) {
+		logger.info("PerResultService _ selectByPerID;perid:" + perid);
+		return mapper.selectByPerID(perid);
+	}
+
+}

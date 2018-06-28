@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.person.CareerMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.person.Career" >
+    <id column="UUID" property="uuid" jdbcType="VARCHAR" />
+    <result column="PERID" property="perid" jdbcType="VARCHAR" />
+    <result column="AVERAGESALARY" property="averagesalary" jdbcType="VARCHAR" />
+    <result column="ENDTIME" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="INAUGURALUNIT" property="inauguralunit" jdbcType="VARCHAR" />
+    <result column="INDUSTRY" property="industry" jdbcType="VARCHAR" />
+    <result column="POST" property="post" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="STARTTIME" property="starttime" jdbcType="TIMESTAMP" />
+    <result column="UNITSCALE" property="unitscale" jdbcType="VARCHAR" />
+    <result column="WORKINGLIFE" property="workinglife" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UUID, PERID, AVERAGESALARY, ENDTIME, INAUGURALUNIT, INDUSTRY, POST, REMARKS, STARTTIME, 
+    UNITSCALE, WORKINGLIFE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TI_CAREER
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TI_CAREER
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.person.Career" >
+    insert into TI_CAREER (UUID, PERID, AVERAGESALARY, 
+      ENDTIME, INAUGURALUNIT, INDUSTRY, 
+      POST, REMARKS, STARTTIME, 
+      UNITSCALE, WORKINGLIFE)
+    values (#{uuid,jdbcType=VARCHAR}, #{perid,jdbcType=VARCHAR}, #{averagesalary,jdbcType=VARCHAR}, 
+      #{endtime,jdbcType=TIMESTAMP}, #{inauguralunit,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR}, 
+      #{post,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{starttime,jdbcType=TIMESTAMP}, 
+      #{unitscale,jdbcType=VARCHAR}, #{workinglife,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.person.Career" >
+    insert into TI_CAREER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        UUID,
+      </if>
+      <if test="perid != null" >
+        PERID,
+      </if>
+      <if test="averagesalary != null" >
+        AVERAGESALARY,
+      </if>
+      <if test="endtime != null" >
+        ENDTIME,
+      </if>
+      <if test="inauguralunit != null" >
+        INAUGURALUNIT,
+      </if>
+      <if test="industry != null" >
+        INDUSTRY,
+      </if>
+      <if test="post != null" >
+        POST,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="starttime != null" >
+        STARTTIME,
+      </if>
+      <if test="unitscale != null" >
+        UNITSCALE,
+      </if>
+      <if test="workinglife != null" >
+        WORKINGLIFE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="perid != null" >
+        #{perid,jdbcType=VARCHAR},
+      </if>
+      <if test="averagesalary != null" >
+        #{averagesalary,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inauguralunit != null" >
+        #{inauguralunit,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null" >
+        #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null" >
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unitscale != null" >
+        #{unitscale,jdbcType=VARCHAR},
+      </if>
+      <if test="workinglife != null" >
+        #{workinglife,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.person.Career" >
+    update TI_CAREER
+    <set >
+      <if test="perid != null" >
+        PERID = #{perid,jdbcType=VARCHAR},
+      </if>
+      <if test="averagesalary != null" >
+        AVERAGESALARY = #{averagesalary,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null" >
+        ENDTIME = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inauguralunit != null" >
+        INAUGURALUNIT = #{inauguralunit,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        INDUSTRY = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null" >
+        POST = #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null" >
+        STARTTIME = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unitscale != null" >
+        UNITSCALE = #{unitscale,jdbcType=VARCHAR},
+      </if>
+      <if test="workinglife != null" >
+        WORKINGLIFE = #{workinglife,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.person.Career" >
+    update TI_CAREER
+    set PERID = #{perid,jdbcType=VARCHAR},
+      AVERAGESALARY = #{averagesalary,jdbcType=VARCHAR},
+      ENDTIME = #{endtime,jdbcType=TIMESTAMP},
+      INAUGURALUNIT = #{inauguralunit,jdbcType=VARCHAR},
+      INDUSTRY = #{industry,jdbcType=VARCHAR},
+      POST = #{post,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      STARTTIME = #{starttime,jdbcType=TIMESTAMP},
+      UNITSCALE = #{unitscale,jdbcType=VARCHAR},
+      WORKINGLIFE = #{workinglife,jdbcType=VARCHAR}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

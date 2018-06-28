@@ -1,0 +1,63 @@
+package com.credit.service.person.impl;
+
+import javax.annotation.Resource;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.credit.mapper.person.PerProcessMapper;
+import com.credit.model.person.PerProcess;
+import com.credit.service.person.PerProcessService;
+
+@Service
+@Transactional
+public class PerProcessServiceBean implements PerProcessService {
+
+	private static final Logger logger = Logger.getLogger(PerProcessServiceBean.class);
+	@Resource
+	private PerProcessMapper mapper;
+	
+	@Override
+	public int deleteByPrimaryKey(String uuid) {
+		logger.info("PerProcessService _ deleteByPrimaryKey;uuid:" + uuid);
+		return mapper.deleteByPrimaryKey(uuid);
+	}
+
+	@Override
+	public int insert(PerProcess record) {
+		logger.info("PerProcessService _ insert;record:" + record);
+		return mapper.insert(record);
+	}
+
+	@Override
+	public int insertSelective(PerProcess record) {
+		logger.info("PerProcessService _ insertSelective;record:" + record);
+		return mapper.insertSelective(record);
+	}
+
+	@Override
+	public PerProcess selectByPrimaryKey(String uuid) {
+		logger.info("PerProcessService _ selectByPrimaryKey;uuid:" + uuid);
+		return mapper.selectByPrimaryKey(uuid);
+	}
+
+	@Override
+	public int updateByPrimaryKeySelective(PerProcess record) {
+		logger.info("PerProcessService _ updateByPrimaryKeySelective;record:" + record);
+		return mapper.updateByPrimaryKeySelective(record);
+	}
+
+	@Override
+	public int updateByPrimaryKey(PerProcess record) {
+		logger.info("PerProcessService _ updateByPrimaryKey;record:" + record);
+		return mapper.updateByPrimaryKey(record);
+	}
+
+	@Override
+	public PerProcess selectByPerID(String perid) {
+		logger.info("PerProcessService _ selectByPerBaseInfoKey;perid:" + perid);
+		return mapper.selectByPerID(perid);
+	}
+
+}

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.enterprise.ProcessStateMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.enterprise.ProcessState" >
+    <id column="UUID" property="uuid" jdbcType="VARCHAR" />
+    <result column="APPLYREPORTSTATE" property="applyreportstate" jdbcType="DECIMAL" />
+    <result column="BASEINFOSTATE" property="baseinfostate" jdbcType="DECIMAL" />
+    <result column="EXECUTIVESSTATE" property="executivesstate" jdbcType="DECIMAL" />
+    <result column="FINANCESTATE" property="financestate" jdbcType="DECIMAL" />
+    <result column="PUSHMODELSTATE" property="pushmodelstate" jdbcType="DECIMAL" />
+    <result column="SCORESTATE" property="scorestate" jdbcType="DECIMAL" />
+    <result column="SHAREHOLDERSTATE" property="shareholderstate" jdbcType="DECIMAL" />
+    <result column="UPLOADFILESTATE" property="uploadfilestate" jdbcType="DECIMAL" />
+    <result column="ENTID" property="entid" jdbcType="VARCHAR" />
+    <result column="READSTATE" property="readstate" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UUID, APPLYREPORTSTATE, BASEINFOSTATE, EXECUTIVESSTATE, FINANCESTATE, PUSHMODELSTATE, 
+    SCORESTATE, SHAREHOLDERSTATE, UPLOADFILESTATE, ENTID, READSTATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CREDITRATING.TE_PROCESS
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CREDITRATING.TE_PROCESS
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.enterprise.ProcessState" >
+    insert into CREDITRATING.TE_PROCESS (UUID, APPLYREPORTSTATE, BASEINFOSTATE, 
+      EXECUTIVESSTATE, FINANCESTATE, PUSHMODELSTATE, 
+      SCORESTATE, SHAREHOLDERSTATE, UPLOADFILESTATE, 
+      ENTID, READSTATE)
+    values (#{uuid,jdbcType=VARCHAR}, #{applyreportstate,jdbcType=DECIMAL}, #{baseinfostate,jdbcType=DECIMAL}, 
+      #{executivesstate,jdbcType=DECIMAL}, #{financestate,jdbcType=DECIMAL}, #{pushmodelstate,jdbcType=DECIMAL}, 
+      #{scorestate,jdbcType=DECIMAL}, #{shareholderstate,jdbcType=DECIMAL}, #{uploadfilestate,jdbcType=DECIMAL}, 
+      #{entid,jdbcType=VARCHAR}, #{readstate,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.enterprise.ProcessState" >
+    insert into CREDITRATING.TE_PROCESS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        UUID,
+      </if>
+      <if test="applyreportstate != null" >
+        APPLYREPORTSTATE,
+      </if>
+      <if test="baseinfostate != null" >
+        BASEINFOSTATE,
+      </if>
+      <if test="executivesstate != null" >
+        EXECUTIVESSTATE,
+      </if>
+      <if test="financestate != null" >
+        FINANCESTATE,
+      </if>
+      <if test="pushmodelstate != null" >
+        PUSHMODELSTATE,
+      </if>
+      <if test="scorestate != null" >
+        SCORESTATE,
+      </if>
+      <if test="shareholderstate != null" >
+        SHAREHOLDERSTATE,
+      </if>
+      <if test="uploadfilestate != null" >
+        UPLOADFILESTATE,
+      </if>
+      <if test="entid != null" >
+        ENTID,
+      </if>
+      <if test="readstate != null" >
+        READSTATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="applyreportstate != null" >
+        #{applyreportstate,jdbcType=DECIMAL},
+      </if>
+      <if test="baseinfostate != null" >
+        #{baseinfostate,jdbcType=DECIMAL},
+      </if>
+      <if test="executivesstate != null" >
+        #{executivesstate,jdbcType=DECIMAL},
+      </if>
+      <if test="financestate != null" >
+        #{financestate,jdbcType=DECIMAL},
+      </if>
+      <if test="pushmodelstate != null" >
+        #{pushmodelstate,jdbcType=DECIMAL},
+      </if>
+      <if test="scorestate != null" >
+        #{scorestate,jdbcType=DECIMAL},
+      </if>
+      <if test="shareholderstate != null" >
+        #{shareholderstate,jdbcType=DECIMAL},
+      </if>
+      <if test="uploadfilestate != null" >
+        #{uploadfilestate,jdbcType=DECIMAL},
+      </if>
+      <if test="entid != null" >
+        #{entid,jdbcType=VARCHAR},
+      </if>
+      <if test="readstate != null" >
+        #{readstate,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.enterprise.ProcessState" >
+    update CREDITRATING.TE_PROCESS
+    <set >
+      <if test="applyreportstate != null" >
+        APPLYREPORTSTATE = #{applyreportstate,jdbcType=DECIMAL},
+      </if>
+      <if test="baseinfostate != null" >
+        BASEINFOSTATE = #{baseinfostate,jdbcType=DECIMAL},
+      </if>
+      <if test="executivesstate != null" >
+        EXECUTIVESSTATE = #{executivesstate,jdbcType=DECIMAL},
+      </if>
+      <if test="financestate != null" >
+        FINANCESTATE = #{financestate,jdbcType=DECIMAL},
+      </if>
+      <if test="pushmodelstate != null" >
+        PUSHMODELSTATE = #{pushmodelstate,jdbcType=DECIMAL},
+      </if>
+      <if test="scorestate != null" >
+        SCORESTATE = #{scorestate,jdbcType=DECIMAL},
+      </if>
+      <if test="shareholderstate != null" >
+        SHAREHOLDERSTATE = #{shareholderstate,jdbcType=DECIMAL},
+      </if>
+      <if test="uploadfilestate != null" >
+        UPLOADFILESTATE = #{uploadfilestate,jdbcType=DECIMAL},
+      </if>
+      <if test="entid != null" >
+        ENTID = #{entid,jdbcType=VARCHAR},
+      </if>
+      <if test="readstate != null" >
+        READSTATE = #{readstate,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.enterprise.ProcessState" >
+    update CREDITRATING.TE_PROCESS
+    set APPLYREPORTSTATE = #{applyreportstate,jdbcType=DECIMAL},
+      BASEINFOSTATE = #{baseinfostate,jdbcType=DECIMAL},
+      EXECUTIVESSTATE = #{executivesstate,jdbcType=DECIMAL},
+      FINANCESTATE = #{financestate,jdbcType=DECIMAL},
+      PUSHMODELSTATE = #{pushmodelstate,jdbcType=DECIMAL},
+      SCORESTATE = #{scorestate,jdbcType=DECIMAL},
+      SHAREHOLDERSTATE = #{shareholderstate,jdbcType=DECIMAL},
+      UPLOADFILESTATE = #{uploadfilestate,jdbcType=DECIMAL},
+      ENTID = #{entid,jdbcType=VARCHAR},
+      READSTATE = #{readstate,jdbcType=DECIMAL}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  
+    <select id="selectByEntBaseInfoKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TE_PROCESS
+    where entid = #{entBaseInfoUuid,jdbcType=VARCHAR}
+  </select>
+</mapper>

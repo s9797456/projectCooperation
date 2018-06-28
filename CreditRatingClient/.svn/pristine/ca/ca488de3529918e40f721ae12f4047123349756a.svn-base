@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.privilege.C_SystemPrivilegeMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.privilege.C_SystemPrivilege" >
+    <id column="MODEL" property="model" jdbcType="VARCHAR" />
+    <id column="PRIVILEGEVALUE" property="privilegevalue" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MODEL, PRIVILEGEVALUE, NAME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.credit.model.privilege.C_SystemPrivilegeKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from CTP_SYSTEMPRIVILEGE
+    where MODEL = #{model,jdbcType=VARCHAR}
+      and PRIVILEGEVALUE = #{privilegevalue,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.credit.model.privilege.C_SystemPrivilegeKey" >
+    delete from CTP_SYSTEMPRIVILEGE
+    where MODEL = #{model,jdbcType=VARCHAR}
+      and PRIVILEGEVALUE = #{privilegevalue,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.privilege.C_SystemPrivilege" >
+    insert into CTP_SYSTEMPRIVILEGE (MODEL, PRIVILEGEVALUE, NAME
+      )
+    values (#{model,jdbcType=VARCHAR}, #{privilegevalue,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.privilege.C_SystemPrivilege" >
+    insert into CTP_SYSTEMPRIVILEGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="model != null" >
+        MODEL,
+      </if>
+      <if test="privilegevalue != null" >
+        PRIVILEGEVALUE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="model != null" >
+        #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="privilegevalue != null" >
+        #{privilegevalue,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.privilege.C_SystemPrivilege" >
+    update CTP_SYSTEMPRIVILEGE
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where MODEL = #{model,jdbcType=VARCHAR}
+      and PRIVILEGEVALUE = #{privilegevalue,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.privilege.C_SystemPrivilege" >
+    update CTP_SYSTEMPRIVILEGE
+    set NAME = #{name,jdbcType=VARCHAR}
+    where MODEL = #{model,jdbcType=VARCHAR}
+      and PRIVILEGEVALUE = #{privilegevalue,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getCount"  resultType="java.lang.Integer">
+    select count(0)
+    from CTP_SYSTEMPRIVILEGE
+  </select>
+</mapper>

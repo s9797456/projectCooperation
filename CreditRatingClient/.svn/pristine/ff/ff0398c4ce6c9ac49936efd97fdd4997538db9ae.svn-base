@@ -1,0 +1,211 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/Page/Share/taglibs.jsp"%>
+<%@ include file="/WEB-INF/Page/Share/state.jsp"%>
+<%@ include file="/WEB-INF/Page/Share/title.jsp"%>
+<%@ include file="/WEB-INF/Page/Share/meta.jsp"%>
+<!DOCTYPE >
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<%-- bootstrap 框架 --%>
+<link rel="stylesheet" type="text/css"
+	href="<%=path%>/Resources/bootstrap/css/bootstrap.css">
+<%-- left 菜单  插件 的css--%>
+<link rel="stylesheet" type="text/css"
+	href="<%=path%>/Resources/ucenterPublic/Css/reset.css">
+<link rel="stylesheet" type="text/css"
+	href="<%=path%>/Resources/ucenterPublic/Css/ucenter.css">
+<%-- header left 的框架css --%>
+<link rel="stylesheet" type="text/css"
+	href="<%=path%>/Styles/Share/frame.css">
+<%-- 本页面的css --%>
+<link rel="stylesheet" type="text/css"
+	href="<%=path%>/Styles/enterprise/main.css">
+<script type="text/javascript">
+		var _ctxPath = "<%=request.getContextPath()%>";
+</script>
+<style type="text/css">
+	#info{
+		height: 65vh;
+	}
+</style>
+</head>
+
+<body style="background-color: #fff">
+	<%--header start--%>
+	<%@ include file="/WEB-INF/Page/Share/header.jsp"%>
+	<%--header end--%>
+	<div id="zhong">
+	<c:if test="${Crc_customer.type == 1 }">
+		<%--LeftMenu start--%>
+		<%@ include file="/WEB-INF/Page/Share/leftMenuOrg.jsp"%>
+		<%--LeftMenu end--%>
+	</c:if>
+	<c:if test="${Crc_customer.type == 0 }">
+		<%--LeftMenu start--%>
+		<%@ include file="/WEB-INF/Page/Share/leftMenu.jsp"%>
+		<%--LeftMenu end--%>
+	</c:if>
+	<c:if test="${Crc_customer.type == 2 }">
+		<%--LeftMenu start--%>
+		<%@ include file="/WEB-INF/Page/Share/leftMenuGov.jsp"%>
+		<%--LeftMenu end--%>
+	</c:if>
+		
+		<div id="right">
+			<!--右侧 内容部分-->
+				<div id = "info" >
+				<h3 style="margin-left: 10%;">用户信息</h3>
+				<br>
+				<!--右侧 内容 上面基础信息部分-->
+				<form method='post' >
+					<div>
+						<div class='password'>用户名</div>
+						<div class='updatePassword'>
+							<input type='text' name='username' readonly='readonly' value='${Crc_customer.username }' style="background-color:#;border: 0px none;margin-top: -4px;background-color:#fff;border: 0px none;margin-top: -4px;">
+						</div>
+					</div>
+					
+					<div>
+						<div class='password'>
+						<c:if test="${Crc_customer.type == 1 }">
+							机构
+						</c:if>
+						<c:if test="${Crc_customer.type != 1 }">
+							公司
+						</c:if>
+						</div>
+						<div class='updatePassword'>
+							<input type='text' readonly='readonly' value='${Crc_entName }'  style="background-color:#fff;border: 0px none;margin-top: -4px;">
+						</div>
+					</div>
+					<div>
+						<div class='password'>联系人</div>
+						<div class='updatePassword'>
+							<input type='text' name='realname' onblur="customerName(this)" value='${Crc_customer.realname }' placeholder = "请输入联系人姓名" ><span></span>
+						</div>
+					</div>
+					<div>
+						<div class='password'>联系电话</div>
+						<div class='updatePassword'>
+							<input type='text' name='cellphone' readonly='readonly' value='${Crc_customer.cellphone }' onblur="cellPhone(this)" placeholder = "请输入联系电话"><span></span>
+						</div>
+					</div>
+					<div>
+						<div class='password'>电子邮件</div>
+						<div class='updatePassword'>
+							<input type='text' name='email' value='${Crc_customer.email }' onblur="customerEmail(this)" placeholder = "请输入Email"><span></span>
+						</div>
+					</div>
+					<div>
+						<div class='password'>更新日期</div>
+						<div class='updatePassword'>
+							<input type='text' readonly='readonly' value='<fmt:formatDate value="${Crc_customer.updatetime }" pattern = "yyyy-MM-dd"/>'  style="background-color:#fff;border: 0px none;margin-top: -4px;">
+						</div>
+					</div>
+					<div>
+						<div class='password'>登录次数</div>
+						<div class='updatePassword'>
+							<input type='text'  readonly='readonly' value='${Crc_customer.logintimes }'  style="background-color:#fff;border: 0px none;margin-top: -4px;">
+						</div>
+					</div>
+					<div>
+						<div class='password'>上次登录日期</div>
+						<div class='updatePassword'>
+							<input type='text'  readonly='readonly' value='<fmt:formatDate value="${Crc_customer.lastlogintime }" pattern = "yyyy-MM-dd" />'  style="background-color:#fff;border: 0px none;margin-top: -4px;" >
+						</div>
+					</div>
+					<div>
+						<div class='password'>上次登录 IP</div>
+						<div class='updatePassword'>
+							<input type='text'  readonly='readonly' value='${Crc_customer.lastloginip}'  style="background-color:#fff;border: 0px none;margin-top: -4px;">
+						</div>
+					</div>
+				
+					<div>
+						<div class='password'>
+							
+						</div>
+						<div class='updatePassword'>
+							<button type="reset" class='btn btn-default'  data-dismiss='modal'>重置</button>
+							<button type="submit" class='btn btn-primary' onclick="modify()" >修改</button>
+						</div>
+					</div>
+				</form>
+				</div>
+				<!-- 账户信息 部分-->
+		</div>
+	</div>
+
+
+</body>
+<script src="<%=path%>/Resources/jquery/jquery-1.11.3.js" type="text/javascript" charset="utf-8"></script>
+<script src="<%=path%>/Resources/bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+<script src="<%=path %>/Resources/ucenterPublic/Js/ucenterPublic.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="<%=path %>/Script/menu/base.js" type="text/javascript" charset="utf-8"></script>
+<script src="<%=path %>/Script/menu/entBase.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var flag = true;
+		function modify(){
+			if(! flag){
+				popup("请先填写完成表单");
+				return ;
+			}
+			$.ajax({
+	            cache: true,
+	            type: "POST",
+	            data:$("#info").children("form").serialize(),
+	            url:_ctxPath+'/main/userInfo.do',
+	            async: false,
+	            error: function(request) {
+	                popup("网络错误，请重新登录    错误代码：400");
+	            },
+	            success: function(data) {
+	            	if(data.status == 0){
+	            		popup(data.msg);
+	            	}else if(data.status == -1){
+	            		window.location.href= _ctxPath+'/customer/logonUI.do';
+	            	}else{
+	            		popup("修改成功!");
+	            	}
+	            }
+	        });
+		}
+	 function cellPhone(obj){
+		 var obj = $(obj);
+		var c = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
+		if(c.test(obj.val()) ){
+			obj.next().html("<span  class='glyphicon glyphicon-ok-sign' style = 'color:#3EB63E'></span>");
+			flag =true;
+		}else{
+			obj.next().html("<p style = 'color:#E72B1D'>请正确输入电话号码</p>");
+			flag =false;
+		}
+	}
+	 function customerEmail(obj){
+		 var obj = $(obj);
+		var c = /^\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}$/;
+		if(c.test(obj.val())){
+			obj.next().html("<span  class='glyphicon glyphicon-ok-sign' style = 'color:#3EB63E'></span>");
+			flag =true;
+		}else{
+			obj.next().html("<p style = 'color:#E72B1D'>请输入正确的Email</p>");
+			flag =false;
+		}
+	}
+	 function customerName(obj){
+		 var obj = $(obj);
+		var c = /^[\u4e00-\u9fa5]+$/;
+		if(c.test(obj.val()) ){
+			obj.next().html("<span  class='glyphicon glyphicon-ok-sign' style = 'color:#3EB63E'></span>");
+			flag =true;
+		}else{
+			obj.next().html("<p style = 'color:#E72B1D'>请正确输入联系人姓名</p>");
+			flag =false;
+		}
+	}
+	</script>
+</html>

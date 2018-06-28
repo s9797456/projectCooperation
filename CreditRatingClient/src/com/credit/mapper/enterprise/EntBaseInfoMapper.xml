@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.enterprise.EntBaseInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.enterprise.EntBaseInfo" >
+    <id column="UUID" property="uuid" jdbcType="VARCHAR" />
+    <result column="USCC" property="uscc" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="AREACODE" property="areacode" jdbcType="VARCHAR" />
+    <result column="BRIEF" property="brief" jdbcType="VARCHAR" />
+    <result column="BUSINESSSCOPE" property="businessscope" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="CURRENCYTYPE" property="currencytype" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="ENAME" property="ename" jdbcType="VARCHAR" />
+    <result column="ENDDATE" property="enddate" jdbcType="TIMESTAMP" />
+    <result column="ENTTYPE" property="enttype" jdbcType="VARCHAR" />
+    <result column="FAX" property="fax" jdbcType="VARCHAR" />
+    <result column="INDUSTRY" property="industry" jdbcType="VARCHAR" />
+    <result column="INDUSTRYCODE" property="industrycode" jdbcType="VARCHAR" />
+    <result column="ISSUEDATE" property="issuedate" jdbcType="TIMESTAMP" />
+    <result column="LEGALPERSON" property="legalperson" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="REGICAPITAL" property="regicapital" jdbcType="VARCHAR" />
+    <result column="REGISORG" property="regisorg" jdbcType="VARCHAR" />
+    <result column="SCALE" property="scale" jdbcType="VARCHAR" />
+    <result column="SETUPDATE" property="setupdate" jdbcType="TIMESTAMP" />
+    <result column="STARTDATE" property="startdate" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="TEL" property="tel" jdbcType="VARCHAR" />
+    <result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="WEBSITE" property="website" jdbcType="VARCHAR" />
+    <result column="ZIPCODE" property="zipcode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UUID, USCC, ADDRESS, AREACODE, BRIEF, BUSINESSSCOPE, CREATETIME, CURRENCYTYPE, EMAIL, 
+    ENAME, ENDDATE, ENTTYPE, FAX, INDUSTRY, INDUSTRYCODE, ISSUEDATE, LEGALPERSON, NAME, 
+    REGICAPITAL, REGISORG, SCALE, SETUPDATE, STARTDATE, STATUS, TEL, UPDATETIME, WEBSITE, 
+    ZIPCODE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TE_ENTBASEINFO
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TE_ENTBASEINFO
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.enterprise.EntBaseInfo" >
+    insert into TE_ENTBASEINFO (UUID, USCC, ADDRESS, 
+      AREACODE, BRIEF, BUSINESSSCOPE, 
+      CREATETIME, CURRENCYTYPE, EMAIL, 
+      ENAME, ENDDATE, ENTTYPE, 
+      FAX, INDUSTRY, INDUSTRYCODE, 
+      ISSUEDATE, LEGALPERSON, NAME, 
+      REGICAPITAL, REGISORG, SCALE, 
+      SETUPDATE, STARTDATE, STATUS, 
+      TEL, UPDATETIME, WEBSITE, 
+      ZIPCODE)
+    values (#{uuid,jdbcType=VARCHAR}, #{uscc,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{areacode,jdbcType=VARCHAR}, #{brief,jdbcType=VARCHAR}, #{businessscope,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{currencytype,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{ename,jdbcType=VARCHAR}, #{enddate,jdbcType=TIMESTAMP}, #{enttype,jdbcType=VARCHAR}, 
+      #{fax,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR}, #{industrycode,jdbcType=VARCHAR}, 
+      #{issuedate,jdbcType=TIMESTAMP}, #{legalperson,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{regicapital,jdbcType=VARCHAR}, #{regisorg,jdbcType=VARCHAR}, #{scale,jdbcType=VARCHAR}, 
+      #{setupdate,jdbcType=TIMESTAMP}, #{startdate,jdbcType=TIMESTAMP}, #{status,jdbcType=DECIMAL}, 
+      #{tel,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{website,jdbcType=VARCHAR}, 
+      #{zipcode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.enterprise.EntBaseInfo" >
+    insert into TE_ENTBASEINFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        UUID,
+      </if>
+      <if test="uscc != null" >
+        USCC,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="areacode != null" >
+        AREACODE,
+      </if>
+      <if test="brief != null" >
+        BRIEF,
+      </if>
+      <if test="businessscope != null" >
+        BUSINESSSCOPE,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="currencytype != null" >
+        CURRENCYTYPE,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="ename != null" >
+        ENAME,
+      </if>
+      <if test="enddate != null" >
+        ENDDATE,
+      </if>
+      <if test="enttype != null" >
+        ENTTYPE,
+      </if>
+      <if test="fax != null" >
+        FAX,
+      </if>
+      <if test="industry != null" >
+        INDUSTRY,
+      </if>
+      <if test="industrycode != null" >
+        INDUSTRYCODE,
+      </if>
+      <if test="issuedate != null" >
+        ISSUEDATE,
+      </if>
+      <if test="legalperson != null" >
+        LEGALPERSON,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="regicapital != null" >
+        REGICAPITAL,
+      </if>
+      <if test="regisorg != null" >
+        REGISORG,
+      </if>
+      <if test="scale != null" >
+        SCALE,
+      </if>
+      <if test="setupdate != null" >
+        SETUPDATE,
+      </if>
+      <if test="startdate != null" >
+        STARTDATE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="tel != null" >
+        TEL,
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME,
+      </if>
+      <if test="website != null" >
+        WEBSITE,
+      </if>
+      <if test="zipcode != null" >
+        ZIPCODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="uscc != null" >
+        #{uscc,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="areacode != null" >
+        #{areacode,jdbcType=VARCHAR},
+      </if>
+      <if test="brief != null" >
+        #{brief,jdbcType=VARCHAR},
+      </if>
+      <if test="businessscope != null" >
+        #{businessscope,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="currencytype != null" >
+        #{currencytype,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="ename != null" >
+        #{ename,jdbcType=VARCHAR},
+      </if>
+      <if test="enddate != null" >
+        #{enddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enttype != null" >
+        #{enttype,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null" >
+        #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="industrycode != null" >
+        #{industrycode,jdbcType=VARCHAR},
+      </if>
+      <if test="issuedate != null" >
+        #{issuedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="legalperson != null" >
+        #{legalperson,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="regicapital != null" >
+        #{regicapital,jdbcType=VARCHAR},
+      </if>
+      <if test="regisorg != null" >
+        #{regisorg,jdbcType=VARCHAR},
+      </if>
+      <if test="scale != null" >
+        #{scale,jdbcType=VARCHAR},
+      </if>
+      <if test="setupdate != null" >
+        #{setupdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="website != null" >
+        #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="zipcode != null" >
+        #{zipcode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.enterprise.EntBaseInfo" >
+    update TE_ENTBASEINFO
+    <set >
+      <if test="uscc != null" >
+        USCC = #{uscc,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="areacode != null" >
+        AREACODE = #{areacode,jdbcType=VARCHAR},
+      </if>
+      <if test="brief != null" >
+        BRIEF = #{brief,jdbcType=VARCHAR},
+      </if>
+      <if test="businessscope != null" >
+        BUSINESSSCOPE = #{businessscope,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="currencytype != null" >
+        CURRENCYTYPE = #{currencytype,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="ename != null" >
+        ENAME = #{ename,jdbcType=VARCHAR},
+      </if>
+      <if test="enddate != null" >
+        ENDDATE = #{enddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enttype != null" >
+        ENTTYPE = #{enttype,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null" >
+        FAX = #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        INDUSTRY = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="industrycode != null" >
+        INDUSTRYCODE = #{industrycode,jdbcType=VARCHAR},
+      </if>
+      <if test="issuedate != null" >
+        ISSUEDATE = #{issuedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="legalperson != null" >
+        LEGALPERSON = #{legalperson,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="regicapital != null" >
+        REGICAPITAL = #{regicapital,jdbcType=VARCHAR},
+      </if>
+      <if test="regisorg != null" >
+        REGISORG = #{regisorg,jdbcType=VARCHAR},
+      </if>
+      <if test="scale != null" >
+        SCALE = #{scale,jdbcType=VARCHAR},
+      </if>
+      <if test="setupdate != null" >
+        SETUPDATE = #{setupdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startdate != null" >
+        STARTDATE = #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="tel != null" >
+        TEL = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="website != null" >
+        WEBSITE = #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="zipcode != null" >
+        ZIPCODE = #{zipcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.enterprise.EntBaseInfo" >
+    update TE_ENTBASEINFO
+    set USCC = #{uscc,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      AREACODE = #{areacode,jdbcType=VARCHAR},
+      BRIEF = #{brief,jdbcType=VARCHAR},
+      BUSINESSSCOPE = #{businessscope,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      CURRENCYTYPE = #{currencytype,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      ENAME = #{ename,jdbcType=VARCHAR},
+      ENDDATE = #{enddate,jdbcType=TIMESTAMP},
+      ENTTYPE = #{enttype,jdbcType=VARCHAR},
+      FAX = #{fax,jdbcType=VARCHAR},
+      INDUSTRY = #{industry,jdbcType=VARCHAR},
+      INDUSTRYCODE = #{industrycode,jdbcType=VARCHAR},
+      ISSUEDATE = #{issuedate,jdbcType=TIMESTAMP},
+      LEGALPERSON = #{legalperson,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      REGICAPITAL = #{regicapital,jdbcType=VARCHAR},
+      REGISORG = #{regisorg,jdbcType=VARCHAR},
+      SCALE = #{scale,jdbcType=VARCHAR},
+      SETUPDATE = #{setupdate,jdbcType=TIMESTAMP},
+      STARTDATE = #{startdate,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=DECIMAL},
+      TEL = #{tel,jdbcType=VARCHAR},
+      UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      WEBSITE = #{website,jdbcType=VARCHAR},
+      ZIPCODE = #{zipcode,jdbcType=VARCHAR}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  
+    <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TE_ENTBASEINFO
+    where NAME = #{name,jdbcType=VARCHAR}
+  </select>
+  
+      <select id="selectByUscc" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TE_ENTBASEINFO
+    where USCC = #{uscc,jdbcType=VARCHAR}
+  </select>
+</mapper>

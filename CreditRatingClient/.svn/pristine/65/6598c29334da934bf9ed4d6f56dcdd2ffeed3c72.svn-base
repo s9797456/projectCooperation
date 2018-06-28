@@ -1,0 +1,46 @@
+<%@ page language="java" pageEncoding="UTF-8"%>
+				 <nav>
+				    <ul class="ucenterNav" id="list">
+				        <li class="navIndex">
+				                <a href="<%=path %>/customer/jumpToMain.do"><i class="iconfont"></i>我的主页</a>
+				        </li>
+				        <li >
+				                <a onclick="readProtocols('${processState.readstate}','${corp_name }')" ><i class="iconfont"></i>阅读协议</a>
+				        </li>
+				        <li >
+				                <a href="<%=path%>/initEnterprise/jumpIntoEnterprise.do"><i class="iconfont"></i>录入信息</a>
+				        </li>
+				        <li >
+				                <a  onclick="rejectedItem()" ><i class="iconfont"></i>被驳回项 </a>
+				        </li>
+				        <li >
+				         	<a href="<%=path%>/main/viewPreliminary.do"><i class="iconfont"></i>查看评分</a>
+				        </li>
+				        <li >
+				                <a href="javascript:downloadReport()"><i class="iconfont"></i>下载报告</a>
+				        </li>
+				        <li >
+				                <a href="javascript:historical('${historical }')"><i class="iconfont"></i>历史记录</a>
+				            <!--<a href="<%=path%>/client/member/manage/myHomepage.do"><i class="iconfont"></i>我的主页</a>
+				                <a href="<%=path%>/client/member/manage/myData.do"><i class="iconfont"></i>我的数据</a>
+				                <a href="https://www.juhe.cn/MyActivity"><i class="iconfont"></i>我的活动</a>
+				                <a href="https://www.juhe.cn/myCollection"><i class="iconfont"></i>我的收藏</a>
+				                <a href="https://www.juhe.cn/ipConfig"><i class="iconfont"></i>IP白名单</a>
+				                <a href="https://www.juhe.cn/money"><i class="iconfont"></i>我的余额</a>
+				                <a href="https://www.juhe.cn/payLogs"><i class="iconfont"></i>我的充值记录</a>
+				                <a href="https://www.juhe.cn/purchaseLogs"><i class="iconfont"></i>我的消费记录</a>
+				                <a href="https://www.juhe.cn/workOrder"><i class="iconfont"></i>我的工单</a>-->
+				        </li>
+				        
+                
+				        <li class="navInfoLi">
+				            <a id="ucenterSubA"><i class="iconfont"></i>用户中心<i class="centerIcon subDown"></i></a>
+				            <ul class="ucenterSub">
+				                <li ><a href="<%=path %>/main/userInfoUI.do"><i class="iconfont"></i>账户信息</a></li>
+				                <li ><a href="javascript:updatePassword('${Crc_customer.realname }','${Crc_customer.cellphone }')"><i class="iconfont"></i>密码修改</a></li>
+				                <li ><a href="javascript:logout()"><i class="iconfont"></i>退出登录</a></li>
+				                <li>&nbsp;</li>
+				            </ul>
+				        </li>
+				    </ul>
+				</nav>

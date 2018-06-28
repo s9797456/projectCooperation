@@ -1,0 +1,148 @@
+.ui-radio { 
+	vertical-align: middle;
+	margin-left:10px;
+	margin-top:10px;
+	}
+.ui-radio input[type=radio] { 
+	display: none;
+	}
+.ui-radio label[for] { 
+	cursor: pointer; margin-top: 5px;
+	margin-left:10px;
+	}
+.ui-radio input[type=radio]:checked+.radio-label .radio:before {
+    content: " ";
+    position: absolute;
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    top: 3px;
+    left: 3px;
+    border-radius: 50%;
+    margin-left:10px;
+}
+.ui-radio .radio-label .radio {
+	margin-left:10px;
+    position: relative;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #e3e3e3;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+.ui-radio input[type=radio]:checked+.radio-label .radio {
+    border-color: #ff6a0e;
+    background-color: #ff6a0e;
+}
+
+.form-item{margin-left: 50px;}
+.dream-label { 
+	margin-bottom: 10px;
+	font-size:16px;
+	font-weight: 100;
+}
+.dream-label .dream-controls{ 
+	margin-bottom: 10px;
+	font-size:13px;
+	font-weight: normal ;
+}
+.tip{
+	margin-top:10px;
+	color:#ff6a0e;
+	font-size:16px;
+	font-style: italic;
+}
+.box ul li{
+    width:140px;
+    height:140px;
+    list-style:none;
+    position:relative;
+    float:left;
+    margin-left:20px;
+    margin-bottom:20px;
+    overflow:hidden;
+}
+.box h4{
+	text-align: center;
+	margin-top:10px;
+	margin-bottom:20px;
+}
+.box ul li .deatil{
+    width:140px;
+    height:140px;
+    background:rgba(0,0,0,0.7);
+    position:absolute;
+    top:-140px;
+    -webkit-transition:all 0.3s ease;
+    -o-transition:all 0.3s ease;
+    -moz-transition:all 0.3s ease;
+    -ms-transition:all 0.3s ease;
+}
+
+.box ul li .deatil h2{
+    font-size:18px;
+    color:#fff;
+    text-align:center;
+    padding-top:10px;
+    }
+.box ul li .deatil p{
+    font-size:16px;
+    text-align:center;
+    margin:10px;
+    color:#fff;
+}
+.box ul li .deatil a{
+    font-size:15px;
+    display:block;
+    color:#fff;
+    background-color:#F00;
+    text-decoration:none;
+    width:100px;
+    height:40px;
+    text-align:center;
+    line-height:40px;
+    margin:0 auto;
+}
+.box ul li:hover .deatil{
+    top:0;
+}
+.finance{
+	padding: 30px 0;
+}
+.finance0{
+	display: block;
+    margin: 0 auto;
+    width: 470px;
+    border: 1px dotted #e5e5e5;
+    background: #fafafa;
+    padding: 20px 0;
+}
+.finance1{
+	display: inline-block;
+    width: 100%;
+    text-align: center;
+    height: 22px;
+    line-height: 22px;
+    color: #00a0e9;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+.finance2{
+	display: inline-block;
+    width: 100%;
+    text-align: center;
+    height: 18px;
+    line-height: 18px;
+    color: #999;
+    font-size: 16px;
+}
+#picker {
+	height: auto;
+}
+
+.webuploader-pick {
+	background-color: #FAFAFA;
+	color: #00a0e9;
+}

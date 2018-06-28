@@ -1,0 +1,510 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<InitDatas>
+  <Permissions>
+	<!-- UserManageAction、UserAction -->
+	<Permission name="管理员新增" model="user" privilegeValue="insert"/>
+	<Permission name="管理员编辑" model="user" privilegeValue="update"/>
+	<Permission name="管理员机构设置" model="user" privilegeValue="setOrg"/>
+	<Permission name="管理员密码修改" model="user" privilegeValue="updatePassword"/>
+	<Permission name="管理员删除用户" model="user" privilegeValue="delete"/>
+	<Permission name="管理员导出Excel" model="user" privilegeValue="exportExcel"/>
+	<Permission name="管理员分配角色" model="user" privilegeValue="setRole"/>
+	<Permission name="管理员状态设置" model="user" privilegeValue="setVisible"/>
+	<Permission name="管理员分配权限" model="user" privilegeValue="setPrivilege"/>
+	<Permission name="管理员高级查询" model="user" privilegeValue="advancedSearch"/>
+	<Permission name="管理员用户列表" model="user" privilegeValue="list"/>
+	<!-- Log4jAction、Log4jManageAction -->
+	<Permission name="日志列表" model="log4j" privilegeValue="list"/>
+	<Permission name="日志删除" model="log4j" privilegeValue="delete"/>
+	<Permission name="日志高级查询" model="log4j" privilegeValue="advancedSearch"/>
+	
+	<!-- MenuAction、MenuManageAction -->
+	<Permission name="菜单列表" model="menu" privilegeValue="list"/>
+	<Permission name="菜单预览" model="menu" privilegeValue="view"/>
+	<Permission name="菜单新增" model="menu" privilegeValue="insert"/>
+	<Permission name="菜单编辑" model="menu" privilegeValue="update"/>
+	<Permission name="菜单删除" model="menu" privilegeValue="delete"/>
+	<Permission name="菜单状态设置" model="menu" privilegeValue="setVisible"/>
+	<Permission name="菜单赋权" model="menu" privilegeValue="setPrivilege"/>
+	<Permission name="菜单分配地址" model="menu" privilegeValue="setUrl"/>
+
+	<!-- OrganizationAction、OrganizationManageAction -->
+	<Permission name="机构列表" model="organization" privilegeValue="list"/>
+	<Permission name="机构预览" model="organization" privilegeValue="view"/>
+	<Permission name="查看机构包含的用户" model="organization" privilegeValue="viewUser"/>
+	<Permission name="查看机构所属的角色" model="organization" privilegeValue="viewRole"/>
+	<Permission name="机构新增" model="organization" privilegeValue="insert"/>
+	<Permission name="机构编辑" model="organization" privilegeValue="update"/>
+	<Permission name="机构删除" model="organization" privilegeValue="delete"/>
+	<Permission name="机构状态设置" model="organization" privilegeValue="setVisible"/>
+	<Permission name="机构分配角色" model="organization" privilegeValue="setRole"/>
+	<Permission name="机构分配权限" model="organization" privilegeValue="setPrivilege"/>
+	<Permission name="查看机构权限" model="organization" privilegeValue="viewPrivilege"/>
+
+	<!-- PrivilegeGroupAction、PrivilegeGroupManageAction -->
+	<Permission name="角色列表" model="privilegeGroup" privilegeValue="list"/>
+	<Permission name="角色预览" model="privilegeGroup" privilegeValue="view"/>	
+	<Permission name="查看角色包含的用户" model="privilegeGroup" privilegeValue="viewUser"/>	
+	<Permission name="角色新增" model="privilegeGroup" privilegeValue="insert"/>	
+	<Permission name="角色编辑" model="privilegeGroup" privilegeValue="update"/>	
+	<Permission name="角色删除" model="privilegeGroup" privilegeValue="delete"/>	
+	<Permission name="角色分配权限" model="privilegeGroup" privilegeValue="setPrivilege"/>	
+	<Permission name="查看角色权限" model="privilegeGroup" privilegeValue="viewPrivilege"/>	
+
+<!-- ==============================以上系统权限核心============================ -->
+
+	<!-- UploadFileAction -->
+	<Permission name="上传图片" model="uploadfile" privilegeValue="image"/>
+
+<!-- =================================以上参考代码，一般不动================================= -->
+
+	<!-- ModelAction、ModelManageAction 模型模块-->
+	<Permission name="模型列表" model="model" privilegeValue="list"/>
+	<Permission name="模型查看" model="model" privilegeValue="view"/>
+	<Permission name="模型指标解除关系" model="model" privilegeValue="deleteIndex"/>
+	<Permission name="模型指标列表" model="model" privilegeValue="listIndex"/>
+	<Permission name="模型设置配置" model="model" privilegeValue="setIndex"/>
+	<Permission name="模型新增" model="model" privilegeValue="insert"/>
+	<Permission name="模型编辑" model="model" privilegeValue="update"/>
+	<Permission name="模型删除" model="model" privilegeValue="delete"/>
+	<Permission name="模型状态设置" model="model" privilegeValue="setVisible"/>
+
+	<!-- IndexAction、IndexManageAction 指标模块-->
+	<Permission name="指标列表" model="index" privilegeValue="list"/>
+	<Permission name="指标新增" model="index" privilegeValue="insert"/>
+	<Permission name="指标编辑" model="index" privilegeValue="update"/>
+	<Permission name="指标删除" model="index" privilegeValue="delete"/>
+	<Permission name="指标状态设置" model="index" privilegeValue="setVisible"/>
+	<Permission name="设置英文名" model="index" privilegeValue="setEname"/>
+	<Permission name="设置公式" model="index" privilegeValue="setFormula"/>
+	<Permission name="指标取档计分" model="index" privilegeValue="listOption"/>
+	<Permission name="指标取档计分新增" model="index" privilegeValue="insertOption"/>
+	<Permission name="指标取档计分编辑" model="index" privilegeValue="updateOption"/>
+	<Permission name="指标取挡计分删除" model="index" privilegeValue="deleteOption"/>	
+
+	<!-- ReportTemplateAction、ReportTemplateManageAction 报告模版模块-->
+	<Permission name="报告模版列表" model="reportTemplate" privilegeValue="list"/>
+	<Permission name="报告模版新增" model="reportTemplate" privilegeValue="insert"/>
+	<Permission name="报告模版编辑" model="reportTemplate" privilegeValue="update"/>
+	<Permission name="报告模版删除" model="reportTemplate" privilegeValue="delete"/>
+	<Permission name="报告模版状态设置" model="reportTemplate" privilegeValue="setVisible"/>
+	
+	<!-- ReportTemplateCategoryAction、ReportTemplateCategoryManageAction 报告模版分类模块-->
+	<Permission name="报告模版分类列表" model="reportTemplateCategory" privilegeValue="list"/>
+	<Permission name="报告模版分类新增" model="reportTemplateCategory" privilegeValue="insert"/>
+	<Permission name="报告模版分类编辑" model="reportTemplateCategory" privilegeValue="update"/>
+	<Permission name="报告模版分类批量删除" model="reportTemplateCategory" privilegeValue="batchDelete"/>
+	<Permission name="报告模版分类删除" model="reportTemplateCategory" privilegeValue="delete"/>
+	<Permission name="报告模版分类状态设置" model="reportTemplateCategory" privilegeValue="setVisible"/>
+	<Permission name="查看所有的模板" model="reportTemplateCategory" privilegeValue="findAll"/>
+	<!-- ScoreManageAction 评分调整项模块-->
+	<Permission name="调整分数列表" model="scoreAdj" privilegeValue="list"/>
+	<Permission name="调整分数保存" model="scoreAdj" privilegeValue="updateOrAdd"/>
+	<Permission name="调整分数删除" model="scoreAdj" privilegeValue="delete"/>
+
+<!-- ========================以上业务逻辑核心参数模块======================== -->
+
+	<!-- ImproveEnterprise_InfoAction、MainPersonInfoManageAction、ShareholderInfoManageAction、ReportTemplateDataManageAction、DealContentManageAction 企业评分模块其他关联表信息-->
+	<!-- <Permission name="企业完善信息" model="enterpriseImprove" privilegeValue="insert"/> -->
+	<Permission name="企业展示完善信息" model="enterprise" privilegeValue="infoView"/>
+	<Permission name="企业用户展示完善信息" model="enterprise" privilegeValue="usreAddEnterpriseInfoUI"/>
+	<Permission name="企业修改完善信息" model="enterprise" privilegeValue="updateOrAdd"/>
+	
+	<Permission name="主要成员信息列表" model="enterpriseMPI" privilegeValue="list"/>
+	<Permission name="用户查看主要成员信息列表" model="enterpriseMPI" privilegeValue="userMainPersonInfoList"/>
+	<Permission name="主要成员信息保存" model="enterpriseMPI" privilegeValue="updateOrAdd"/>
+	<Permission name="主要成员信息删除" model="enterpriseMPI" privilegeValue="delete"/>
+	
+
+	<Permission name="股东信息列表" model="enterpriseSI" privilegeValue="list"/>
+	<Permission name="用户查看股东信息列表" model="enterpriseSI" privilegeValue="userShareholderInfoList"/>
+	<Permission name="股东信息保存" model="enterpriseSI" privilegeValue="updateOrAdd"/>
+	<Permission name="股东信息删除" model="enterpriseSI" privilegeValue="delete"/>
+
+	<Permission name="下载报告" model="enterpriseRTD" privilegeValue="download"/>
+	<Permission name="用户下载报告" model="enterpriseRTD" privilegeValue="userDownLoadDoc"/>
+	<Permission name="用户查看初评分数" model="enterpriseRTD" privilegeValue="viewScore"/>
+	<Permission name="用户查看初评报告" model="enterpriseRTD" privilegeValue="viewScoreReport"/>
+	<Permission name="判断文件是否存在" model="enterpriseRTD" privilegeValue="judgeFileExist"/>
+	<Permission name="用户反馈信息" model="enterpriseFB" privilegeValue="updateOrAdd"/>
+
+	<Permission name="管理员确认信息" model="enterpriseDC" privilegeValue="updateOrAdd"/>
+	<Permission name="确认信息的具体内容，展示给用户和管理员" model="enterpriseDC" privilegeValue="show"/>
+	
+	<!-- Enterprise_InfoAction、Enterprise_InfoManageAction 企业评分模块-->
+	<Permission name="企业管理列表" model="enterprise" privilegeValue="list"/>
+	<Permission name="企业新增" model="enterprise" privilegeValue="insert"/>
+	<Permission name="企业编辑" model="enterprise" privilegeValue="update"/>
+	<Permission name="企业删除" model="enterprise" privilegeValue="delelte"/>
+	<Permission name="企业状态设置" model="enterprise" privilegeValue="setVisible"/>
+	<Permission name="企业评分预览" model="enterprise" privilegeValue="view"/>
+	<Permission name="企业上传文件" model="enterprise" privilegeValue="addfile"/>
+	<Permission name="确认调查，评分状态" model="enterprise" privilegeValue="confirmStatus"/>
+	<Permission name="调查页面" model="enterprise" privilegeValue="scoreUIList"/>
+	<Permission name="调查页面保存" model="enterprise" privilegeValue="investigateUpdate"/>
+	<Permission name="评分页面" model="enterprise" privilegeValue="manageScoreView"/>
+	<Permission name="保存评分" model="enterprise" privilegeValue="saveOrUpdateScore"/>
+	<Permission name="管理评分报告页面" model="enterprise" privilegeValue="ManagescoreReportView"/>
+	<Permission name="管理评分报告调整说明页面" model="enterprise" privilegeValue="editAdjustReason"/>
+	<Permission name="管理评分报告调整说明保存" model="enterprise" privilegeValue="editScoreReportReason"/>
+	<Permission name="管理评分报告其他调整说明页面" model="enterprise" privilegeValue="otherAdjustReason"/>
+	<Permission name="管理评分报告其他调整说明保存" model="enterprise" privilegeValue="editAdvantageReason"/>
+	<!-- ===========================以上为主要业务逻辑模块============================= -->
+
+
+  </Permissions>
+  
+
+
+
+
+  
+  <Menus>
+  
+   <Menu name="企业管理" orderNO="1" target="" rel="" url="" imgUrl="/UploadFiles/Images/Icons/Menus/6fecc4a5-b0b5-4a62-a968-eace71101eb9.png">
+   		<Menu name="完善信息" orderNO="1" target="addEnInfo" rel="enterprise.EnterpriseMsg" url="" imgUrl="/UploadFiles/Images/Icons/Menus/fe6ac197-c7a7-4599-8964-40c6d5cfd397.png">
+			<Permission name="企业用户展示完善信息" model="enterprise" privilegeValue="usreAddEnterpriseInfoUI"/>
+			<Permission name="企业修改完善信息" model="enterprise" privilegeValue="updateOrAdd"/>
+
+			<Permission name="用户查看主要成员信息列表" model="enterpriseMPI" privilegeValue="userMainPersonInfoList"/>
+			<Permission name="主要成员信息保存" model="enterpriseMPI" privilegeValue="updateOrAdd"/>
+			<Permission name="主要成员信息删除" model="enterpriseMPI" privilegeValue="delete"/>
+
+			<Permission name="用户查看股东信息列表" model="enterpriseSI" privilegeValue="userShareholderInfoList"/>
+			<Permission name="股东信息保存" model="enterpriseSI" privilegeValue="updateOrAdd"/>
+			<Permission name="股东信息删除" model="enterpriseSI" privilegeValue="delete"/>
+			
+			<Permission name="用户下载报告" model="enterpriseRTD" privilegeValue="userDownLoadDoc"/>
+			<Permission name="用户查看初评分数" model="enterpriseRTD" privilegeValue="viewScore"/>
+			<Permission name="用户查看初评报告" model="enterpriseRTD" privilegeValue="viewScoreReport"/>
+			<Permission name="判断文件是否存在" model="enterpriseRTD" privilegeValue="judgeFileExist"/>
+			<Permission name="用户反馈信息" model="enterpriseFB" privilegeValue="updateOrAdd"/>
+			<Permission name="确认信息的具体内容，展示给用户和管理员" model="enterpriseDC" privilegeValue="show"/>
+			
+			
+			
+   		</Menu>
+   		<Menu name="基本信息" orderNO="2" target="userInfo" rel="user.UserBaseInfoManage" url="" imgUrl="/UploadFiles/Images/Icons/Menus/4f0d1fb2-9022-4488-991d-d0cb81b7e0a7.png">
+   		
+   		
+   		
+   		</Menu>
+   </Menu>
+   
+   <Menu name="信用评分" orderNO="2" target="" rel="" url="" imgUrl="/UploadFiles/Images/Icons/Menus/d9f667b0-a00d-4c6f-b270-44fc85c67ec1.png">
+   		<Menu name="企业评分" orderNO="1" target="enterpriseMgrView" rel="enterprise.EnterpriseScoreManage" url="/control/score/enterprise_info/list_UI.do" imgUrl="/UploadFiles/Images/Icons/Menus/c0c48b1b-1c80-442d-afcc-daae5d4b4cb9.png">
+			<Permission name="企业管理列表" model="enterprise" privilegeValue="list"/>
+			<Permission name="企业新增" model="enterprise" privilegeValue="insert"/>
+			<Permission name="企业编辑" model="enterprise" privilegeValue="update"/>
+			<Permission name="企业删除" model="enterprise" privilegeValue="delelte"/>
+			<Permission name="企业状态设置" model="enterprise" privilegeValue="setVisible"/>
+			<Permission name="企业评分预览" model="enterprise" privilegeValue="view"/>
+			<Permission name="企业上传文件" model="enterprise" privilegeValue="addfile"/>
+			<!-- 确认信息 -->
+			<Permission name="企业展示完善信息" model="enterprise" privilegeValue="infoView"/>
+			<Permission name="股东信息列表" model="enterpriseSI" privilegeValue="list"/>
+			<Permission name="主要成员信息列表" model="enterpriseMPI" privilegeValue="list"/>
+			<Permission name="管理员确认信息" model="enterpriseDC" privilegeValue="updateOrAdd"/>
+			<Permission name="确认调查，评分状态" model="enterprise" privilegeValue="confirmStatus"/>
+			<!--调查和编辑调查  -->
+			<Permission name="调查页面" model="enterprise" privilegeValue="scoreUIList"/>
+			<Permission name="调查页面保存" model="enterprise" privilegeValue="investigateUpdate"/>
+			<!--评分  -->
+			<Permission name="评分页面" model="enterprise" privilegeValue="manageScoreView"/>
+			<Permission name="保存评分" model="enterprise" privilegeValue="saveOrUpdateScore"/>
+			<!--管理评分报告  -->
+			<Permission name="管理评分报告页面" model="enterprise" privilegeValue="ManagescoreReportView"/>
+			<Permission name="管理评分报告调整说明页面" model="enterprise" privilegeValue="editAdjustReason"/>
+			<Permission name="管理评分报告调整说明保存" model="enterprise" privilegeValue="editScoreReportReason"/>
+			<Permission name="管理评分报告其他调整说明页面" model="enterprise" privilegeValue="otherAdjustReason"/>
+			<Permission name="管理评分报告其他调整说明保存" model="enterprise" privilegeValue="editAdvantageReason"/>
+			<Permission name="查看所有的模板" model="reportTemplateCategory" privilegeValue="findAll"/>
+			<Permission name="下载报告" model="enterpriseRTD" privilegeValue="download"/>
+   		</Menu>
+   </Menu>
+   
+    <Menu name="系统管理" orderNO="5" target="" rel="" url="" imgUrl="/UploadFiles/Images/Icons/Menus/c211ab4b-92bc-407b-9814-e5246a5257dc.png">
+      <Menu name="用户授权" orderNO="1" target="" rel="" url="" imgUrl="/UploadFiles/Images/Icons/Menus/3f435746-bfad-4904-be88-8aacbf7f1fdd.png">
+        <Menu name="用户管理" orderNO="1" target="userManage" rel="user.UserManageController" url="/control/user/list_UI.do" imgUrl="/UploadFiles/Images/Icons/Menus/db0525d0-f4b8-424d-820a-1fe20300b465.png">
+			<Permission name="管理员新增" model="user" privilegeValue="insert"/>
+			<Permission name="管理员编辑" model="user" privilegeValue="update"/>
+			<Permission name="管理员机构设置" model="user" privilegeValue="setOrg"/>
+			<Permission name="管理员密码修改" model="user" privilegeValue="updatePassword"/>
+			<Permission name="管理员删除用户" model="user" privilegeValue="delete"/>
+			<Permission name="管理员导出Excel" model="user" privilegeValue="exportExcel"/>
+			<Permission name="管理员分配角色" model="user" privilegeValue="setRole"/>
+			<Permission name="管理员状态设置" model="user" privilegeValue="setVisible"/>
+			<Permission name="管理员分配权限" model="user" privilegeValue="setPrivilege"/>
+			<Permission name="管理员高级查询" model="user" privilegeValue="advancedSearch"/>
+			<Permission name="管理员用户列表" model="user" privilegeValue="list"/>
+        </Menu>
+        <Menu name="角色管理" orderNO="2" target="userMgrInfo" rel="privilegegroup.UserMgr" url="/control/privilegegroup/list_UI.do" imgUrl="/UploadFiles/Images/Icons/Menus/179298e0-c142-4b6f-a61b-be1bebd1cd12.png">
+			<Permission name="角色列表" model="privilegeGroup" privilegeValue="list"/>
+			<Permission name="角色预览" model="privilegeGroup" privilegeValue="view"/>	
+			<Permission name="查看角色包含的用户" model="privilegeGroup" privilegeValue="viewUser"/>	
+			<Permission name="角色新增" model="privilegeGroup" privilegeValue="insert"/>	
+			<Permission name="角色编辑" model="privilegeGroup" privilegeValue="update"/>	
+			<Permission name="角色删除" model="privilegeGroup" privilegeValue="delete"/>	
+			<Permission name="角色分配权限" model="privilegeGroup" privilegeValue="setPrivilege"/>	
+			<Permission name="查看角色权限" model="privilegeGroup" privilegeValue="viewPrivilege"/>	
+        </Menu>
+        <Menu name="机构管理" orderNO="3" target="organizationMgrInfo" rel="organization.organizationMgr" url="/control/organization/list_UI.do" imgUrl="/UploadFiles/Images/Icons/Menus/88c0ea4b-ec04-49c3-ae72-e8d08dda668c.png">
+			<Permission name="机构列表" model="organization" privilegeValue="list"/>
+			<Permission name="机构预览" model="organization" privilegeValue="view"/>
+			<Permission name="查看机构包含的用户" model="organization" privilegeValue="viewUser"/>
+			<Permission name="查看机构所属的角色" model="organization" privilegeValue="viewRole"/>
+			<Permission name="机构新增" model="organization" privilegeValue="insert"/>
+			<Permission name="机构编辑" model="organization" privilegeValue="update"/>
+			<Permission name="机构删除" model="organization" privilegeValue="delete"/>
+			<Permission name="机构状态设置" model="organization" privilegeValue="setVisible"/>
+			<Permission name="机构分配角色" model="organization" privilegeValue="setRole"/>
+			<Permission name="机构分配权限" model="organization" privilegeValue="setPrivilege"/>
+			<Permission name="查看机构权限" model="organization" privilegeValue="viewPrivilege"/>
+        </Menu>
+        <Menu name="菜单管理" orderNO="4" target="menuManageView" rel="menu.MenuManageController" url="/control/menu/list_UI.do" imgUrl="/UploadFiles/Images/Icons/Menus/8eb44f88-fa29-43fa-9416-c754cf8173d7.png">
+			<Permission name="菜单列表" model="menu" privilegeValue="list"/>
+			<Permission name="菜单预览" model="menu" privilegeValue="view"/>
+			<Permission name="菜单新增" model="menu" privilegeValue="insert"/>
+			<Permission name="菜单编辑" model="menu" privilegeValue="update"/>
+			<Permission name="菜单删除" model="menu" privilegeValue="delete"/>
+			<Permission name="菜单状态设置" model="menu" privilegeValue="setVisible"/>
+			<Permission name="菜单赋权" model="menu" privilegeValue="setPrivilege"/>
+			<Permission name="菜单分配地址" model="menu" privilegeValue="setUrl"/>
+        </Menu>
+      </Menu>
+      <Menu name="系统功能" orderNO="2" target="" rel="" url="" imgUrl="/UploadFiles/Images/Icons/Menus/bfbcdca7-9477-4a48-be1a-6853e39a278b.png">
+      	<Menu name="参数管理" orderNO="1" target="" rel="" url="" imgUrl="/UploadFiles/Images/Icons/Menus/39d845ed-4eaa-4243-a387-24ca219b037a.png">
+      		<Menu name="模型管理" orderNO="1" target="modelManageView" rel="model.ModelManageController" url="/control/score/model/list_UI.do" imgUrl="/UploadFiles/Images/Icons/Menus/47dd3112-ffbf-4755-bcaa-8679cb1f161a.png">
+				<Permission name="模型列表" model="model" privilegeValue="list"/>
+				<Permission name="模型查看" model="model" privilegeValue="view"/>
+				<Permission name="模型指标解除关系" model="model" privilegeValue="deleteIndex"/>
+				<Permission name="模型指标列表" model="model" privilegeValue="listIndex"/>
+				<Permission name="模型设置配置" model="model" privilegeValue="setIndex"/>
+				<Permission name="模型新增" model="model" privilegeValue="insert"/>
+				<Permission name="模型编辑" model="model" privilegeValue="update"/>
+				<Permission name="模型删除" model="model" privilegeValue="delete"/>
+				<Permission name="模型状态设置" model="model" privilegeValue="setVisible"/>
+      		</Menu>
+      		<Menu name="指标管理" orderNO="2" target="indexManageView" rel="index.IndexManageController" url="/control/score/index/list_UI.do" imgUrl="/UploadFiles/Images/Icons/Menus/2dff86aa-6cb9-47d6-b46a-828c30a7d314.png">
+				<Permission name="指标列表" model="index" privilegeValue="list"/>
+				<Permission name="指标新增" model="index" privilegeValue="insert"/>
+				<Permission name="指标编辑" model="index" privilegeValue="update"/>
+				<Permission name="指标删除" model="index" privilegeValue="delete"/>
+				<Permission name="指标状态设置" model="index" privilegeValue="setVisible"/>
+				<Permission name="设置英文名" model="index" privilegeValue="setEname"/>
+				<Permission name="设置公式" model="index" privilegeValue="setFormula"/>
+				<Permission name="指标取档计分" model="index" privilegeValue="listOption"/>
+				<Permission name="指标取档计分新增" model="index" privilegeValue="insertOption"/>
+				<Permission name="指标取档计分编辑" model="index" privilegeValue="updateOption"/>
+				<Permission name="指标取挡计分删除" model="index" privilegeValue="deleteOption"/>	
+      		</Menu>
+      		<Menu name="调整分数管理" orderNO="3" target="scoreManagerView" rel="content.ScoreManagerController" url="/control/score/scoreAdj/list_UI.do" imgUrl="/UploadFiles/Images/Icons/Menus/e4a41af8-730a-425b-ab80-32da1136a863.png">
+				<Permission name="调整分数列表" model="scoreAdj" privilegeValue="list"/>
+				<Permission name="调整分数保存" model="scoreAdj" privilegeValue="updateOrAdd"/>
+				<Permission name="调整分数删除" model="scoreAdj" privilegeValue="delete"/>
+      		</Menu>
+      		<Menu name="模版管理" orderNO="4" target="reportTemplateView" rel="reporttemplate.ReportTemplateController" url="/control/score/reporttemplate/list_UI.do" imgUrl="/UploadFiles/Images/Icons/Menus/ac2524e2-20b6-448f-8048-e465069ae02f.png">
+				<Permission name="报告模版列表" model="reportTemplate" privilegeValue="list"/>
+				<Permission name="报告模版新增" model="reportTemplate" privilegeValue="insert"/>
+				<Permission name="报告模版编辑" model="reportTemplate" privilegeValue="update"/>
+				<Permission name="报告模版删除" model="reportTemplate" privilegeValue="delete"/>
+				<Permission name="报告模版状态设置" model="reportTemplate" privilegeValue="setVisible"/>
+      		</Menu>    		
+      	</Menu>
+        <Menu name="系统日志" orderNO="2" target="logInfoList" rel="log4j.SysLog" url="/control/log4j/list_UI.do" imgUrl="/UploadFiles/Images/Icons/Menus/b346fc19-260f-4757-8fbb-740195c4c10f.png">
+			<Permission name="日志列表" model="log4j" privilegeValue="list"/>
+			<Permission name="日志删除" model="log4j" privilegeValue="delete"/>
+			<Permission name="日志高级查询" model="log4j" privilegeValue="advancedSearch"/>
+        </Menu>
+      </Menu>
+    </Menu>
+    
+  </Menus>
+
+
+
+
+
+
+
+
+  
+  <Roles>
+    <Role name="系统管理员">
+	<!-- UserManageAction、UserAction -->
+	<Permission name="管理员新增" model="user" privilegeValue="insert"/>
+	<Permission name="管理员编辑" model="user" privilegeValue="update"/>
+	<Permission name="管理员机构设置" model="user" privilegeValue="setOrg"/>
+	<Permission name="管理员密码修改" model="user" privilegeValue="updatePassword"/>
+	<Permission name="管理员删除用户" model="user" privilegeValue="delete"/>
+	<Permission name="管理员导出Excel" model="user" privilegeValue="exportExcel"/>
+	<Permission name="管理员分配角色" model="user" privilegeValue="setRole"/>
+	<Permission name="管理员状态设置" model="user" privilegeValue="setVisible"/>
+	<Permission name="管理员分配权限" model="user" privilegeValue="setPrivilege"/>
+	<Permission name="管理员高级查询" model="user" privilegeValue="advancedSearch"/>
+	<Permission name="管理员用户列表" model="user" privilegeValue="list"/>
+	<!-- Log4jAction、Log4jManageAction -->
+	<Permission name="日志列表" model="log4j" privilegeValue="list"/>
+	<Permission name="日志删除" model="log4j" privilegeValue="delete"/>
+	<Permission name="日志高级查询" model="log4j" privilegeValue="advancedSearch"/>
+	
+	<!-- MenuAction、MenuManageAction -->
+	<Permission name="菜单列表" model="menu" privilegeValue="list"/>
+	<Permission name="菜单预览" model="menu" privilegeValue="view"/>
+	<Permission name="菜单新增" model="menu" privilegeValue="insert"/>
+	<Permission name="菜单编辑" model="menu" privilegeValue="update"/>
+	<Permission name="菜单删除" model="menu" privilegeValue="delete"/>
+	<Permission name="菜单状态设置" model="menu" privilegeValue="setVisible"/>
+	<Permission name="菜单赋权" model="menu" privilegeValue="setPrivilege"/>
+	<Permission name="菜单分配地址" model="menu" privilegeValue="setUrl"/>
+
+	<!-- OrganizationAction、OrganizationManageAction -->
+	<Permission name="机构列表" model="organization" privilegeValue="list"/>
+	<Permission name="机构预览" model="organization" privilegeValue="view"/>
+	<Permission name="查看机构包含的用户" model="organization" privilegeValue="viewUser"/>
+	<Permission name="查看机构所属的角色" model="organization" privilegeValue="viewRole"/>
+	<Permission name="机构新增" model="organization" privilegeValue="insert"/>
+	<Permission name="机构编辑" model="organization" privilegeValue="update"/>
+	<Permission name="机构删除" model="organization" privilegeValue="delete"/>
+	<Permission name="机构状态设置" model="organization" privilegeValue="setVisible"/>
+	<Permission name="机构分配角色" model="organization" privilegeValue="setRole"/>
+	<Permission name="机构分配权限" model="organization" privilegeValue="setPrivilege"/>
+	<Permission name="查看机构权限" model="organization" privilegeValue="viewPrivilege"/>
+
+	<!-- PrivilegeGroupAction、PrivilegeGroupManageAction -->
+	<Permission name="角色列表" model="privilegeGroup" privilegeValue="list"/>
+	<Permission name="角色预览" model="privilegeGroup" privilegeValue="view"/>	
+	<Permission name="查看角色包含的用户" model="privilegeGroup" privilegeValue="viewUser"/>	
+	<Permission name="角色新增" model="privilegeGroup" privilegeValue="insert"/>	
+	<Permission name="角色编辑" model="privilegeGroup" privilegeValue="update"/>	
+	<Permission name="角色删除" model="privilegeGroup" privilegeValue="delete"/>	
+	<Permission name="角色分配权限" model="privilegeGroup" privilegeValue="setPrivilege"/>	
+	<Permission name="查看角色权限" model="privilegeGroup" privilegeValue="viewPrivilege"/>	
+
+<!-- ==============================以上系统权限核心============================ -->
+
+	<!-- UploadFileAction -->
+	<Permission name="上传图片" model="uploadfile" privilegeValue="image"/>
+
+<!-- =================================以上参考代码，一般不动================================= -->
+
+	<!-- ModelAction、ModelManageAction 模型模块-->
+	<Permission name="模型列表" model="model" privilegeValue="list"/>
+	<Permission name="模型查看" model="model" privilegeValue="view"/>
+	<Permission name="模型指标解除关系" model="model" privilegeValue="deleteIndex"/>
+	<Permission name="模型指标列表" model="model" privilegeValue="listIndex"/>
+	<Permission name="模型设置配置" model="model" privilegeValue="setIndex"/>
+	<Permission name="模型新增" model="model" privilegeValue="insert"/>
+	<Permission name="模型编辑" model="model" privilegeValue="update"/>
+	<Permission name="模型删除" model="model" privilegeValue="delete"/>
+	<Permission name="模型状态设置" model="model" privilegeValue="setVisible"/>
+
+	<!-- IndexAction、IndexManageAction 指标模块-->
+	<Permission name="指标列表" model="index" privilegeValue="list"/>
+	<Permission name="指标新增" model="index" privilegeValue="insert"/>
+	<Permission name="指标编辑" model="index" privilegeValue="update"/>
+	<Permission name="指标删除" model="index" privilegeValue="delete"/>
+	<Permission name="指标状态设置" model="index" privilegeValue="setVisible"/>
+	<Permission name="设置英文名" model="index" privilegeValue="setEname"/>
+	<Permission name="设置公式" model="index" privilegeValue="setFormula"/>
+	<Permission name="指标取档计分" model="index" privilegeValue="listOption"/>
+	<Permission name="指标取档计分新增" model="index" privilegeValue="insertOption"/>
+	<Permission name="指标取档计分编辑" model="index" privilegeValue="updateOption"/>
+	<Permission name="指标取挡计分删除" model="index" privilegeValue="deleteOption"/>	
+
+	<!-- ReportTemplateAction、ReportTemplateManageAction 报告模版模块-->
+	<Permission name="报告模版列表" model="reportTemplate" privilegeValue="list"/>
+	<Permission name="报告模版新增" model="reportTemplate" privilegeValue="insert"/>
+	<Permission name="报告模版编辑" model="reportTemplate" privilegeValue="update"/>
+	<Permission name="报告模版删除" model="reportTemplate" privilegeValue="delete"/>
+	<Permission name="报告模版状态设置" model="reportTemplate" privilegeValue="setVisible"/>
+	
+	<!-- ReportTemplateCategoryAction、ReportTemplateCategoryManageAction 报告模版分类模块-->
+	<Permission name="报告模版分类列表" model="reportTemplateCategory" privilegeValue="list"/>
+	<Permission name="报告模版分类新增" model="reportTemplateCategory" privilegeValue="insert"/>
+	<Permission name="报告模版分类编辑" model="reportTemplateCategory" privilegeValue="update"/>
+	<Permission name="报告模版分类批量删除" model="reportTemplateCategory" privilegeValue="batchDelete"/>
+	<Permission name="报告模版分类删除" model="reportTemplateCategory" privilegeValue="delete"/>
+	<Permission name="报告模版分类状态设置" model="reportTemplateCategory" privilegeValue="setVisible"/>
+
+	<!-- ScoreManageAction 评分调整项模块-->
+	<Permission name="调整分数列表" model="scoreAdj" privilegeValue="list"/>
+	<Permission name="调整分数保存" model="scoreAdj" privilegeValue="updateOrAdd"/>
+	<Permission name="调整分数删除" model="scoreAdj" privilegeValue="delete"/>
+
+<!-- ========================以上业务逻辑核心参数模块======================== -->
+
+
+	<!-- ImproveEnterprise_InfoAction、MainPersonInfoManageAction、ShareholderInfoManageAction、ReportTemplateDataManageAction、DealContentManageAction 企业评分模块其他关联表信息-->
+	<!-- <Permission name="企业完善信息" model="enterpriseImprove" privilegeValue="insert"/> -->
+	<Permission name="企业展示完善信息" model="enterprise" privilegeValue="infoView"/>
+	<Permission name="企业修改完善信息" model="enterprise" privilegeValue="updateOrAdd"/>
+	
+	<Permission name="主要成员信息列表" model="enterpriseMPI" privilegeValue="list"/>
+	<Permission name="主要成员信息保存" model="enterpriseMPI" privilegeValue="updateOrAdd"/>
+	<Permission name="主要成员信息删除" model="enterpriseMPI" privilegeValue="delete"/>
+	
+
+	<Permission name="股东信息列表" model="enterpriseSI" privilegeValue="list"/>
+	<Permission name="股东信息保存" model="enterpriseSI" privilegeValue="updateOrAdd"/>
+	<Permission name="股东信息删除" model="enterpriseSI" privilegeValue="delete"/>
+
+	<Permission name="下载报告" model="enterpriseRTD" privilegeValue="download"/>
+	<Permission name="判断文件是否存在" model="enterpriseRTD" privilegeValue="judgeFileExist"/>
+
+	<Permission name="管理员确认信息" model="enterpriseDC" privilegeValue="updateOrAdd"/>
+	<Permission name="确认信息的具体内容，展示给用户和管理员" model="enterpriseDC" privilegeValue="show"/>
+	
+	<!-- Enterprise_InfoAction、Enterprise_InfoManageAction 企业评分模块-->
+	<Permission name="企业管理列表" model="enterprise" privilegeValue="list"/>
+	<Permission name="企业新增" model="enterprise" privilegeValue="insert"/>
+	<Permission name="企业编辑" model="enterprise" privilegeValue="update"/>
+	<Permission name="企业删除" model="enterprise" privilegeValue="delelte"/>
+	<Permission name="企业状态设置" model="enterprise" privilegeValue="setVisible"/>
+	<Permission name="企业评分预览" model="enterprise" privilegeValue="view"/>
+	<Permission name="企业上传文件" model="enterprise" privilegeValue="addfile"/>
+	<Permission name="确认调查，评分状态" model="enterprise" privilegeValue="confirmStatus"/>
+	<Permission name="调查页面" model="enterprise" privilegeValue="scoreUIList"/>
+	<Permission name="调查页面保存" model="enterprise" privilegeValue="investigateUpdate"/>
+	<Permission name="评分页面" model="enterprise" privilegeValue="manageScoreView"/>
+	<Permission name="管理评分报告页面" model="enterprise" privilegeValue="ManagescoreReportView"/>
+	<Permission name="管理评分报告调整说明页面" model="enterprise" privilegeValue="editAdjustReason"/>
+	<Permission name="管理评分报告调整说明保存" model="enterprise" privilegeValue="editScoreReportReason"/>
+	<Permission name="管理评分报告其他调整说明页面" model="enterprise" privilegeValue="otherAdjustReason"/>
+	<Permission name="管理评分报告其他调整说明保存" model="enterprise" privilegeValue="editAdvantageReason"/>
+
+	<!-- ===========================以上为主要业务逻辑模块============================= -->
+    </Role>
+
+    <Role name="测试员"/>
+  </Roles>
+  
+  <Organizations>
+    <Org name="行政部" id="321300000"/>
+    <Org name="技术开发部" id="320126999">
+      <Org name="软件开发" id="320126900"/>
+      <Org name="前端支持" id="320126001"/>
+    </Org>
+  </Organizations>
+  
+  <Users>
+    <User userName="admin" realName="超级管理员" password="E10ADC3949BA59ABBE56E057F20F883E" gender="男" regTime="2015-01-01" regIP="127.0.0.1" visible="1">
+      <Role name="系统管理员"/>
+      <Org name="软件开发" id="320126900"/>
+    </User>
+    <User userName="leader" realName="领导" password="E10ADC3949BA59ABBE56E057F20F883E" gender="男" regTime="2015-01-01" regIP="127.0.0.1" visible="1">
+    </User>
+    <User userName="auditor" realName="审核员" password="E10ADC3949BA59ABBE56E057F20F883E" gender="男" regTime="2015-01-01" regIP="127.0.0.1" visible="1">
+    </User>
+    <User userName="scorer" realName="评分员" password="E10ADC3949BA59ABBE56E057F20F883E" gender="男" regTime="2015-01-01" regIP="127.0.0.1" visible="1">
+    </User>
+    <User userName="user01" realName="企业用户01" password="E10ADC3949BA59ABBE56E057F20F883E" gender="男" regTime="2015-01-01" regIP="127.0.0.1" visible="1">
+    </User>
+    <User userName="user02" realName="企业用户01" password="E10ADC3949BA59ABBE56E057F20F883E" gender="男" regTime="2015-01-01" regIP="127.0.0.1" visible="1">
+    </User>    
+  </Users>
+
+
+
+
+</InitDatas>

@@ -1,0 +1,137 @@
+package com.credit.dataIO;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import org.apache.log4j.Logger;
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.credit.model.privilege.C_PrivilegeGroup;
+import com.credit.model.privilege.C_SystemPrivilege;
+import com.credit.service.privilege.C_PrivilegeGroupService;
+import com.credit.service.privilege.C_SystemPrivilegeService;
+
+
+
+@Controller
+@RequestMapping("/initial/import")
+public class ImportFromXml {
+	
+	private static final Logger logger = Logger.getLogger(ImportFromXml.class);
+	
+	@Resource(name="c_SystemPrivilegeServiceBean")
+	private C_SystemPrivilegeService<?> systemPrivilegeService;
+	
+	@Resource(name="c_PrivilegeGroupServiceBean")
+	private C_PrivilegeGroupService<?> privilegeGroupService;
+	
+
+	
+	/**
+	 * 操作结果
+	 */
+	public String getResultStr() { return resultStr; }
+	public void setResultStr(String resultStr) { this.resultStr = resultStr; }
+	private String resultStr;
+	
+	/**
+	 * 提示
+	 */
+	public String getTips() { return tips; }
+	public void setTips(String tips) { this.tips = tips; }
+	private String tips;
+	@RequestMapping("/UI")
+	public String UI() {
+		return "Initial/importUI";
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/importData")
+	public String importData(HttpServletRequest request) {
+		
+		String requestUrl = request.getContextPath();
+		
+		try{
+			Document document = new SAXReader().read(
+					Thread.currentThread().getContextClassLoader().getResourceAsStream("com/config/init_datas.xml")
+			);
+			logger.info("【开始导入权限模块】");
+			importPermissions(document.selectNodes("//Permissions/Permission"));
+			logger.info("【结束导入权限模块】");
+			logger.info("【开始导入角色模块】");
+			importRoles(document.selectNodes("//Roles/Role"));
+			logger.info("【结束导入角色模块】");
+
+			logger.info("\n初始化数据成功！\n");
+			this.resultStr = "<span style=\"color:green;\">成功</span>";
+			this.tips = "请<a href=\"" + requestUrl + "\">登录</a>";
+		}catch(Exception e) {
+			e.printStackTrace();
+			this.resultStr = "<span style=\"color:red;\">失败</span>";
+		}
+		request.setAttribute("resultStr", resultStr);
+		request.setAttribute("tips", tips);
+		return "Initial/importResult";
+	}
+	
+	protected void importPermissions(List<C_SystemPrivilege> lists){
+		if (systemPrivilegeService.getCount() == 0) {
+			List<C_SystemPrivilege> systemPrivileges = new ArrayList<C_SystemPrivilege>();
+			for (Iterator<C_SystemPrivilege> iter = lists.iterator(); iter.hasNext();) {
+				Element element = (Element) iter.next();
+				C_SystemPrivilege systemPrivilege = new C_SystemPrivilege();
+				systemPrivilege.setName(element.attributeValue("name"));
+				systemPrivilege.setModel(element.attributeValue("model"));
+				systemPrivilege.setPrivilegevalue(element.attributeValue("privilegeValue"));
+				systemPrivileges.add(systemPrivilege);
+				logger.info("导入权限模块["+element.attributeValue("name")+"]");
+			}
+			boolean flag=systemPrivilegeService.batchInsert(systemPrivileges);	
+			if(!flag){logger.error("---导入权限模块失败:插入失败");}
+		}else{
+			logger.error("---导入权限模块失败:已存在数据---");
+		}
+		logger.info("+++导入权限模块成功+++");
+	}
+	
+	
+	
+	@SuppressWarnings("unchecked")
+	protected void importRoles(List<C_PrivilegeGroup> lists){
+		for (Iterator<C_PrivilegeGroup> iter = lists.iterator(); iter.hasNext();) {
+			Element element = (Element) iter.next();
+			C_PrivilegeGroup pg = new C_PrivilegeGroup();
+			pg.setUuid(UUID.randomUUID().toString().replace("-", ""));
+			pg.setName(element.attributeValue("name"));
+			pg.setMenuurl(element.attributeValue("menuUrl"));
+			privilegeGroupService.insertSelective(pg);
+			
+			List<C_SystemPrivilege> permissions = element.selectNodes("Permission");
+			Set<C_SystemPrivilege> systemPrivileges = new HashSet<C_SystemPrivilege>();;
+			for (Iterator<C_SystemPrivilege> iterator = permissions.iterator(); iterator.hasNext();) {
+				Element spElem = (Element) iterator.next();
+				C_SystemPrivilege sp = new C_SystemPrivilege();
+				sp.setName(spElem.attributeValue("name"));
+				sp.setModel(spElem.attributeValue("model"));
+				sp.setPrivilegevalue(spElem.attributeValue("privilegeValue"));
+				systemPrivileges.add(sp);
+			}
+			boolean flag=privilegeGroupService.insertGroupPrivilege(systemPrivileges,pg.getUuid());
+			if(!flag){logger.error("---导入角色权限失败:插入失败");}
+		}
+		
+
+	}
+	
+	
+}

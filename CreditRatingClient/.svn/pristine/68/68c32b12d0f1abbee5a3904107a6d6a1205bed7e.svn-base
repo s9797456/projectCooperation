@@ -1,0 +1,342 @@
+ body {
+  			/*  此部分支持chrome，应该也支持firefox */
+          	background: url('../images/mainBackground.jpg') ;
+          /*   background-attachment: fixed;
+            background-size: 1920px 1000px;
+			以下是IE部分，使用滤镜
+            filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/mainBackground.jpg',sizingMethod='scale');
+            background-repeat: no-repeat;
+            background-positon: 100%, 100%;
+            font: normal 12px tahoma, arial, verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            border: 0 none;
+            overflow: hidden;
+            width:1920px;
+            height:1200px; */
+}
+body, div, ul, li, h1, img {
+  font-family: "Microsoft YaHei",微软雅黑,Helvetica, Arial, sans-serif；;
+}
+.topdiv{
+          background: url('../images/top.png') no-repeat;
+          background-position: center;
+          /* padding-top: 150px;
+          border: 0 none;
+          overflow: hidden;
+          height:65px;
+          margin-left:-4px;
+          margin-top:-10px;
+          min-width: 1240px; */
+          /* border:1px solid #009966;  */
+          min-width: 1240px;
+          margin: 0 auto;
+          padding-top: 150px;
+          width:100%;
+}
+
+.toplogodiv{
+			/*  此部分支持chrome，应该也支持firefox */
+            background: url('../images/logo.png') no-repeat 550px 0px ;
+            background-size: 300px 70px;
+			/* 以下是IE部分，使用滤镜 */
+            margin-top: -140px;
+            margin-left: -80px;
+            border: 0 none;
+            width:100%;
+           /*  border:1px solid #009966; */
+            height:100px;
+}
+.toplogodiv ul{
+	list-style:none;
+	width:560px;
+	height:90px;
+	float:right;
+	margin-right:230px;
+	margin-top:-10px;
+}
+.toplogodiv li{
+	float:left;
+	width:90px;
+	height:90px;
+	margin-right:50px;
+}
+
+.topnavHome{
+		    font: normal 12px tahoma, arial, verdana, sans-serif;
+            border: 0 none;
+            overflow: hidden;
+            width:100%;
+            height:90px;
+            display:block;
+}
+
+.topnavHomeli{
+			/*  此部分支持chrome，应该也支持firefox */
+            background: url('../images/home.png') no-repeat -90px 0px;
+            background-repeat: no-repeat;
+            background-positon: 100%, 100%;
+			/* 以下是IE部分，使用滤镜 */
+            filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/home.png',sizingMethod='scale');
+}
+.topnavProductli{
+			/*  此部分支持chrome，应该也支持firefox */
+            background: url('../images/product.png') no-repeat -90px 0px;
+            background-repeat: no-repeat;
+            background-positon: 100%, 100%;
+			/* 以下是IE部分，使用滤镜 */
+            filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/product.png',sizingMethod='scale');
+}
+.aboutusli{
+			/*  此部分支持chrome，应该也支持firefox */
+            background: url('../images/aboutus.png') no-repeat -90px 0px;
+            background-repeat: no-repeat;
+            background-positon: 100%, 100%;
+			/* 以下是IE部分，使用滤镜 */
+            filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/aboutus.png',sizingMethod='scale');
+}
+.linkusli{
+			/*  此部分支持chrome，应该也支持firefox */
+            background: url('../images/linkus.png') no-repeat -90px 0px;
+            background-repeat: no-repeat;
+            background-positon: 100%, 100%;
+			/* 以下是IE部分，使用滤镜 */
+            filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/linkus.png',sizingMethod='scale');
+}
+a.topnavHome:hover{
+	  background-position: 0 0;
+}
+.contentbox {
+  	 min-width: 1240px;
+  	 width: 1240px;
+ 	 margin: 0 auto;
+}
+
+.content{
+	width:500px;
+	height:700px;
+/* 	border:1px solid #009966;
+ */	float:left;
+ 	margin-left: 30px;
+}
+.content .inside{
+	/* background: url('../images/tab.png') no-repeat; */
+	width:500px;
+	height:400px;
+	color:#fff;
+	float:left;
+	margin-top:50px;
+}
+.tab-contentImage{
+	background: url('../images/tab.png') no-repeat ;
+	width:500px;
+	height:250px;
+}
+.tab-contentImage ul {
+  margin-left: -40px;
+  font-size: 14px;
+}
+.tab-contentImage ul li {
+  color: #FFF;
+  line-height: 26px;
+  list-style-image: url(../images/dot_o.png);
+  margin-left: 40px;
+}
+.tab-contentImage ul li span {
+  color: #FFFFFF;
+  float: right;
+  margin-right: 50px;
+}
+.tab-contentImage a {text-decoration:none; }
+.tab-contentImage a:link,.tab-contentImage a:visited{ color:#FFF;}
+.tab-contentImage a:hover,.tab-contentImage a:active{ color:#ff8400;}
+
+.newImage{
+	background: url('../images/tabone.png') no-repeat -1px 0px;
+	height:45px;
+	width:200px;
+}
+.report{
+	background: url('../images/tab.png') no-repeat ;
+	margin-top:10px;
+	width:500px;
+	height:340px;
+}
+.report .reported{
+	background: url('../images/column.png') no-repeat ;
+	width:245px;
+	height:281px;
+	color:#fff;
+	float:left;
+	/* margin-left:30px; */
+	margin-top:30px;
+	/* border:1px solid #009966; */
+}
+.report .unreported{
+	background: url('../images/column.png') no-repeat ;
+	width:245px;
+	height:281px;
+	color:#fff;
+	float:left;
+	margin-left:10px;
+	margin-top:30px;
+	/* border:1px solid #009966; */
+}
+.report h1 {
+  line-height: 30px;
+  color: #FFF;
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: 10px;
+  margin-top:10px;
+}
+.report ul {
+  margin: 0;
+  font-size: 14px;
+  margin-top: 10px;
+}
+.report ul li {
+  display: block;
+  color: #000;
+  line-height: 26px;
+  margin-left: -30px;
+}
+#myTab li{
+	list-style:none;
+	width:200px;
+}
+
+.side{
+	width:600px;
+	height:700px;
+	color:#fff;
+	float:right;
+	margin-right: 5px;
+	overflow:hidden;
+	zoom:1;
+	margin-top:80px;
+}
+
+.side .inside{
+	background: url('../images/sideround.png') no-repeat;
+	background-size: 600px;
+	width:600px;
+	height:700px;
+	color:#fff;
+	overflow:hidden;
+	zoom:1;
+}
+.side .inside a{
+	background: url('../images/jumpSys.png') no-repeat;
+	margin-left:80px;
+	margin-top:300px;
+}
+.footdiv{
+           /*  background: url('../images/foot.png') no-repeat fixed;
+	  		font: normal 12px tahoma, arial, verdana, sans-serif;
+	  		background-position-y:bottom;
+         	width:100%;
+			height:100px;
+            overflow: hidden;
+            margin-bottom:-100px;
+            text-align:center;
+            color:#FFF;
+         	font-size:14px;
+         	line-height: 120px; */
+          background: url('../images/foot.png') no-repeat ;
+          background-position:bottom;
+          /* border:1px solid #009966;  */
+          min-width: 1240px;
+          margin: 0 auto;
+          width:100%;
+           text-align:center;
+           color:#FFF;
+           height:80px;
+         /*  color:#FFF;
+          font-size:14px;
+          line-height: 150px; */
+          margin-top:740px;
+}
+.footdivp{
+	padding-top:40px;
+}
+.footdivp1{
+	 margin-top:-20px;
+}
+
+@media (max-width: 1650px){
+	.toplogodiv{
+			/*  此部分支持chrome，应该也支持firefox */
+            background: url('../images/logo.png') no-repeat 450px 0px ;
+            background-size: 300px 70px;
+			/* 以下是IE部分，使用滤镜 */
+            margin-top: -140px;
+            margin-left: -80px;
+            border: 0 none;
+            width:100%;
+           /*  border:1px solid #009966; */
+            height:100px;
+	}
+	.toplogodiv ul{
+		list-style:none;
+		width:560px;
+		height:90px;
+		float:right;
+		margin-right:70px;
+		margin-top:-10px;
+	}
+	
+}
+
+@media (max-width: 1366px){
+	.toplogodiv{
+			/*  此部分支持chrome，应该也支持firefox */
+            background: url('../images/logo.png') no-repeat 450px 0px ;
+            background-size: 300px 70px;
+			/* 以下是IE部分，使用滤镜 */
+            margin-top: -140px;
+            margin-left: -80px;
+            border: 0 none;
+            width:100%;
+           /*  border:1px solid #009966; */
+            height:100px;
+	}
+	.toplogodiv ul{
+		list-style:none;
+		width:560px;
+		height:90px;
+		float:right;
+		margin-right:10px;
+		margin-top:-10px;
+	}
+	
+}
+
+@media (max-width: 1280px){
+	.toplogodiv{
+			/*  此部分支持chrome，应该也支持firefox */
+            background: url('../images/logo.png') no-repeat 350px 0px ;
+            background-size: 300px 70px;
+			/* 以下是IE部分，使用滤镜 */
+            margin-top: -140px;
+            margin-left: -80px;
+            border: 0 none;
+            width:100%;
+           /*  border:1px solid #009966; */
+            height:100px;
+	}
+	.toplogodiv ul{
+		list-style:none;
+		width:560px;
+		height:90px;
+		float:right;
+		margin-right:-50px;
+		margin-top:-10px;
+	}
+}
+
+.marquee1{width:500px;height:250px; overflow:hidden;}
+.marquee1 ul li{float:left; width:500px; }
+			
+.marquee2{width:245px;height:230px; overflow:hidden;}
+.marquee2 ul li{float:left; width:245px; }

@@ -1,0 +1,44 @@
+	<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+    <%@ include file="/WEB-INF/Page/Share/taglibs.jsp"%>
+    <%@ include file="/WEB-INF/Page/Share/state.jsp"%>
+    <%@ include file="/WEB-INF/Page/Share/title.jsp"%>
+    <%@ include file="/WEB-INF/Page/Share/meta.jsp" %>
+<!DOCTYPE >
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<%-- bootstrap 框架 --%>
+		<link rel="stylesheet" type="text/css" href="<%=path %>/Resources/bootstrap/css/bootstrap.css">
+		<%-- left 菜单  插件 的css--%>
+		<link rel="stylesheet" type="text/css" href="<%=path %>/Resources/ucenterPublic/Css/reset.css">
+		<link rel="stylesheet" type="text/css" href="<%=path %>/Resources/ucenterPublic/Css/ucenter.css">
+		<%-- header left 的框架css --%>
+		<link rel="stylesheet" type="text/css" href="<%=path %>/Styles/Share/frame.css">
+		
+	<script>
+		var _ctxPath="<%=request.getContextPath() %>";
+	</script>
+	</head>
+	<body>
+		<!--头-->
+		<%--header start--%>
+		<%@ include file="/WEB-INF/Page/Share/header.jsp"%>
+		<%--header end--%>
+		<%--LeftMenu start--%>
+		<%@ include file="/WEB-INF/Page/Share/leftMenuPer.jsp"%>
+		<%--LeftMenu end--%>
+		<div style="padding-left: 200px;">
+			<div style="width: 60%;min-width:600px;margin: auto;padding: 20px;box-shadow: 7px 12px 20px #ddd;border-radius: 5px;">
+				<h4>个人信息认证</h4>
+				<div></div>
+			</div>
+	 	</div>
+	</body>
+	<script src="<%=path %>/Resources/jquery/jquery-1.11.3.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<%=path %>/Resources/bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<%=path %>/Resources/ucenterPublic/Js/ucenterPublic.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<%=path %>/Script/menu/base.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<%=path %>/Script/menu/personalBase.js" type="text/javascript" charset="utf-8"></script>
+</html>

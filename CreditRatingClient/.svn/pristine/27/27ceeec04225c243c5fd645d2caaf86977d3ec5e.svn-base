@@ -1,0 +1,40 @@
+﻿@import url("global.css");
+.warp { width:auto; margin-left:auto; margin-right:auto; }
+#top { no-repeat center top; height:105px;}
+#top .logo {float:left;margin-left:150px;margin-right:200px; }
+#top .nav { float:left; width:600px; position:relative; z-index:110; height:105px; text-align:center;}
+#top .nav li { width:118px; float:left; position:relative; z-index:110; line-height:82px; }
+#top .nav li a { display:block; width:118px; height:82px; cursor:pointer;}
+#top .nav li a span { display:block; width:118px; height:82px; font-size:15px; font-family:"Microsoft YaHei", "微软雅黑"; font-weight:bold; color:#000000;}
+
+#top .nav li a.bg1 { background-position:0 0; }
+#top .nav li a.bg2 { background-position:-133px 0; }
+#top .nav li a.bg3 { background-position:-266px 0; }
+#top .nav li a.bg4 { background-position:-399px 0; }
+#top .nav li a.bg5 { background-position:-532px 0; }
+#top .nav li a.bg6 { background-position:-665px 0; }
+.shouye{ width:88px!important;}
+.shouye a { display:block; width:88px!important; height:82px; }
+.shouye a span{width:88px!important;}
+
+
+.docs-footer-floor {
+	background-color:#3299CC;
+	line-height:1;
+	position:relative;
+	text-align:center
+}
+.docs-footer-floor .social-buttons {
+	display:inline-block;
+	margin:10px 0;
+	text-align:center;
+	word-spacing:8px;
+letter-spacing: 1px;
+	
+}
+.docs-footer-floor .social-buttons .social-button {
+	display:inline-block
+}
+.docs-footer-floor .social-buttons .twitter-follow-button {
+	margin-right:10px
+}

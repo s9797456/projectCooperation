@@ -1,0 +1,333 @@
+@CHARSET "UTF-8";
+@font-face {
+    font-family: "font";
+    src: url("01.eot");
+}
+ 
+@font-face {
+    font-family: "font";
+    src: local("☺"),url("01.ttf");
+    font-style: normal;
+}
+
+@media screen and (max-width: 1300px) and (min-width:860px){
+	#scoreInfo{
+		display: none;
+	}
+	#scoreInfo1{
+		display: block;
+	}
+	#portrait{
+		display: block;
+	}
+	#baseInfo > div > div{
+		width: 45%; 
+		height: 40%; 
+		float: left; 
+		margin-left: 5%;
+	}
+	#baseInfo span{
+		display: none;
+	}
+	/*客户主界面 左侧距离*/
+	#rightUp h4,#rightUp h5,.slide,#userInfo,#carousel-302776{
+			margin-left: 10px;
+	}
+	/*客户主界面 userInfo*/
+	#userInfo {
+		border: 1px #DBDBDB solid;
+		margin-top: 20px;
+		padding: 15px;
+		min-width:600px;
+		height: 20vh;
+		min-height: 185px;
+		width: 77vw;
+		background-color:#fff;
+	}
+	/*客户主界面  轮播*/
+	#carousel-302776{
+		min-width: 600px;
+		width: 77vw;
+	}
+}
+@media screen and (min-width: 1300px){
+	#scoreInfo{
+		display: block;
+	}
+	#scoreInfo1{
+		display: none;
+	}
+	#portrait{
+		display: block;
+	}
+	#baseInfo > div > div{
+		width: 45%; 
+		height: 40%; 
+		float: left; 
+		margin-left: 5%;
+	}
+	#baseInfo span{
+		
+	}
+	/*客户主界面 左侧距离*/
+	#rightUp h4,#rightUp h5,.slide,#userInfo,#carousel-302776{
+			margin-left: 50px;
+	}
+	/*客户主界面 userInfo*/
+	#userInfo {
+		border: 1px #DBDBDB solid;
+		margin-top: 20px;
+		padding: 15px;
+		min-width:400px;
+		height: 20vh;
+		min-height: 185px;
+		margin-left: 2.5vw;
+		width: 92%;
+	}
+	/*客户主界面  轮播*/
+	#carousel-302776{
+		min-width: 600px;
+		width: 82vw;
+	}
+}
+@media screen and (max-width: 860px)and (min-width: 600px){
+	#scoreInfo{
+		display: none;
+	}
+	#scoreInfo1{
+		display: block;
+	}
+	#portrait{
+		display: none;
+	}
+	
+	#baseInfo > div > div{
+		float: inherit; 
+		margin-left: 5%;
+		margin-bottom: 5%;
+	}
+	#baseInfo span{
+		display: none;
+	}
+	/*客户主界面 左侧距离*/
+	#rightUp h4,#rightUp h5,.slide,#userInfo,#carousel-302776{
+			margin-left: 10px;
+	}
+	/*客户主界面 userInfo*/
+	#userInfo {
+		border: 1px #DBDBDB solid;
+		margin-top: 20px;
+		padding: 15px;
+		height: 20vh;
+		min-height: 185px;
+		margin-left: 2.5vw;
+		width: 70vw;
+	}
+	/*客户主界面  轮播*/
+	#carousel-302776{
+		width: 71vw;
+	}
+}
+@media screen and (max-width: 600px){
+	#scoreInfo{
+		display: none;
+	}
+	#scoreInfo1{
+		display: none;
+	}
+	#portrait{
+		display: none;
+	}
+	#baseInfo > div > div{
+		float: inherit; 
+		margin-left: 5%;
+		margin-bottom: 5%;
+	}
+	#baseInfo span{
+		display: none;
+	}
+		/*客户主界面 左侧距离*/
+		#rightUp h4,#rightUp h5,.slide,#userInfo,#carousel-302776{
+			margin-left: 0px;
+		}
+		/*客户主界面 userInfo*/
+		#userInfo {
+			border: 1px #DBDBDB solid;
+			margin: 20px 0px 0px 0px;
+			padding: 15px;
+			min-width:300px;
+			height: 20vh;
+			min-height: 185px;
+			margin-left: 2.5vw;
+			width: 57vw;
+		}
+		/*客户主界面  轮播*/
+		#carousel-302776{
+			min-width: 300px;
+			margin-left: 2.5vw;
+			width: 57vw;
+		}
+}
+
+		body{
+			min-width: 0px;
+		}
+		#right{
+			float:left;
+			padding-left: 200px;
+			width: 100%;
+			margin-top: 15px;
+		}
+		
+		/*客户主界面  img 头像*/
+		#portrait {
+			width: 8vw;
+			float: left;
+			min-width: 120px;
+			margin-right: 10px;
+			min-height: 155px;
+			height: 19vh;
+		}
+		#portrait img{
+			width: 8vw; 
+			min-width: 120px; 
+			min-height: 155px; 
+			height: 18vh; 
+			border-radius: 5px;
+		}
+		/*客户主界面  基础信息*/
+		#baseInfo{
+			float: left;
+			min-height: 100px;
+			min-width:190px;
+			height: 20vh;
+			width: 22vw;
+		}
+		/*客户主界面  基础信息-标题*/
+		#baseInfo h3{
+			margin-bottom: 5%;
+		}
+		/*客户主界面  基础信息 - 信息*/
+		#baseInfo span{
+			margin-bottom: 20px; 
+			font-size: 100%;
+		}
+		/*客户主界面  展示信息*/
+		#scoreInfo {
+			float: right;
+			width: 45vw;
+			height: 100%;
+			min-width: 600px;
+		}
+		.line{
+			margin: 2% 2%;
+			float: left;
+			height: 100%;
+		}
+		.line img{
+			width: 1px;
+			height: 80%;
+			background-color: #CADFE7;
+		}
+		.block1{
+		    width: 20%;
+			float: left;
+			height: 100%;
+			text-align: center;
+			min-width: 110px;
+		}
+		.block1 img{
+			border-radius:10px;
+			margin-bottom: 5px;
+		}
+		.la1{
+			font-size: 125%;
+			margin-top: 20%;
+			color: #00c1de;
+			margin-bottom: 20px;
+		}
+		.la2{
+			font-size: 25px;
+			margin-bottom: 20px;
+			/*color: #00c1de;*/
+		}
+		.item{
+			border-radius: 10px;
+		}
+/*  */
+
+.text-overflow{
+display:block;                     /*内联对象需加*/
+width:auto;
+word-break:keep-all;           /* 不换行 */
+white-space:nowrap;          /* 不换行 */
+overflow:hidden;               /* 内容超出宽度时隐藏超出部分的内容 */
+text-overflow:ellipsis;         /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+}
+
+.main-container {
+    max-width: 1300px;
+    margin: 0 auto;
+}
+.main-container .block-title {
+    font-size: 30px;
+    text-align: center;
+}
+.center {
+    text-align: center;
+}
+.step-block {
+    padding-bottom: 60px;
+}
+.step-block .step {
+    padding-top: 35px;
+}
+
+.step-block .step .singleblock {
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    vertical-align: top;
+}
+
+.step-block .step .singleblock .step-image {
+    height: 80px;
+    width: 160px;
+    margin: auto;
+    text-align: center;
+}
+.step-block .step .singleblock .step-image img {
+    height: 74px
+}
+.step-block .step .singleblock .step-title {
+    font-size: 16px;
+    color: #565a5c;
+}
+.step-block .step .singleblock .step-num {
+    position: relative;
+    font-size: 24px;
+    color: #577088;
+}
+.step-block .step .singleblock .step-num .right-line {
+    position: absolute;
+    height: 50px;
+    width: 45%;
+    right: 0px;
+    top: 4px;
+}
+.step-block .step .singleblock .step-num .left-line {
+    position: absolute;
+    height: 50px;
+    width: 45%;
+    left: 0px;
+    top: 4px;
+}
+.step-block .step .singleblock .step-detail {
+    width: 225px;
+    margin: 0 auto;
+    text-align: justify !important;
+    color: #999999;
+    font-size: 14px;
+    text-align: left;
+    line-height: 27px;
+}

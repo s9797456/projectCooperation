@@ -1,0 +1,14 @@
+.x-action-col-cell img.preview
+{
+  background-image: url(../Styles/dfImage/preview.png);
+}
+.x-action-col-cell img.ename
+{
+  background-image: url(../Styles/dfImage/ename.png);
+  width:80px;
+  height:20px
+}
+.x-action-col-cell img.listOption
+{
+  background-image: url(../Styles/dfImage/door_open.png);
+}

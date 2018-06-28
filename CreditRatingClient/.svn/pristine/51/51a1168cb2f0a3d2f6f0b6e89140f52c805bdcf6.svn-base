@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.enterprise.ExecutivesMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.enterprise.Executives" >
+    <id column="UUID" property="uuid" jdbcType="VARCHAR" />
+    <result column="ENTID" property="entid" jdbcType="VARCHAR" />
+    <result column="IDCARD" property="idcard" jdbcType="VARCHAR" />
+    <result column="AGE" property="age" jdbcType="DECIMAL" />
+    <result column="DEPARTMENT" property="department" jdbcType="VARCHAR" />
+    <result column="EDUCATION" property="education" jdbcType="VARCHAR" />
+    <result column="GENDER" property="gender" jdbcType="VARCHAR" />
+    <result column="JOB" property="job" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="WORKEXP" property="workexp" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UUID, ENTID, IDCARD, AGE, DEPARTMENT, EDUCATION, GENDER, JOB, NAME, WORKEXP
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TE_EXECUTIVES
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TE_EXECUTIVES
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.enterprise.Executives" >
+    insert into TE_EXECUTIVES (UUID, ENTID, IDCARD, 
+      AGE, DEPARTMENT, EDUCATION, 
+      GENDER, JOB, NAME, 
+      WORKEXP)
+    values (#{uuid,jdbcType=VARCHAR}, #{entid,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, 
+      #{age,jdbcType=DECIMAL}, #{department,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{workexp,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.enterprise.Executives" >
+    insert into TE_EXECUTIVES
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        UUID,
+      </if>
+      <if test="entid != null" >
+        ENTID,
+      </if>
+      <if test="idcard != null" >
+        IDCARD,
+      </if>
+      <if test="age != null" >
+        AGE,
+      </if>
+      <if test="department != null" >
+        DEPARTMENT,
+      </if>
+      <if test="education != null" >
+        EDUCATION,
+      </if>
+      <if test="gender != null" >
+        GENDER,
+      </if>
+      <if test="job != null" >
+        JOB,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="workexp != null" >
+        WORKEXP,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="entid != null" >
+        #{entid,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=DECIMAL},
+      </if>
+      <if test="department != null" >
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="workexp != null" >
+        #{workexp,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.enterprise.Executives" >
+    update TE_EXECUTIVES
+    <set >
+      <if test="entid != null" >
+        ENTID = #{entid,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        IDCARD = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        AGE = #{age,jdbcType=DECIMAL},
+      </if>
+      <if test="department != null" >
+        DEPARTMENT = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        EDUCATION = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        GENDER = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        JOB = #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="workexp != null" >
+        WORKEXP = #{workexp,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.enterprise.Executives" >
+    update TE_EXECUTIVES
+    set ENTID = #{entid,jdbcType=VARCHAR},
+      IDCARD = #{idcard,jdbcType=VARCHAR},
+      AGE = #{age,jdbcType=DECIMAL},
+      DEPARTMENT = #{department,jdbcType=VARCHAR},
+      EDUCATION = #{education,jdbcType=VARCHAR},
+      GENDER = #{gender,jdbcType=VARCHAR},
+      JOB = #{job,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      WORKEXP = #{workexp,jdbcType=VARCHAR}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  
+    <select id="selectByEntBaseInfo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TE_EXECUTIVES
+    where ENTID = #{entBaseInfouuid,jdbcType=VARCHAR}
+  </select>
+  <select id="countExecutives" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select 
+    count(UUID)
+    from TE_EXECUTIVES
+    where ENTID = #{entBaseInfouuid,jdbcType=VARCHAR}
+  </select>
+</mapper>

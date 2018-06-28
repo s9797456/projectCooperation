@@ -1,0 +1,113 @@
+package com.credit.bean.person;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+
+@Entity
+@Table(name = "TI_Skills")
+public class Skills implements Serializable {
+	private static final long serialVersionUID = -7760107784808658826L;
+
+	@Id
+	@Column(length = 32)
+	private String uuid;// 主键
+	
+	@Column(length = 32)
+	private String PerID;//个人信息表外键
+	
+	@Column(length = 200)
+	private String remarks;//备注
+	
+	@Column(length = 50)
+	private String skillName;//学历
+	
+	@Column(length = 20)
+	private String skillProficiency; //毕业院校
+
+	public Skills() {
+		super();
+	}
+
+	public Skills(String uuid) {
+		super();
+		this.uuid = uuid;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Skills other = (Skills) obj;
+		if (uuid == null) {
+			if (other.uuid != null)
+				return false;
+		} else if (!uuid.equals(other.uuid))
+			return false;
+		return true;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
+	public String getPerID() {
+		return PerID;
+	}
+
+	public void setPerID(String perID) {
+		PerID = perID;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
+	public String getSkillName() {
+		return skillName;
+	}
+
+	public void setSkillName(String skillName) {
+		this.skillName = skillName;
+	}
+
+	public String getSkillProficiency() {
+		return skillProficiency;
+	}
+
+	public void setSkillProficiency(String skillProficiency) {
+		this.skillProficiency = skillProficiency;
+	}
+
+}

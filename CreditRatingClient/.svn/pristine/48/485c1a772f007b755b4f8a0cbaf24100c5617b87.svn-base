@@ -1,0 +1,17 @@
+package com.credit.mapper.person;
+
+import com.credit.model.person.Career;
+
+public interface CareerMapper {
+    int deleteByPrimaryKey(String uuid);
+
+    int insert(Career record);
+
+    int insertSelective(Career record);
+
+    Career selectByPrimaryKey(String uuid);
+
+    int updateByPrimaryKeySelective(Career record);
+
+    int updateByPrimaryKey(Career record);
+}

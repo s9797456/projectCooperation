@@ -1,0 +1,70 @@
+/**
+ * 
+ */
+package com.credit.service.enterprise;
+
+import com.credit.model.enterprise.ProcessState;
+
+/**
+ * @Title: ProcessStateService.java
+ * @author Administrator @date 2017-8-2 下午4:51:04
+ * @Description: TODO
+ */
+public interface ProcessStateService {
+
+	/**
+	 * @Title 根据uuid 删除 对象
+	 * @author  Administrator  @date 2017-8-2 
+	 * @Description 
+	 *
+	 */
+    int deleteByPrimaryKey(String uuid);
+
+    /**
+     * @Title 插入对象
+     * @author  Administrator  @date 2017-8-2 
+     * @Description 
+     *
+     */
+    int insert(ProcessState record);
+
+    /**
+     * @Title 插入对象
+     * @author  Administrator  @date 2017-8-2 
+     * @Description 
+     *
+     */
+    int insertSelective(ProcessState record);
+
+    /**
+     * @Title 根据uuid 返回对象
+     * @author  Administrator  @date 2017-8-2 
+     * @Description 
+     *
+     */
+    ProcessState selectByPrimaryKey(String uuid);
+
+    /**
+     * @Title 更新对象
+     * @author  Administrator  @date 2017-8-2 
+     * @Description 
+     *
+     */
+    int updateByPrimaryKeySelective(ProcessState record);
+
+    /**
+     * @Title 更新对象
+     * @author  Administrator  @date 2017-8-2 
+     * @Description 
+     *
+     */
+    int updateByPrimaryKey(ProcessState record);
+    
+    /**
+     * @Title 根据entBaseInfoUuid 返回对象
+     * @author  Administrator  @date 2017-8-2 
+     * @Description 
+     *
+     */
+    ProcessState selectByEntBaseInfoKey(String entBaseInfoUuid);
+}

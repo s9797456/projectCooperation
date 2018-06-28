@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="CreditRating"
+  id="myeclipse.1303088660557"
+  context-root="/CreditRating"
+  j2ee-spec="5.0"
+  archive="CreditRating.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop" 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd 
+						http://www.springframework.org/schema/mvc	http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+						http://www.springframework.org/schema/aop	http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- 启用注解注入 -->
+	<!--<context:annotation-config/>-->
+	<!-- 自动扫描bean，把作了注解的类转换为bean -->
+<!-- 	<context:component-scan base-package="com.hytdatawechatweb.controller.*"/>
+	<context:component-scan base-package="com.hytdatawechatweb.ws.service"/> -->
+	<context:component-scan base-package="com.credit" use-default-filters="false"><!-- use-default-filters="false"扫描指定包下的全部的标有@Component的类 -->
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>  
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>  
+	</context:component-scan>
+	<mvc:interceptors>  
+    	<mvc:interceptor>  
+	        <mvc:mapping path="/**"/>
+	        <mvc:exclude-mapping path="/customer/logonUI.do"/>
+	        <mvc:exclude-mapping path="/geetest/register.do"/>
+	        <mvc:exclude-mapping path="/customer/jumpToRegist.do"/>
+	        <mvc:exclude-mapping path="/customer/logon.do"/>
+	        <mvc:exclude-mapping path="/customer/findPWDByCellphoneUI.do"/>
+	        <mvc:exclude-mapping path="/customer/findPWDByCellPhone.do"/>
+	        <mvc:exclude-mapping path="/customer/resetPassword.do"/>
+	        <mvc:exclude-mapping path="/customer/editPassword.do"/>
+	        <mvc:exclude-mapping path="/customer/findpwd_newpassword.do"/>
+	        <mvc:exclude-mapping path="/customer/jumpToRegist.do"/>
+	        <mvc:exclude-mapping path="/customer/cellphoneExist.do"/>
+	        <mvc:exclude-mapping path="/customer/regist.do"/>
+	        <mvc:exclude-mapping path="/customer/sendSMS.do"/>
+	        <mvc:exclude-mapping path="/cross/receiveCrossFile.do"/>
+	        <bean class="com.credit.filter.MemberInterceptor" />  
+    	</mvc:interceptor>
+    	<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.credit.filter.PermissionInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>  
+
+	<mvc:default-servlet-handler/>
+	<mvc:annotation-driven/>
+	
+ 	<bean id="byteArray_hmc" class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+	<bean id="string_hmc" class="org.springframework.http.converter.StringHttpMessageConverter" />
+	<bean id="resource_hmc" class="org.springframework.http.converter.ResourceHttpMessageConverter" />
+	<bean id="source_hmc" class="org.springframework.http.converter.xml.SourceHttpMessageConverter" />
+	<bean id="xmlAwareForm_hmc" class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter" />
+	<bean id="jaxb2RootElement_hmc" class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter" />
+	<bean id="jackson_hmc" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">  
+            <list>  
+                <value>application/json</value>  
+            </list>  
+        </property>  
+	</bean> 
+
+	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 --> 
+ 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">  
+			<list>  
+				<ref bean="byteArray_hmc" />  
+				<ref bean="string_hmc" />  
+				<ref bean="resource_hmc" />  
+				<ref bean="source_hmc" />  
+				<ref bean="xmlAwareForm_hmc" />  
+				<ref bean="jaxb2RootElement_hmc" />  
+				<ref bean="jackson_hmc" />  
+			</list>  
+		</property>  
+	</bean> 
+
+
+	
+	
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"><value>org.springframework.web.servlet.view.JstlView</value></property>
+		<property name="prefix"><value>/WEB-INF/Page/</value></property>
+		<property name="suffix"><value>.jsp</value></property>
+	</bean>
+	
+	<!-- Spring CommonsMultipartResolver 上传文件 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    	<property name="defaultEncoding" value="UTF-8"></property>
+    	<property name="maxUploadSize" value="5242880"></property>
+    	<property name="maxInMemorySize" value="5242880"></property>
+    </bean> 
+    
+	<!-- 全局异常处理-->
+	<!-- <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings"> 
+			<props>
+				<prop key="java.lang.Exception">Errors/error</prop>
+				<prop key="java.lang.Throwable">Errors/err</prop>
+				上传文件大于最大尺寸后转向出错页面 
+				<prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">redirect:/uploadError.jsp</prop> 
+			</props> 
+		</property>
+		<property name="statusCodes">
+			<props>
+				<prop key="Errors/error">500</prop>
+				<prop key="Errors/404">404</prop>
+			</props>
+		</property> 
+		<property name="defaultErrorView">  
+		 	<value>forward:/error.jsp</value>
+		</property>
+		<property name="defaultStatusCode">  
+		 	<value>200</value>
+		</property>		 	
+		<property name="warnLogCategory">  
+		 	<value>org.springframework.web.servlet.handler.SimpleMappingExceptionResolver</value>
+		</property>
+	</bean>   -->  
+</beans>

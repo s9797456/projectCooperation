@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.privilege.C_PrivilegeGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.privilege.C_PrivilegeGroup" >
+    <id column="UUID" property="uuid" jdbcType="VARCHAR" />
+    <result column="MENUURL" property="menuurl" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UUID, MENUURL, NAME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CTP_PRIVILEGEGROUP
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CTP_PRIVILEGEGROUP
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.privilege.C_PrivilegeGroup" >
+    insert into CTP_PRIVILEGEGROUP (UUID, MENUURL, NAME
+      )
+    values (#{uuid,jdbcType=VARCHAR}, #{menuurl,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.privilege.C_PrivilegeGroup" >
+    insert into CTP_PRIVILEGEGROUP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        UUID,
+      </if>
+      <if test="menuurl != null" >
+        MENUURL,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="menuurl != null" >
+        #{menuurl,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.privilege.C_PrivilegeGroup" >
+    update CTP_PRIVILEGEGROUP
+    <set >
+      <if test="menuurl != null" >
+        MENUURL = #{menuurl,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.privilege.C_PrivilegeGroup" >
+    update CTP_PRIVILEGEGROUP
+    set MENUURL = #{menuurl,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  
+    <select id="selectByRoleName" resultType="java.lang.String" parameterType="java.lang.String" >
+    select UUID
+    from CTP_PRIVILEGEGROUP
+    where NAME = #{name,jdbcType=VARCHAR}
+  </select>
+</mapper>

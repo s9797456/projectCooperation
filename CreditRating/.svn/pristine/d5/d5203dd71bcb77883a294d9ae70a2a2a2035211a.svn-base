@@ -1,0 +1,348 @@
+package com.credit.bean.person;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.credit.bean.member.Customer;
+
+
+
+@Entity
+@Table(name = "TI_PerBaseInfo")
+public class PerBaseInfo implements Serializable {
+	private static final long serialVersionUID = -3446014372176930019L;
+
+	@Id
+	@Column(length = 32)
+	private String uuid;// 主键
+	
+	@Temporal(TemporalType.DATE)
+	@Column(nullable = false)
+	private Date createTime;//创建日期
+	
+	@Temporal(TemporalType.DATE)
+	@Column(nullable = true)
+	private Date updateTime;// 更新日期 
+	
+	@Column(length = 20)
+	private String uscc;// 社会信用主体标识码
+	
+	@Column(length = 20)
+	private String IDCard;//身份证号
+	
+	@Column(length = 50)
+	private String name; //姓名
+	
+	@Column(length = 50)
+	private String usedName; // 曾用名
+	
+	@Column(length = 10)
+	private String gender; // 性别
+	
+	@Column(length = 20)
+	private String nation; // 民族
+	
+	@Column(length = 20)
+	private String politicalOutlook; // 政治面貌
+	
+	@Column(length = 20)
+	private String nationality; // 国籍
+	
+	@Column(length = 20)
+	private String nativePlace; // 籍贯
+	
+	@Column(length = 20)
+	private String maritalStatus; //婚姻状况
+	
+	@Column(length = 20)
+	private String fertilityCondition; // 生育情况
+	
+	@Column(length = 200)
+	private String permanentAddress; // 户籍地址
+	
+	@Column(length = 200)
+	private String presentAddress; //现居住地址
+	
+	@Column(length = 100)
+	private String IDIssuingAgency; //身份证签发机关
+	
+	@Temporal(TemporalType.DATE)
+	@Column
+	private Date IDTermStart;//身份证有效期开始
+	
+	@Temporal(TemporalType.DATE)
+	@Column
+	private Date IDTermEnd;//身份证有效期结束
+
+	@Column(length = 10)
+	private String presentZipCode; //现居住地邮政编码
+	
+	@OneToOne(mappedBy = "perBaseInfo", cascade = CascadeType.REFRESH)
+	private PerProcess process;//评分流程表
+	
+	@OneToOne(mappedBy = "perBaseInfo", cascade = CascadeType.REFRESH)
+	private PerResult perResult;//评分结果表
+
+	@OneToOne(mappedBy = "perBaseInfo", cascade = CascadeType.REFRESH)
+	private Customer customer;//客户表
+	
+	@OneToMany(mappedBy="perBaseInfo",cascade=CascadeType.REMOVE,fetch = FetchType.LAZY)
+	private Set<PerOpinion> opinion  = new HashSet<PerOpinion>();//意见表
+
+	@OneToMany(mappedBy="perBaseInfo",cascade=CascadeType.REMOVE,fetch = FetchType.LAZY)
+	private Set<PerHistory> history  = new HashSet<PerHistory>();//历史数据表	
+
+	public PerBaseInfo() {
+		super();
+	}
+
+	public PerBaseInfo(String uuid) {
+		super();
+		this.uuid = uuid;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PerBaseInfo other = (PerBaseInfo) obj;
+		if (uuid == null) {
+			if (other.uuid != null)
+				return false;
+		} else if (!uuid.equals(other.uuid))
+			return false;
+		return true;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getUscc() {
+		return uscc;
+	}
+
+	public void setUscc(String uscc) {
+		this.uscc = uscc;
+	}
+
+	public String getIDCard() {
+		return IDCard;
+	}
+
+	public void setIDCard(String iDCard) {
+		IDCard = iDCard;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getUsedName() {
+		return usedName;
+	}
+
+	public void setUsedName(String usedName) {
+		this.usedName = usedName;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getNation() {
+		return nation;
+	}
+
+	public void setNation(String nation) {
+		this.nation = nation;
+	}
+
+	public String getPoliticalOutlook() {
+		return politicalOutlook;
+	}
+
+	public void setPoliticalOutlook(String politicalOutlook) {
+		this.politicalOutlook = politicalOutlook;
+	}
+
+	public String getNationality() {
+		return nationality;
+	}
+
+	public void setNationality(String nationality) {
+		this.nationality = nationality;
+	}
+
+	public String getNativePlace() {
+		return nativePlace;
+	}
+
+	public void setNativePlace(String nativePlace) {
+		this.nativePlace = nativePlace;
+	}
+
+	public String getMaritalStatus() {
+		return maritalStatus;
+	}
+
+	public void setMaritalStatus(String maritalStatus) {
+		this.maritalStatus = maritalStatus;
+	}
+
+	public String getFertilityCondition() {
+		return fertilityCondition;
+	}
+
+	public void setFertilityCondition(String fertilityCondition) {
+		this.fertilityCondition = fertilityCondition;
+	}
+
+	public String getPermanentAddress() {
+		return permanentAddress;
+	}
+
+	public void setPermanentAddress(String permanentAddress) {
+		this.permanentAddress = permanentAddress;
+	}
+
+	public String getPresentAddress() {
+		return presentAddress;
+	}
+
+	public void setPresentAddress(String presentAddress) {
+		this.presentAddress = presentAddress;
+	}
+
+	public String getIDIssuingAgency() {
+		return IDIssuingAgency;
+	}
+
+	public void setIDIssuingAgency(String iDIssuingAgency) {
+		IDIssuingAgency = iDIssuingAgency;
+	}
+
+	public Date getIDTermStart() {
+		return IDTermStart;
+	}
+
+	public void setIDTermStart(Date iDTermStart) {
+		IDTermStart = iDTermStart;
+	}
+
+	public Date getIDTermEnd() {
+		return IDTermEnd;
+	}
+
+	public void setIDTermEnd(Date iDTermEnd) {
+		IDTermEnd = iDTermEnd;
+	}
+
+	public String getPresentZipCode() {
+		return presentZipCode;
+	}
+
+	public void setPresentZipCode(String presentZipCode) {
+		this.presentZipCode = presentZipCode;
+	}
+
+	public PerProcess getProcess() {
+		return process;
+	}
+
+	public void setProcess(PerProcess process) {
+		this.process = process;
+	}
+
+	public PerResult getPerResult() {
+		return perResult;
+	}
+
+	public void setPerResult(PerResult perResult) {
+		this.perResult = perResult;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public Set<PerOpinion> getOpinion() {
+		return opinion;
+	}
+
+	public void setOpinion(Set<PerOpinion> opinion) {
+		this.opinion = opinion;
+	}
+
+	public Set<PerHistory> getHistory() {
+		return history;
+	}
+
+	public void setHistory(Set<PerHistory> history) {
+		this.history = history;
+	}
+
+}

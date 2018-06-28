@@ -1,0 +1,22 @@
+*{
+	margin :0px;
+	padding:0px;
+}
+.navbar-inverse {
+  background-color: #303A40;
+  border-color: #080808;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+  color: #DDDDDD;
+  font-family: "Microsoft Yahei";
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.navbar-inverse .navbar-brand {
+  color: #DDDDDD;
+  font-family: "Microsoft Yahei";
+  font-size: 20px;
+  font-weight: 400;
+}

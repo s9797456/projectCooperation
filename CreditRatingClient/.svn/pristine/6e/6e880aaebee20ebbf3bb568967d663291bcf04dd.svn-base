@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.member.CustomerMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.member.Customer" >
+    <id column="USERNAME" property="username" jdbcType="VARCHAR" />
+    <result column="CELLPHONE" property="cellphone" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="LASTLOGINIP" property="lastloginip" jdbcType="VARCHAR" />
+    <result column="LASTLOGINTIME" property="lastlogintime" jdbcType="TIMESTAMP" />
+    <result column="LOGINTIMES" property="logintimes" jdbcType="DECIMAL" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="REALNAME" property="realname" jdbcType="VARCHAR" />
+    <result column="REGIP" property="regip" jdbcType="VARCHAR" />
+    <result column="REGTIME" property="regtime" jdbcType="TIMESTAMP" />
+    <result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="VISIBLE" property="visible" jdbcType="DECIMAL" />
+    <result column="ENTID" property="entid" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="DECIMAL" />
+    <result column="ORGID" property="orgid" jdbcType="VARCHAR" />
+    <result column="DOMAINNAME" property="domainname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    USERNAME, CELLPHONE, EMAIL, LASTLOGINIP, LASTLOGINTIME, LOGINTIMES, PASSWORD, REALNAME, 
+    REGIP, REGTIME, UPDATETIME, VISIBLE, ENTID, TYPE, ORGID, DOMAINNAME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TP_CUSTOMER
+    where USERNAME = #{username,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TP_CUSTOMER
+    where USERNAME = #{username,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.member.Customer" >
+    insert into TP_CUSTOMER (USERNAME, CELLPHONE, EMAIL, 
+      LASTLOGINIP, LASTLOGINTIME, LOGINTIMES, 
+      PASSWORD, REALNAME, REGIP, 
+      REGTIME, UPDATETIME, VISIBLE, 
+      ENTID, TYPE, ORGID, 
+      DOMAINNAME)
+    values (#{username,jdbcType=VARCHAR}, #{cellphone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{lastloginip,jdbcType=VARCHAR}, #{lastlogintime,jdbcType=TIMESTAMP}, #{logintimes,jdbcType=DECIMAL}, 
+      #{password,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{regip,jdbcType=VARCHAR}, 
+      #{regtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{visible,jdbcType=DECIMAL}, 
+      #{entid,jdbcType=VARCHAR}, #{type,jdbcType=DECIMAL}, #{orgid,jdbcType=VARCHAR}, 
+      #{domainname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.member.Customer" >
+    insert into TP_CUSTOMER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="username != null" >
+        USERNAME,
+      </if>
+      <if test="cellphone != null" >
+        CELLPHONE,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="lastloginip != null" >
+        LASTLOGINIP,
+      </if>
+      <if test="lastlogintime != null" >
+        LASTLOGINTIME,
+      </if>
+      <if test="logintimes != null" >
+        LOGINTIMES,
+      </if>
+      <if test="password != null" >
+        PASSWORD,
+      </if>
+      <if test="realname != null" >
+        REALNAME,
+      </if>
+      <if test="regip != null" >
+        REGIP,
+      </if>
+      <if test="regtime != null" >
+        REGTIME,
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME,
+      </if>
+      <if test="visible != null" >
+        VISIBLE,
+      </if>
+      <if test="entid != null" >
+        ENTID,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="orgid != null" >
+        ORGID,
+      </if>
+      <if test="domainname != null" >
+        DOMAINNAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="cellphone != null" >
+        #{cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="lastloginip != null" >
+        #{lastloginip,jdbcType=VARCHAR},
+      </if>
+      <if test="lastlogintime != null" >
+        #{lastlogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logintimes != null" >
+        #{logintimes,jdbcType=DECIMAL},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="regip != null" >
+        #{regip,jdbcType=VARCHAR},
+      </if>
+      <if test="regtime != null" >
+        #{regtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="visible != null" >
+        #{visible,jdbcType=DECIMAL},
+      </if>
+      <if test="entid != null" >
+        #{entid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="orgid != null" >
+        #{orgid,jdbcType=VARCHAR},
+      </if>
+      <if test="domainname != null" >
+        #{domainname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.member.Customer" >
+    update TP_CUSTOMER
+    <set >
+      <if test="cellphone != null" >
+        CELLPHONE = #{cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="lastloginip != null" >
+        LASTLOGINIP = #{lastloginip,jdbcType=VARCHAR},
+      </if>
+      <if test="lastlogintime != null" >
+        LASTLOGINTIME = #{lastlogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logintimes != null" >
+        LOGINTIMES = #{logintimes,jdbcType=DECIMAL},
+      </if>
+      <if test="password != null" >
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        REALNAME = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="regip != null" >
+        REGIP = #{regip,jdbcType=VARCHAR},
+      </if>
+      <if test="regtime != null" >
+        REGTIME = #{regtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="visible != null" >
+        VISIBLE = #{visible,jdbcType=DECIMAL},
+      </if>
+      <if test="entid != null" >
+        ENTID = #{entid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="orgid != null" >
+        ORGID = #{orgid,jdbcType=VARCHAR},
+      </if>
+      <if test="domainname != null" >
+        DOMAINNAME = #{domainname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where USERNAME = #{username,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.member.Customer" >
+    update TP_CUSTOMER
+    set CELLPHONE = #{cellphone,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      LASTLOGINIP = #{lastloginip,jdbcType=VARCHAR},
+      LASTLOGINTIME = #{lastlogintime,jdbcType=TIMESTAMP},
+      LOGINTIMES = #{logintimes,jdbcType=DECIMAL},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      REALNAME = #{realname,jdbcType=VARCHAR},
+      REGIP = #{regip,jdbcType=VARCHAR},
+      REGTIME = #{regtime,jdbcType=TIMESTAMP},
+      UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      VISIBLE = #{visible,jdbcType=DECIMAL},
+      ENTID = #{entid,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=DECIMAL},
+      ORGID = #{orgid,jdbcType=VARCHAR},
+      DOMAINNAME = #{domainname,jdbcType=VARCHAR}
+    where USERNAME = #{username,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+
+
+<select id="selectByParam" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TP_CUSTOMER
+    <where>
+          <if test="username != null and username !='' " >
+            USERNAME = #{username,jdbcType=VARCHAR}
+          </if>
+          <if test="username0 != null and username0 !='' " >
+           and USERNAME != #{username0,jdbcType=VARCHAR}
+          </if>
+          <if test="password != null and password !='' " >
+           and PASSWORD = #{password,jdbcType=VARCHAR}
+          </if>
+          <if test="email != null and email !='' " >
+           and EMAIL = #{email,jdbcType=VARCHAR}
+          </if>
+          <if test="email0 != null and email0 !='' " >
+           and EMAIL != #{email0,jdbcType=VARCHAR}
+          </if>
+           <if test="cellphone != null and cellphone !='' " >
+           and CELLPHONE = #{cellphone,jdbcType=VARCHAR} or USERNAME = #{cellphone,jdbcType=VARCHAR}
+          </if>
+          <if test="cellphone0 != null and cellphone0 !='' " >
+           and CELLPHONE != #{cellphone0,jdbcType=VARCHAR}
+          </if>
+    </where>
+  </select>
+  
+    <select id="selectByEntID" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TP_CUSTOMER
+    where  ENTID = #{entid,jdbcType=VARCHAR}
+  </select>
+  
+    <select id="selectAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from TP_CUSTOMER
+  </select>
+  
+    <resultMap id="IndustryResultMap" type="com.credit.modelvo.Industry">
+    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+     <result column="parentid" jdbcType="VARCHAR" property="parentid" />
+  </resultMap>
+  
+    <select id="findAllIndustry" resultType="list" resultMap="IndustryResultMap">
+    select uuid,name,parentid
+    from TB_INDUSTRY
+  </select>
+</mapper>

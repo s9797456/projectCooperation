@@ -1,0 +1,510 @@
+package com.credit.controller.perscore;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.log4j.Logger;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.io.SAXReader;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.credit.bean.member.Customer;
+import com.credit.bean.pagelist.PageView;
+import com.credit.bean.pagelist.QueryResult;
+import com.credit.bean.person.Career;
+import com.credit.bean.person.Education;
+import com.credit.bean.person.PerBaseInfo;
+import com.credit.bean.person.PerHistory;
+import com.credit.bean.person.PerResult;
+import com.credit.bean.person.Skills;
+import com.credit.bean.person.Train;
+import com.credit.bean.vo.enterprise.UploadFileVO;
+import com.credit.bean.vo.person.PerScoreVO;
+import com.credit.service.addition.ModelService;
+import com.credit.service.member.CustomerService;
+import com.credit.service.person.CareerService;
+import com.credit.service.person.EducationService;
+import com.credit.service.person.PerBaseInfoService;
+import com.credit.service.person.PerProcessService;
+import com.credit.service.person.PerResultService;
+import com.credit.service.person.PerUploadFileService;
+import com.credit.service.person.SkillsService;
+import com.credit.service.person.TrainService;
+import com.credit.util.FileUtil;
+import com.credit.util.HistoricalDataUtil;
+import com.credit.util.model.Index;
+import com.credit.util.model.ModelUtil;
+import com.credit.util.model.Option;
+import com.credit.util.properties.BusinessUtil;
+
+
+/**
+ * @title 评分流程
+ * @author 孙尚飞   2017-7-31
+ * @desc
+ */
+@Controller
+@RequestMapping("/control/perScore")
+public class PerScoreAction {
+	private static final Logger logger = Logger.getLogger(PerScoreAction.class);
+	private String moduleName = "管理员操作情况";
+	private StringBuffer message = new StringBuffer("");
+	private Boolean flag = true;
+	Map<String, Object> msgMap = new HashMap<String, Object>();
+
+	
+	@Resource(name = "customerServiceBean")
+	private CustomerService customerService;
+	
+	@Resource(name = "perBaseInfoServiceBean")
+	private PerBaseInfoService perBaseInfoService;
+	
+	@Resource(name = "perResultServiceBean")
+	private PerResultService perResultService;
+	
+	@Resource(name = "modelServiceBean")
+	private ModelService modelService;
+	
+	@Resource(name = "perProcessServiceBean")
+	private PerProcessService perProcessService;
+	
+	@Resource(name = "careerServiceBean")
+	private CareerService careerService;
+	
+	@Resource(name = "educationServiceBean")
+	private EducationService educationService;
+	
+	@Resource(name = "perUploadFileServiceBean")
+	private PerUploadFileService perUploadFileService;
+	
+	@Resource(name = "skillsServiceBean")
+	private SkillsService skillsService;
+	
+	@Resource(name = "trainServiceBean")
+	private TrainService trainService;
+	
+	/**
+	 * @title 个人评分列表
+	 * @author  孙尚飞  2017-7-31
+	 * @desc
+	 */
+	//@Permission(model = "perScore", privilegeValue = "list")
+	@RequestMapping("/perScoreLists")
+	@ResponseBody
+	public Map<String, Object> perScoreLists(HttpServletRequest request,int page,int limit) {
+		logger.info(moduleName + "[查看评分列表]");
+		Map<String,String> params = new HashMap<String,String>();
+		List<PerScoreVO> psvs=new ArrayList<PerScoreVO>();
+		String adr=BusinessUtil.getMsg("adr");
+		String root=BusinessUtil.getMsg("root");
+		String name=request.getParameter("name");
+		String value=request.getParameter("value");
+		QueryResult<PerScoreVO> queryResult = new QueryResult<PerScoreVO>();
+		if(name!=null&&value!=null&&!"".equals(value.trim())){
+			params.put(name, "'%" + value.trim() + "%'");
+		}
+		queryResult = perResultService.findScorePerson(page, limit,params);
+		psvs=queryResult.getResultlist();
+		if(psvs!=null){
+			List<PerScoreVO> lists=new ArrayList<PerScoreVO>();
+			for(PerScoreVO psv : psvs){
+				if(psv.getApplyReportState()==0&&psv.getScoreState()==0){
+					psv.setState("[1]客户录入信息");
+				}else if(psv.getApplyReportState()==1&&psv.getScoreState()==0){
+					psv.setState("[2]管理员确认基本信息");
+				}else if(psv.getApplyReportState()==1&&psv.getScoreState()==1){
+					psv.setState("[3]管理员调查指标信息");
+				}else if(psv.getApplyReportState()==1&&psv.getScoreState()==2){
+					psv.setState("[4]管理员编辑或结束调查");
+				}else if(psv.getApplyReportState()==1&&psv.getScoreState()==3){
+					psv.setState("[5]客户初评");
+				}else if(psv.getApplyReportState()==1&&psv.getScoreState()==4){
+					psv.setState("[6]管理员终评");
+				}else if(psv.getApplyReportState()==1&&psv.getScoreState()==5){
+					psv.setState("[7]管理员管理评分报告");
+				}else{
+					psv.setState("该状态不存在");
+				}
+				//设置帐号状态
+				Customer customer = customerService.selectByPerID(psv.getPerID());
+				if(customer != null){
+					int visible = customer.getVisible();
+					psv.setVisible(visible);
+					if(psv.getModelID() == null && visible == 0){
+						psv.setState("<font style = 'color:#ef5959'>帐号未激活或模型未分配</font>");
+					}else if(psv.getModelID() != null && visible == 0){
+						psv.setState("<font style = 'color:rgb(245, 117, 9)'>帐号未激活</font>");
+					}
+				}
+				//历史数据
+				PerBaseInfo perBaseInfo=perBaseInfoService.find(psv.getPerID());
+				Set<PerHistory> histories=new HashSet<PerHistory>();
+				histories=perBaseInfo.getHistory();
+				if(histories.size()!=0||!histories.isEmpty()){
+					for(PerHistory history : histories){
+						if(history.getHistoricalXMLUrl()!=null&&FileUtil.isExist(adr+root+history.getHistoricalXMLUrl())){
+							PerScoreVO perscore=HistoricalDataUtil.getPerScore(adr+root+history.getHistoricalXMLUrl(), psv,history);
+							lists.add(perscore);
+						}
+					}
+				}
+			}
+			psvs.addAll(lists);
+		}
+		msgMap.put("total", queryResult.getTotalrecord());
+		msgMap.put("list", psvs);
+		return msgMap;
+	}
+	/**
+	 * @title 个人评分时，显示个人基础信息
+	 * @author  孙尚飞  2017-7-31
+	 * @desc
+	 */
+	//@Permission(model = "perScore", privilegeValue = "list")
+	@RequestMapping("/perBaseInfoUI")
+	@ResponseBody
+	public Map<String, Object> perBaseInfoUI(String perID) {
+		PerBaseInfo perBaseInfo = new PerBaseInfo();
+		PerBaseInfo per =perBaseInfoService.find(perID);
+		if (per != null) {
+			/*msgMap.put("uuid",per.getUuid());
+			msgMap.put("createTime",per.getCreateTime());
+			msgMap.put("updateTime",per.getUpdateTime());
+			msgMap.put("name",per.getName());
+			msgMap.put("IDCard",per.getIDCard());
+			msgMap.put("usedName",per.getUsedName());
+			msgMap.put("gender",per.getGender());
+			msgMap.put("politicalOutlook",per.getPoliticalOutlook());
+			msgMap.put("nation",per.getNation());
+			msgMap.put("nationality",per.getNationality());
+			msgMap.put("nativePlace",per.getNativePlace());
+			msgMap.put("maritalStatus",per.getMaritalStatus());
+			msgMap.put("fertilityCondition",per.getFertilityCondition());
+			msgMap.put("IDIssuingAgency",per.getIDIssuingAgency());
+			msgMap.put("presentZipCode",per.getPresentZipCode());
+			msgMap.put("IDTermStart",per.getIDTermStart());
+			msgMap.put("IDTermEnd",per.getIDTermEnd());
+			msgMap.put("presentAddress",per.getPresentAddress());*/
+			perBaseInfo.setUuid(per.getUuid());
+			perBaseInfo.setCreateTime(per.getCreateTime());
+			perBaseInfo.setUpdateTime(per.getUpdateTime());
+			perBaseInfo.setName(per.getName());
+			perBaseInfo.setIDCard(per.getIDCard());
+			perBaseInfo.setUsedName(per.getUsedName());
+			perBaseInfo.setGender(per.getGender());
+			perBaseInfo.setPoliticalOutlook(per.getPoliticalOutlook());
+			perBaseInfo.setNation(per.getNation());
+			perBaseInfo.setNationality(per.getNationality());
+			perBaseInfo.setNativePlace(per.getNativePlace());
+			perBaseInfo.setMaritalStatus(per.getMaritalStatus());
+			perBaseInfo.setFertilityCondition(per.getFertilityCondition());
+			perBaseInfo.setIDIssuingAgency(per.getIDIssuingAgency());
+			perBaseInfo.setPresentZipCode(per.getPresentZipCode());
+			perBaseInfo.setIDTermStart(per.getIDTermStart());
+			perBaseInfo.setIDTermEnd(per.getIDTermEnd());
+			perBaseInfo.setPresentAddress(per.getPresentAddress());
+			
+			msgMap.put("success", true);
+			msgMap.put("status", true);
+			msgMap.put("perBaseInfo", perBaseInfo);
+		} else {
+			msgMap.put("success", true);
+			msgMap.put("status", false);
+		}
+		return msgMap;
+	}
+	
+	/**
+	 * @title 个人评分时显示职业生涯信息
+	 * @author  孙尚飞  2018-1-22
+	 * @desc
+	 */
+	//@Permission(model = "entScore", privilegeValue = "list")
+	@RequestMapping("/careerInfo")
+	@ResponseBody
+	public Map<String, Object> careerInfo(String perID,String uuid,int limit,int page){
+		StringBuffer jpql = new StringBuffer("");
+		List<Object> params = new ArrayList<Object>();
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		if(perID!=null &&! "".equals(perID.trim())){
+			if(params.size()>0){
+				jpql.append(" and ");
+			} 
+			jpql.append(" o.PerID = ?"+ (params.size()+1));
+			params.add(perID.trim());
+		}
+		if(uuid!=null &&! "".equals(uuid.trim())){
+			if(params.size()>0){
+				jpql.append(" and ");
+			} 
+			jpql.append(" o.uuid = ?"+ (params.size()+1));
+			params.add(uuid.trim());
+		}
+		
+		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
+		orderby.put("startTime", "desc");
+		PageView<Career> pageView= new PageView<Career>(limit,page);
+		QueryResult<Career> qr = careerService.getScrollData(pageView.getFirstResult(), pageView.getMaxresult(), jpql.toString(), params.toArray(), orderby);
+		pageView.setQueryResult(qr);
+		msgMap.put("career", qr.getResultlist());
+		msgMap.put("total", qr.getTotalrecord());
+		msgMap.put("success", true);
+		msgMap.put("status", true);	
+		return msgMap;
+	}
+	
+	/**
+	 * @title 个人评分时显示教育信息
+	 * @author  孙尚飞  2018-1-22
+	 * @desc
+	 */
+	//@Permission(model = "entScore", privilegeValue = "list")
+	@RequestMapping("/educationInfo")
+	@ResponseBody
+	public Map<String, Object> educationInfo(String perID,String uuid,int limit,int page){
+		StringBuffer jpql = new StringBuffer("");
+		List<Object> params = new ArrayList<Object>();
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		if(perID!=null &&! "".equals(perID.trim())){
+			if(params.size()>0){
+				jpql.append(" and ");
+			} 
+			jpql.append(" o.PerID = ?"+ (params.size()+1));
+			params.add(perID.trim());
+		}
+		if(uuid!=null &&! "".equals(uuid.trim())){
+			if(params.size()>0){
+				jpql.append(" and ");
+			} 
+			jpql.append(" o.uuid = ?"+ (params.size()+1));
+			params.add(uuid.trim());
+		}
+		
+		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
+		orderby.put("startTime", "desc");
+		PageView<Education> pageView= new PageView<Education>(limit,page);
+		QueryResult<Education> qr = educationService.getScrollData(pageView.getFirstResult(), pageView.getMaxresult(), jpql.toString(), params.toArray(), orderby);
+		pageView.setQueryResult(qr);
+		msgMap.put("education", qr.getResultlist());
+		msgMap.put("total", qr.getTotalrecord());
+		msgMap.put("success", true);
+		msgMap.put("status", true);	
+		return msgMap;
+	}
+	
+	/**
+	 * @title 个人评分时显示培训信息
+	 * @author  孙尚飞  2018-1-22
+	 * @desc
+	 */
+	//@Permission(model = "entScore", privilegeValue = "list")
+	@RequestMapping("/trainInfo")
+	@ResponseBody
+	public Map<String, Object> trainInfo(String perID,String uuid,int limit,int page){
+		StringBuffer jpql = new StringBuffer("");
+		List<Object> params = new ArrayList<Object>();
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		if(perID!=null &&! "".equals(perID.trim())){
+			if(params.size()>0){
+				jpql.append(" and ");
+			} 
+			jpql.append(" o.PerID = ?"+ (params.size()+1));
+			params.add(perID.trim());
+		}
+		if(uuid!=null &&! "".equals(uuid.trim())){
+			if(params.size()>0){
+				jpql.append(" and ");
+			} 
+			jpql.append(" o.uuid = ?"+ (params.size()+1));
+			params.add(uuid.trim());
+		}
+		
+		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
+		orderby.put("startTime", "desc");
+		PageView<Train> pageView= new PageView<Train>(limit,page);
+		QueryResult<Train> qr = trainService.getScrollData(pageView.getFirstResult(), pageView.getMaxresult(), jpql.toString(), params.toArray(), orderby);
+		pageView.setQueryResult(qr);
+		msgMap.put("train", qr.getResultlist());
+		msgMap.put("total", qr.getTotalrecord());
+		msgMap.put("success", true);
+		msgMap.put("status", true);	
+		return msgMap;
+	}
+	
+	/**
+	 * @title 个人评分时显示技能信息
+	 * @author  孙尚飞  2018-1-22
+	 * @desc
+	 */
+	//@Permission(model = "entScore", privilegeValue = "list")
+	@RequestMapping("/skillsInfo")
+	@ResponseBody
+	public Map<String, Object> skillsInfo(String perID,String uuid,int limit,int page){
+		StringBuffer jpql = new StringBuffer("");
+		List<Object> params = new ArrayList<Object>();
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		if(perID!=null &&! "".equals(perID.trim())){
+			if(params.size()>0){
+				jpql.append(" and ");
+			} 
+			jpql.append(" o.PerID = ?"+ (params.size()+1));
+			params.add(perID.trim());
+		}
+		if(uuid!=null &&! "".equals(uuid.trim())){
+			if(params.size()>0){
+				jpql.append(" and ");
+			} 
+			jpql.append(" o.uuid = ?"+ (params.size()+1));
+			params.add(uuid.trim());
+		}
+		
+		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
+		orderby.put("skillName", "desc");
+		PageView<Skills> pageView= new PageView<Skills>(limit,page);
+		QueryResult<Skills> qr = skillsService.getScrollData(pageView.getFirstResult(), pageView.getMaxresult(), jpql.toString(), params.toArray(), orderby);
+		pageView.setQueryResult(qr);
+		msgMap.put("skills", qr.getResultlist());
+		msgMap.put("total", qr.getTotalrecord());
+		msgMap.put("success", true);
+		msgMap.put("status", true);	
+		return msgMap;
+	}
+	
+	/**
+	 * @title 个人评分时显示上传附件
+	 * @author  孙尚飞  2017-8-11
+	 * @desc
+	 */
+	//@Permission(model = "entScore", privilegeValue = "list")
+	@RequestMapping("/perUploadFiles")
+	@ResponseBody
+	public Map<String, Object> perUploadFiles(String name,String perID,int limit,int page) {
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		Map<String, String> searchpParams = new HashMap<String, String>();
+		if (name != null && !"".equals(name.trim())) {
+			searchpParams.put("name", name);
+		}
+		QueryResult<UploadFileVO> queryResult = new QueryResult<UploadFileVO>();
+		queryResult = perUploadFileService.findPerUploadFiles(searchpParams,perID, page, limit);
+		msgMap.put("total", queryResult.getTotalrecord());
+		msgMap.put("perUploadFiles", queryResult.getResultlist());
+		msgMap.put("success", true);
+		return msgMap;
+	}
+	/**
+	 * @title 用户录入信息填写的指标信息
+	 * @author  孙尚飞  2017-8-16
+	 * @desc
+	 */
+	//@Permission(model = "entScore", privilegeValue = "list")
+	@RequestMapping("/extraIndexList")
+	@ResponseBody
+	public Map<String, Object> extraIndexList(String resultID,HttpServletRequest request){
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		List<Index> indexs=new ArrayList<Index>();
+		//String dir=request.getSession().getServletContext().getRealPath("");
+		String adr=BusinessUtil.getMsg("adr");
+		String root=BusinessUtil.getMsg("root");
+		flag=true;
+		message.setLength(0);
+		PerResult result=perResultService.find(resultID);
+		String path=new String();
+		if(result==null){
+			flag=false;
+			message.append("此人信息不存在");
+		}else{
+			if(result.getInputXMLUrl()==null){
+				flag=false;
+				message.append("此人填写的指标信息为空");
+			}else{
+				path=adr+root+result.getInputXMLUrl();
+				File file=new File(path);
+				if(!file.exists()){
+					flag=false;
+					message.append("此人填写的指标信息XML文件丢失");
+				}
+			}
+		}
+		if(flag){
+			try {
+				File file=new File(path);
+				Document document = new SAXReader().read(file);
+				indexs=ModelUtil.getIndex(document);
+			} catch (DocumentException e) {
+				e.printStackTrace();
+			}	
+			Map<String, List<Index>> map = new HashMap<String, List<Index>>();
+			String firstname=new String();
+			for(Index index1 : indexs){
+				firstname=index1.getName();
+				List<Index> index=new ArrayList<Index>();
+				for(Index index2 : index1.getChirds()){
+					for(Index index3 : index2.getChirds()){
+						if(index3.getPushed()!=null&&index3.getPushed().equals("true")){
+							for(Option option : index3.getOptions()){
+								if(option.getSelected()!=null&&option.getSelected().equals("true")){
+									index3.setInsert(option.getName());
+								}
+							}
+							index.add(index3);
+						}
+					}
+				}
+				map.put(firstname, index);
+			}
+			msgMap.put("indexs", map);
+			msgMap.put("statue", true);
+		}else{
+			msgMap.put("statue", false);
+			msgMap.put("msg", message.toString());
+		}
+		return msgMap;
+	}
+	/**
+	 * @title 报告模板列表
+	 * @author  孙尚飞  2017-8-16
+	 * @desc
+	 */
+	//@Permission(model = "entScore", privilegeValue = "list")
+	@RequestMapping("/reportTemplateList")
+	@ResponseBody
+	public Map<String, Object> reportTemplateList(){
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		List<Option> options=new ArrayList<Option>();
+		String ReportTemplate=BusinessUtil.getMsg("perReportTemplate");
+		String[] report=null;
+		if(ReportTemplate!=null&&!"".equals(ReportTemplate)){
+			if(ReportTemplate.indexOf("#")!=-1){
+				report=ReportTemplate.split("#");
+				for(String str : report){
+					Option option=new Option();
+					option.setName(str.split("=")[0]);
+					option.setValue(str.split("=")[1]);
+					options.add(option);
+				}
+			}else{
+				Option option=new Option();
+				option.setName(ReportTemplate.split("=")[0]);
+				option.setValue(ReportTemplate.split("=")[1]);
+				options.add(option);
+			}
+		}
+		msgMap.put("options", options);
+		msgMap.put("success",true);
+		msgMap.put("status",true);
+		return msgMap;
+	}
+}
+

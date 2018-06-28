@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.privilege.C_Group_PrivilegeMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.privilege.C_Group_PrivilegeKey" >
+    <id column="GROUPID" property="groupid" jdbcType="VARCHAR" />
+    <id column="MODEL" property="model" jdbcType="VARCHAR" />
+    <id column="PRIVILEGEVALUE" property="privilegevalue" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.credit.model.privilege.C_Group_PrivilegeKey" >
+    delete from CTP_GROUP_PRIVILEGE
+    where GROUPID = #{groupid,jdbcType=VARCHAR}
+      and MODEL = #{model,jdbcType=VARCHAR}
+      and PRIVILEGEVALUE = #{privilegevalue,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.privilege.C_Group_PrivilegeKey" >
+    insert into CTP_GROUP_PRIVILEGE (GROUPID, MODEL, PRIVILEGEVALUE
+      )
+    values (#{groupid,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, #{privilegevalue,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.privilege.C_Group_PrivilegeKey" >
+    insert into CTP_GROUP_PRIVILEGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="groupid != null" >
+        GROUPID,
+      </if>
+      <if test="model != null" >
+        MODEL,
+      </if>
+      <if test="privilegevalue != null" >
+        PRIVILEGEVALUE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="groupid != null" >
+        #{groupid,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null" >
+        #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="privilegevalue != null" >
+        #{privilegevalue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="selectByCustomer" resultType="com.credit.model.privilege.C_SystemPrivilegeKey" parameterType="java.lang.String">
+	select model,privilegevalue from CTP_GROUP_PRIVILEGE cgp 
+	inner join CTP_CUSTOMER_ROLE ccr 
+	on cgp.GROUPID=ccr.GROUPID and ccr.USERNAME=#{username,jdbcType=VARCHAR} 
+</select>
+</mapper>

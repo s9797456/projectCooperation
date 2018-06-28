@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.enterprise.HistoricalMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.enterprise.Historical" >
+    <id column="UUID" property="uuid" jdbcType="VARCHAR" />
+    <result column="ENTNAME" property="entname" jdbcType="VARCHAR" />
+    <result column="HISTORICALXMLURL" property="historicalxmlurl" jdbcType="VARCHAR" />
+    <result column="SNAPSHOTURL" property="snapshoturl" jdbcType="VARCHAR" />
+    <result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="ENTID" property="entid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UUID, ENTNAME, HISTORICALXMLURL, SNAPSHOTURL, UPDATETIME, ENTID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TE_HISTORICALDATA
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TE_HISTORICALDATA
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.enterprise.Historical" >
+    insert into TE_HISTORICALDATA (UUID, ENTNAME, HISTORICALXMLURL, 
+      SNAPSHOTURL, UPDATETIME, ENTID
+      )
+    values (#{uuid,jdbcType=VARCHAR}, #{entname,jdbcType=VARCHAR}, #{historicalxmlurl,jdbcType=VARCHAR}, 
+      #{snapshoturl,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{entid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.enterprise.Historical" >
+    insert into TE_HISTORICALDATA
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        UUID,
+      </if>
+      <if test="entname != null" >
+        ENTNAME,
+      </if>
+      <if test="historicalxmlurl != null" >
+        HISTORICALXMLURL,
+      </if>
+      <if test="snapshoturl != null" >
+        SNAPSHOTURL,
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME,
+      </if>
+      <if test="entid != null" >
+        ENTID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="entname != null" >
+        #{entname,jdbcType=VARCHAR},
+      </if>
+      <if test="historicalxmlurl != null" >
+        #{historicalxmlurl,jdbcType=VARCHAR},
+      </if>
+      <if test="snapshoturl != null" >
+        #{snapshoturl,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="entid != null" >
+        #{entid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.enterprise.Historical" >
+    update TE_HISTORICALDATA
+    <set >
+      <if test="entname != null" >
+        ENTNAME = #{entname,jdbcType=VARCHAR},
+      </if>
+      <if test="historicalxmlurl != null" >
+        HISTORICALXMLURL = #{historicalxmlurl,jdbcType=VARCHAR},
+      </if>
+      <if test="snapshoturl != null" >
+        SNAPSHOTURL = #{snapshoturl,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="entid != null" >
+        ENTID = #{entid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.enterprise.Historical" >
+    update TE_HISTORICALDATA
+    set ENTNAME = #{entname,jdbcType=VARCHAR},
+      HISTORICALXMLURL = #{historicalxmlurl,jdbcType=VARCHAR},
+      SNAPSHOTURL = #{snapshoturl,jdbcType=VARCHAR},
+      UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      ENTID = #{entid,jdbcType=VARCHAR}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByEntId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TE_HISTORICALDATA
+    where entid = #{entid,jdbcType=VARCHAR}
+    ORDER by UPDATETIME desc
+  </select>
+</mapper>

@@ -1,0 +1,13 @@
+package com.credit.service.addition;
+
+import java.util.List;
+
+import com.credit.model.addition.UploadFileCategory;
+
+
+public interface UploadFileCategoryService<T> {
+
+	List<UploadFileCategory> selectAll();
+
+    UploadFileCategory selectByPrimaryKey(String uuid);
+}

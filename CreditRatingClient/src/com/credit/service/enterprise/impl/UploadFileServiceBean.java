@@ -1,0 +1,82 @@
+package com.credit.service.enterprise.impl;
+
+
+import java.io.File;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.credit.mapper.enterprise.UploadFileMapper;
+import com.credit.model.enterprise.UploadFile;
+import com.credit.service.enterprise.UploadFileService;
+import com.credit.util.SaveFile;
+import com.credit.util.properties.BusinessUtil;
+@Service
+@Transactional
+public class UploadFileServiceBean implements UploadFileService {
+
+	private static final Logger logger = Logger.getLogger(UploadFileServiceBean.class);
+	
+	@Resource
+	private UploadFileMapper mapper;
+	
+	@Override
+	public int deleteByPrimaryKey(String uuid) {
+		logger.info("UploadFileService_deleteByPrimaryKey;uuid:" + uuid);
+		return mapper.deleteByPrimaryKey(uuid);
+	}
+	@Override
+	public int insert(UploadFile record) {
+		logger.info("UploadFileService_insert;Finance:" + record);
+		return mapper.insertSelective(record);
+	}
+	@Override
+	public UploadFile selectByPrimaryKey(String uuid) {
+		logger.info("UploadFileService_selectByPrimaryKey;uuid:" + uuid);
+		return mapper.selectByPrimaryKey(uuid);
+	}
+	@Override
+	public int updateByPrimaryKey(UploadFile record) {
+		logger.info("UploadFileService_updateByPrimaryKey;Finance:" + record);
+		return mapper.updateByPrimaryKeySelective(record);
+	}
+	@Override
+	public List<UploadFile> selectByEntID(String entBaseInfoUuid) {
+		logger.info("UploadFileService_selectByEntID;entBaseInfoUuid:" + entBaseInfoUuid);
+		return mapper.selectByEntID(entBaseInfoUuid);
+	}
+	@Override
+	public List<UploadFile> selectByEntIDAndFileID(String entBaseInfoUuid,
+			String fileID) {
+		logger.info("UploadFileService_selectByEntIDAndFileID;entBaseInfoUuid:" 
+			+ entBaseInfoUuid+";fileID:"+fileID);
+		return mapper.selectByEntIDAndFileID(entBaseInfoUuid,fileID);
+	}
+	@Override
+	public List<String> judgeFileAllUpload(String entBaseInfoUuid,String isMust) {
+		logger.info("UploadFileService_judgeFileAllUpload;entBaseInfoUuid:"+ entBaseInfoUuid);
+			return mapper.judgeFileAllUpload(entBaseInfoUuid,isMust);
+	}
+	@Override
+	public void batchUploadFile() {
+		logger.info("UploadFileService_batchUploadFile;");
+		String adr=BusinessUtil.getMsg("adr")+BusinessUtil.getMsg("root");
+		List<UploadFile> files=mapper.findAllPathByCross();
+		for(UploadFile file:files){
+			String realpath=adr+file.getFileurl();
+			File uploadfile=new File(realpath);
+			if(uploadfile.exists()){
+				if(SaveFile.crossFile(file.getFileurl(),  realpath)){
+					file.setCrossstate(1);
+					mapper.insertSelective(file);
+				}
+			}
+		}
+		logger.info("跨域文件批量上传结束");
+	}
+
+}

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.member.OrganizationMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.member.Organization" >
+    <id column="UUID" property="uuid" jdbcType="VARCHAR" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="IMGURL" property="imgurl" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="ORGURL" property="orgurl" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="TWODOMAINNAMES" property="twodomainnames" jdbcType="VARCHAR" />
+    <result column="VISIBLE" property="visible" jdbcType="DECIMAL" />
+  </resultMap>
+   <resultMap id="ChartResultMap" type="com.credit.modelvo.organization.LineChartVO" >
+   	  	<result column="cunt" jdbcType="VARCHAR" property="cunt" />
+    	<result column="descp" jdbcType="VARCHAR" property="descp" />
+  </resultMap>
+   <resultMap id="StatisticalList" type="com.credit.modelvo.organization.StatisticalListVO" >
+   	  	<result column="c_scorestate" jdbcType="VARCHAR" property="c_scorestate" />
+    	<result column="c_applyreportstate" jdbcType="VARCHAR" property="c_applyreportstate" />
+    	<result column="scorestate" jdbcType="VARCHAR" property="scorestate" />
+    	<result column="applyreportstate" jdbcType="VARCHAR" property="applyreportstate" />
+  </resultMap>
+   <resultMap id="ScoringEnterpriseList" type="com.credit.modelvo.organization.ScoringEnterpriseList" >
+   	 	<result column="entid" jdbcType="VARCHAR" property="entid" />
+    	<result column="finalscore" jdbcType="VARCHAR" property="finalscore" />
+    	<result column="finallevel" jdbcType="VARCHAR" property="finallevel" />
+    	<result column="username" jdbcType="VARCHAR" property="username" />
+    	<result column="cellphone" jdbcType="VARCHAR" property="cellphone" />
+    	<result column="realname" jdbcType="VARCHAR" property="realname" />
+    	<result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UUID, DESCRIPTION, EMAIL, IMGURL, NAME, ORGURL, PHONE, TWODOMAINNAMES, VISIBLE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TP_ORGANIZATION
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TP_ORGANIZATION
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.member.Organization" >
+    insert into TP_ORGANIZATION (UUID, DESCRIPTION, EMAIL, 
+      IMGURL, NAME, ORGURL, 
+      PHONE, TWODOMAINNAMES, VISIBLE
+      )
+    values (#{uuid,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{imgurl,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{orgurl,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{twodomainnames,jdbcType=VARCHAR}, #{visible,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.member.Organization" >
+    insert into TP_ORGANIZATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        UUID,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="imgurl != null" >
+        IMGURL,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="orgurl != null" >
+        ORGURL,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="twodomainnames != null" >
+        TWODOMAINNAMES,
+      </if>
+      <if test="visible != null" >
+        VISIBLE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="imgurl != null" >
+        #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="orgurl != null" >
+        #{orgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="twodomainnames != null" >
+        #{twodomainnames,jdbcType=VARCHAR},
+      </if>
+      <if test="visible != null" >
+        #{visible,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.member.Organization" >
+    update TP_ORGANIZATION
+    <set >
+      <if test="description != null" >
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="imgurl != null" >
+        IMGURL = #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="orgurl != null" >
+        ORGURL = #{orgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="twodomainnames != null" >
+        TWODOMAINNAMES = #{twodomainnames,jdbcType=VARCHAR},
+      </if>
+      <if test="visible != null" >
+        VISIBLE = #{visible,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.member.Organization" >
+    update TP_ORGANIZATION
+    set DESCRIPTION = #{description,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      IMGURL = #{imgurl,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      ORGURL = #{orgurl,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      TWODOMAINNAMES = #{twodomainnames,jdbcType=VARCHAR},
+      VISIBLE = #{visible,jdbcType=DECIMAL}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  
+     <select id="selectlineChartNum" resultMap="ChartResultMap" parameterType="java.lang.String" >
+	  select count(e.uuid) as cunt ,e.finalscore as descp  from (select c.entid 
+	   from TP_CUSTOMER c 
+	   join TP_ORGANIZATION o 
+	   on o.uuid = c.orgid
+	   where o.uuid = #{uuid,jdbcType=VARCHAR}) q join TE_ENTRESULT e on q.entid = e.entid group by e.finalscore ORDER BY e.finalscore
+  </select>
+     <select id="searchByStatisticalList" resultMap="StatisticalList" parameterType="java.lang.String" >
+	  select count(a.SCORESTATE) as c_scorestate ,count(a.APPLYREPORTSTATE) as c_applyreportstate ,a.scorestate,a.applyreportstate  from (select q.entid,pro.SCORESTATE,pro.APPLYREPORTSTATE from (select cus.entid
+		   from TP_CUSTOMER cus
+		   join TP_ORGANIZATION org 
+		   on org.uuid = cus.orgid
+   where org.uuid =  #{orgid,jdbcType=VARCHAR}) q join TE_PROCESS pro on pro.ENTID = q.entid) a  GROUP by a.APPLYREPORTSTATE,a.SCORESTATE 
+  </select>
+  
+    <select id="searchByAll"  resultMap="ScoringEnterpriseList"  resultType="list" parameterType="java.lang.String" >
+  	select a.entid, entr.finalscore,entr.finallevel,a.username,a.cellphone,a.realname,a.name  from (select q.username,q.cellphone,q.realname,q.entid,ent.name from (select cus.username,cus.cellphone,cus.realname,cus.entid
+   from TP_CUSTOMER cus
+			<if test="orgid != null">
+			join TP_ORGANIZATION org 
+   on org.uuid = cus.orgid
+   <where>
+			org.uuid = #{orgid,jdbcType=VARCHAR}
+   </where>
+			</if>
+   ) q join TE_ENTBASEINFO ent on ent.uuid = q.entid
+    <where>
+    1=1
+			<if test="name != null">
+			and	ent.name like '%'||#{name,jdbcType=VARCHAR}||'%'
+			</if>
+   </where>
+   ) a  join TE_ENTRESULT entr on a.entid = entr.entid  where entr.finallevel is not null 
+    <if test="finalscore != null"> 
+   	and entr.finalscore >= #{finalscore,jdbcType=VARCHAR}
+   	</if>
+   	 ORDER BY entr.finalscore DESC
+  </select>
+  
+  <select id="selectByAll" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TP_ORGANIZATION
+    where twodomainnames is not null
+  </select>
+  
+  <select id="selectAllScores" resultMap="ChartResultMap" parameterType="java.lang.String" >
+	  select count(e.uuid) as cunt ,e.finalscore as descp  from TE_ENTRESULT e where e.finalscore is not null group by e.finalscore ORDER BY e.finalscore
+  </select>
+  
+  <select id="searchByAllStatisticalList" resultMap="StatisticalList" parameterType="java.lang.String" >
+	  select count(pro.SCORESTATE) as c_scorestate ,count(pro.APPLYREPORTSTATE) as c_applyreportstate ,pro.scorestate,pro.applyreportstate  from TE_PROCESS pro  GROUP by pro.APPLYREPORTSTATE,pro.SCORESTATE 
+  </select>
+  
+       <select id="selectIndustryNum" resultMap="ChartResultMap" parameterType="java.lang.String" >
+	 select count( moder.uuid) as cunt ,moder.name as descp from TB_MODEL moder join (
+		SELECT entr.MODELID  from  TE_ENTRESULT entr 
+		INNER JOIN TE_PROCESS pro 
+		on pro.entid = ENTR.entid 
+		 <where>
+		 1=1
+			<if test="applyreportstate != null">
+				and PRO.APPLYREPORTSTATE = ${applyreportstate}
+			</if>
+			<if test="scorestate != null">
+				and PRO.SCORESTATE = ${scorestate}
+			</if>
+   </where>
+		 
+	) c on c.MODELID = moder.uuid GROUP BY moder.name
+  </select>
+
+</mapper>

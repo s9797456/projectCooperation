@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.enterprise.FinanceMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.enterprise.Finance" >
+    <id column="UUID" property="uuid" jdbcType="VARCHAR" />
+    <result column="ENTID" property="entid" jdbcType="VARCHAR" />
+    <result column="FILESIZE" property="filesize" jdbcType="VARCHAR" />
+    <result column="FILEURL" property="fileurl" jdbcType="VARCHAR" />
+    <result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="CROSSSTATE" property="crossstate" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UUID, ENTID, FILESIZE, FILEURL, UPDATETIME, CROSSSTATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TE_FINANCE
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TE_FINANCE
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.enterprise.Finance" >
+    insert into TE_FINANCE (UUID, ENTID, FILESIZE, 
+      FILEURL, UPDATETIME, CROSSSTATE
+      )
+    values (#{uuid,jdbcType=VARCHAR}, #{entid,jdbcType=VARCHAR}, #{filesize,jdbcType=VARCHAR}, 
+      #{fileurl,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{crossstate,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.enterprise.Finance" >
+    insert into TE_FINANCE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        UUID,
+      </if>
+      <if test="entid != null" >
+        ENTID,
+      </if>
+      <if test="filesize != null" >
+        FILESIZE,
+      </if>
+      <if test="fileurl != null" >
+        FILEURL,
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME,
+      </if>
+      <if test="crossstate != null" >
+        CROSSSTATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="entid != null" >
+        #{entid,jdbcType=VARCHAR},
+      </if>
+      <if test="filesize != null" >
+        #{filesize,jdbcType=VARCHAR},
+      </if>
+      <if test="fileurl != null" >
+        #{fileurl,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crossstate != null" >
+        #{crossstate,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.enterprise.Finance" >
+    update TE_FINANCE
+    <set >
+      <if test="entid != null" >
+        ENTID = #{entid,jdbcType=VARCHAR},
+      </if>
+      <if test="filesize != null" >
+        FILESIZE = #{filesize,jdbcType=VARCHAR},
+      </if>
+      <if test="fileurl != null" >
+        FILEURL = #{fileurl,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crossstate != null" >
+        CROSSSTATE = #{crossstate,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.enterprise.Finance" >
+    update TE_FINANCE
+    set ENTID = #{entid,jdbcType=VARCHAR},
+      FILESIZE = #{filesize,jdbcType=VARCHAR},
+      FILEURL = #{fileurl,jdbcType=VARCHAR},
+      UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      CROSSSTATE = #{crossstate,jdbcType=DECIMAL}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  
+    
+  <select id="selectByEntID" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TE_FINANCE
+    where ENTID = #{entid,jdbcType=VARCHAR}
+  </select>
+</mapper>

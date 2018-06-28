@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.addition.ModelMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.addition.Model" >
+    <id column="UUID" property="uuid" jdbcType="VARCHAR" />
+    <result column="XMLURL" property="xmlurl" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="VERSION" property="version" jdbcType="VARCHAR" />
+    <result column="PARENTID" property="parentid" jdbcType="VARCHAR" />
+    <result column="ORDERNO" property="orderno" jdbcType="DECIMAL" />
+    <result column="VISIBLE" property="visible" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UUID, XMLURL, NAME, REMARK, UPDATETIME, VERSION, PARENTID, ORDERNO, VISIBLE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TB_MODEL
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TB_MODEL
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.addition.Model" >
+    insert into TB_MODEL (UUID, XMLURL, NAME, 
+      REMARK, UPDATETIME, VERSION, 
+      PARENTID, ORDERNO, VISIBLE
+      )
+    values (#{uuid,jdbcType=VARCHAR}, #{xmlurl,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{version,jdbcType=VARCHAR}, 
+      #{parentid,jdbcType=VARCHAR}, #{orderno,jdbcType=DECIMAL}, #{visible,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.addition.Model" >
+    insert into TB_MODEL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        UUID,
+      </if>
+      <if test="xmlurl != null" >
+        XMLURL,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="parentid != null" >
+        PARENTID,
+      </if>
+      <if test="orderno != null" >
+        ORDERNO,
+      </if>
+      <if test="visible != null" >
+        VISIBLE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="xmlurl != null" >
+        #{xmlurl,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="visible != null" >
+        #{visible,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.addition.Model" >
+    update TB_MODEL
+    <set >
+      <if test="xmlurl != null" >
+        XMLURL = #{xmlurl,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        PARENTID = #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        ORDERNO = #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="visible != null" >
+        VISIBLE = #{visible,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.addition.Model" >
+    update TB_MODEL
+    set XMLURL = #{xmlurl,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      VERSION = #{version,jdbcType=VARCHAR},
+      PARENTID = #{parentid,jdbcType=VARCHAR},
+      ORDERNO = #{orderno,jdbcType=DECIMAL},
+      VISIBLE = #{visible,jdbcType=DECIMAL}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

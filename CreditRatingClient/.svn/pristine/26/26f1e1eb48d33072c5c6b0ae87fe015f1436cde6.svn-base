@@ -1,0 +1,652 @@
+/**
+ * 
+ */
+package com.credit.controller.personal;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.credit.model.member.Customer;
+import com.credit.model.person.Career;
+import com.credit.model.person.Education;
+import com.credit.model.person.PerBaseInfo;
+import com.credit.model.person.PerProcess;
+import com.credit.model.person.Train;
+import com.credit.modelvo.Permission;
+import com.credit.modelvo.SessionName;
+import com.credit.service.person.CareerService;
+import com.credit.service.person.EducationService;
+import com.credit.service.person.PerBaseInfoService;
+import com.credit.service.person.PerProcessService;
+import com.credit.service.person.TrainService;
+
+/**
+ * 个人信息录入信息
+ * @author Administrator
+ */
+@Controller
+@RequestMapping("/personalInfo")
+public class PersonalInfoController {
+	
+	private static final Logger logger = Logger.getLogger(PersonalInfoController.class);
+
+	private String moduleName = "用户操作情况";
+	
+	@Resource
+	private PerProcessService perProcessService;//个人评价状态信息
+	
+	@Resource
+	private PerBaseInfoService perBaseInfoService;//个人基础信息
+	
+	@Resource
+	private EducationService educationService;//教育信息
+	
+	@Resource
+	private CareerService careerService;//工作经验
+	
+	@Resource
+	private TrainService trainService;//培训
+	
+	/**
+	 * @Title spring mvc在绑定表单之前，会先进入该方法（从jsp -> java）本方法是str转换为date类型
+	 * 		      或者使用   实体类 属性上注入方式（    @DateTimeFormat(pattern = "yyyy-MM-dd")）
+	 * @author  Administrator  @date 2017-8-23 
+	 * @Description 
+	 */
+	@InitBinder  
+    public void initBinder(WebDataBinder binder) {  
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+    	dateFormat.setLenient(false);  
+    	binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true)); //"true":允许输入空值，"false":不能为空值 
+    }
+	
+	/**
+	 * @Title 进入录入信息界面
+	 * @author  Administrator  @date 2017-9-15 
+	 * @Description 
+	 */
+	@Permission(model = "personal", privilegeValue = "readProtocols")
+	@RequestMapping("/inputPerInfo")
+	public String inputPerInfo(HttpServletRequest request){
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		if(customer != null){
+			//日志记录
+			logger.info(moduleName + "[个人信息数据录入信息界面]");
+			return "personal/mainProcess";
+		}else{
+			request.setAttribute("error", "获取用户信息超时,请重新登录");
+			//页面 获取session失败   ，则 跳转到登录界面
+			return "redirect:/customer/logonUI.do";
+		}
+	}
+	
+	/**
+	 * @Title 获取状态信息
+	 * @author  Administrator  @date 2017-9-15 
+	 * @Description 
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "readProtocols")
+	@RequestMapping("/listPerProcess")
+	@ResponseBody
+	public Map<String, Object> listPerProcess(HttpServletRequest request){
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		String personalID = customer.getPerid();
+		PerProcess perProcess =  perProcessService.selectByPerIDKey(personalID);
+		if(perProcess == null){
+			perProcess = new PerProcess();
+			perProcess.setUuid(UUID.randomUUID().toString().replace("-", ""));
+			perProcess.setPerid(personalID);
+			perProcessService.insertSelective(perProcess);
+		}else{
+		}
+		//日志记录
+		logger.info(moduleName + "[查询 个人数据录入状态信息]");
+		msgMap.put("perProcess", perProcess);
+		return msgMap;
+	}
+	
+	/**
+	 * @Title 点击提交按钮  更新 状态信息表
+	 * @author  Administrator  @date 2017-8-22 
+	 * @Description 
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "readProtocols")
+	@RequestMapping("/updatePerProcess")
+	@ResponseBody
+	public Map<String, Object> updatePerProcess(HttpServletRequest request) throws ParseException {
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		String entBaseInfoUuid = customer.getEntid();
+		PerProcess perProcess =  perProcessService.selectByPerIDKey(entBaseInfoUuid);
+		if(perProcess == null){
+			msgMap.put("msg", "申请 提交失败，请重新尝试");
+		}else{
+			if(perProcess.getBaseinfostate() == 1 && perProcess.getCareerstate() == 1 && perProcess.getEducationstate() == 1 && perProcess.getPushmodelstate() == 1){
+				perProcess.setApplyreportstate(1);
+				perProcessService.updateByPrimaryKeySelective(perProcess);
+				msgMap.put("msg", "申请 提交成功");
+			}else{
+				msgMap.put("msg", "申请 提交失败，必填项不完整");
+			}
+		}
+		//日志记录
+		logger.info(moduleName + "[更新 个人数据录入状态信息为 已提交]");
+		msgMap.put("perProcess", perProcess);
+		return msgMap;
+	}
+	/**
+	 * @Title 异步加载 个人基础信息
+	 * @author  Administrator  @date 2017-8-22 
+	 * @Description 
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "readProtocols")
+	@RequestMapping("/listPerBaseInfo")
+	@ResponseBody
+	public Map<String, Object> listPerBaseInfo(HttpServletRequest request) throws ParseException {
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		if(customer != null){
+			//日志记录
+			logger.info(moduleName + "[查询个人基础信息]");
+			String personalID = customer.getPerid();
+			msgMap.put("perBaseInfo", perBaseInfoService.selectByPrimaryKey(personalID));
+			msgMap.put("status", true);
+		}else{
+			msgMap.put("msg", "登陆超时,请重新登录");
+			msgMap.put("status", false);
+		}
+		return msgMap;
+	}
+	
+	/**
+	 * @Title 更新 个人基础信息表
+	 * @author  Administrator  @date 2017-8-20 
+	 * @throws ParseException 
+	 * @Description 
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "readProtocols")
+	@RequestMapping("/updatePerBaseInfo")
+	@ResponseBody
+	public Map<String, Object> updatePerBaseInfo(HttpServletRequest request, PerBaseInfo perBaseInfo) throws ParseException {
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		if (perBaseInfo != null) {
+			//更新企业信息表
+			perBaseInfoService.updateByPrimaryKeySelective(perBaseInfo);
+			//向前台 发送数据 ajax
+			msgMap.put("perBaseInfo", perBaseInfoService.selectByPrimaryKey(perBaseInfo.getUuid()));
+			msgMap.put("success", "true");
+			msgMap.put("status", "true");
+			//获取 信息完整度表单
+			Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+			if(customer != null){
+				String perid = customer.getPerid();
+				if(perid != null && ! "".equals(perid.trim())){
+					PerProcess perProcess =  perProcessService.selectByPerIDKey(perid);
+					if(perProcess == null){
+						perProcess = new PerProcess();
+						perProcess.setUuid(UUID.randomUUID().toString().replace("-", ""));
+						perProcess.setPerid(perid);
+						perProcessService.insertSelective(perProcess);
+					}
+					perProcess.setBaseinfostate(1);
+					perProcessService.updateByPrimaryKeySelective(perProcess);
+				}
+			}
+			//日志记录
+			logger.info(moduleName + "[更新企业基础信息]");
+		} else {
+			msgMap.put("msg", "参数错误");
+			msgMap.put("success", "true");
+			msgMap.put("status", "false");
+		}
+		return msgMap;
+	}
+	
+	/**
+	 * @Title 异步加载教育信息表
+	 * @author  Administrator  @date 2017-8-22 
+	 * @Description 
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "readProtocols")
+	@RequestMapping("/listEducation")
+	@ResponseBody
+	public Map<String, Object> listEducation(HttpServletRequest request,String educationId) throws ParseException {
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		if(customer != null){
+			if(educationId != null && !"".equals(educationId)){
+				logger.info(moduleName + "[查询教育信息;uuid:"+educationId+"]");
+				Education education = educationService.selectByPrimaryKey(educationId);
+				if(education != null){
+					msgMap.put("education",education);
+					msgMap.put("edit", true);
+					msgMap.put("status", true);
+				}else{
+					msgMap.put("status", false);
+					msgMap.put("msg", "未查询到 该条记录");
+				}
+			}else{
+				//日志记录
+				logger.info(moduleName + "[查询 并获取教育信息列表]");
+				String perID = customer.getPerid();
+				if(perID != null && ! "".equals(perID.trim())){
+					msgMap.put("educationList",educationService.selectByPerID(perID));
+					msgMap.put("edit", false);
+					msgMap.put("status", true);
+				}else{
+					msgMap.put("status", false);
+					msgMap.put("msg", "未查询到 教育信息");
+				}
+			}
+		}else{
+			msgMap.put("msg", "登陆超时,请重新登录");
+			msgMap.put("status", -1);
+		}
+		return msgMap;
+	}
+	/**
+	 * @Title 异步更新教育信息表
+	 * @author  Administrator  @date 2017-8-22 
+	 * @Description 
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "readProtocols")
+	@RequestMapping("/updateEducation")
+	@ResponseBody
+	public Map<String, Object> updateEducation(HttpServletRequest request,Education edu) throws ParseException {
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		if(customer != null){
+			if(edu != null){
+				Education education =educationService.selectByPrimaryKey(edu.getUuid());
+				if(education !=null){
+					logger.info(moduleName + "[更新教育信息;uuid:"+edu.getUuid()+"]");
+					educationService.updateByPrimaryKeySelective(edu);
+				}else{
+					logger.info(moduleName + "[插入教育信息;edu:"+edu+"]");
+					edu.setUuid(UUID.randomUUID().toString().replace("-", ""));
+					edu.setPerid(customer.getPerid());
+					educationService.insertSelective(edu);
+				}
+				//获取个人信息状态  更改教育的状态 
+				String perid = customer.getPerid();
+				if(perid != null && ! "".equals(perid.trim())){
+					PerProcess perProcess =  perProcessService.selectByPerIDKey(perid);
+					if(perProcess == null){
+						perProcess = new PerProcess();
+						perProcess.setUuid(UUID.randomUUID().toString().replace("-", ""));
+						perProcess.setPerid(perid);
+						perProcessService.insertSelective(perProcess);
+					}
+					if(educationService.countEducation(perid) == 0){
+						//设置教育的属性
+						perProcess.setEducationstate(0);
+					}else{
+						perProcess.setEducationstate(1);
+					}
+					perProcessService.updateByPrimaryKeySelective(perProcess);
+				}
+				msgMap.put("status", true);
+			}else{
+				msgMap.put("msg", "参数错误,请刷新后重新尝试");
+				msgMap.put("status", false);
+			}
+		}else{
+			msgMap.put("msg", "参数错误,请刷新后重新尝试");
+			msgMap.put("status", -1);
+		}
+		return msgMap;
+	}
+	/**
+	 * @Title 异步删除教育信息表
+	 * @author  Administrator  @date 2017-8-22 
+	 * @Description 
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "readProtocols")
+	@RequestMapping("/deleteEducation")
+	@ResponseBody
+	public Map<String, Object> deleteEducation(HttpServletRequest request,String educationId) throws ParseException {
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		if(customer != null){
+			String perid = customer.getEntid();
+			if(educationId != null && ! "".equals(educationId.trim())){
+				educationService.deleteByPrimaryKey(educationId);
+				//删除后更改 个人状态信息表 中数据状态
+				if(perid != null && ! "".equals(perid.trim())){
+					PerProcess perProcess =  perProcessService.selectByPerIDKey(perid);
+					if(perProcess == null){
+						perProcess = new PerProcess();
+						perProcess.setUuid(UUID.randomUUID().toString().replace("-", ""));
+						perProcess.setPerid(perid);
+						perProcessService.insertSelective(perProcess);
+					}
+					if(educationService.countEducation(perid) == 0){
+						//设置教育的属性
+						perProcess.setEducationstate(0);
+					}else{
+						perProcess.setEducationstate(1);
+					}
+					perProcessService.updateByPrimaryKeySelective(perProcess);
+				}
+				msgMap.put("status", true);
+				//日志记录
+				logger.info(moduleName + "[删除个人教育信息]");
+			}else{
+				msgMap.put("status", false);
+				msgMap.put("msg", "未查询到相关数据");
+			}
+		}else{
+			msgMap.put("status",-1);
+			msgMap.put("msg", "登陆超时,请重新登录后再进行删除操作");
+		}
+		return msgMap;
+	}
+	/**
+	 * @Title 异步加载工作经验信息表
+	 * @author  Administrator  @date 2017-8-22 
+	 * @Description 
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "readProtocols")
+	@RequestMapping("/listCareer")
+	@ResponseBody
+	public Map<String, Object> listCareer(HttpServletRequest request,String careerId) throws ParseException {
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		if(customer != null){
+			if(careerId != null && !"".equals(careerId)){
+				logger.info(moduleName + "[查询工作经验信息;uuid:"+careerId+"]");
+				Career career = careerService.selectByPrimaryKey(careerId);
+				if(career != null){
+					msgMap.put("career",career);
+					msgMap.put("edit", true);
+					msgMap.put("status", true);
+				}else{
+					msgMap.put("status", false);
+					msgMap.put("msg", "未查询到 该条记录");
+				}
+			}else{
+				//日志记录
+				logger.info(moduleName + "[查询 并获取工作经验信息列表]");
+				String perID = customer.getPerid();
+				if(perID != null && ! "".equals(perID.trim())){
+					msgMap.put("careerList",careerService.selectByPerID(perID));
+					msgMap.put("edit", false);
+					msgMap.put("status", true);
+				}else{
+					msgMap.put("status", false);
+					msgMap.put("msg", "未查询到工作经验信息");
+				}
+			}
+		}else{
+			msgMap.put("msg", "登录失败,请重新登录后再进行相关操作");
+			msgMap.put("status", -1);
+		}
+		return msgMap;
+	}
+	/**
+	 * @Title 异步更新工作经验信息表
+	 * @author  Administrator  @date 2017-8-22 
+	 * @Description 
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "readProtocols")
+	@RequestMapping("/updateCareer")
+	@ResponseBody
+	public Map<String, Object> updateCareer(HttpServletRequest request,Career career) throws ParseException {
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		if(customer != null){
+			if(career != null){
+				Career car =careerService.selectByPrimaryKey(career.getUuid());
+				if(car !=null){
+					logger.info(moduleName + "[更新教育信息;career:"+career.getUuid()+"]");
+					careerService.updateByPrimaryKeySelective(career);
+				}else{
+					logger.info(moduleName + "[插入教育信息;career:"+career+"]");
+					career.setUuid(UUID.randomUUID().toString().replace("-", ""));
+					career.setPerid(customer.getPerid());
+					careerService.insertSelective(career);
+				}
+				//获取个人信息状态  更改教育的状态 
+				String perid = customer.getPerid();
+				if(perid != null && ! "".equals(perid.trim())){
+					PerProcess perProcess =  perProcessService.selectByPerIDKey(perid);
+					if(perProcess == null){
+						perProcess = new PerProcess();
+						perProcess.setUuid(UUID.randomUUID().toString().replace("-", ""));
+						perProcess.setPerid(perid);
+						perProcessService.insertSelective(perProcess);
+					}
+					if(careerService.countCareer(perid) == 0){
+						//设置教育的属性
+						perProcess.setCareerstate(0);
+					}else{
+						perProcess.setCareerstate(1);
+					}
+					perProcessService.updateByPrimaryKeySelective(perProcess);
+				}
+				msgMap.put("status", true);
+			}else{
+				msgMap.put("msg", "参数错误,请刷新后重新尝试");
+				msgMap.put("status", false);
+			}
+		}else{
+			msgMap.put("msg", "登录失败,请重新登录后再进行相关操作");
+			msgMap.put("status", -1);
+		}
+		return msgMap;
+	}
+	/**
+	 * @Title 异步删除工作经验信息表
+	 * @author  Administrator  @date 2017-8-22 
+	 * @Description 
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "readProtocols")
+	@RequestMapping("/deleteCareer")
+	@ResponseBody
+	public Map<String, Object> deleteCareer(HttpServletRequest request,String careerId) throws ParseException {
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		if(customer != null){
+			String perid = customer.getEntid();
+			if(careerId != null && ! "".equals(careerId.trim())){
+				careerService.deleteByPrimaryKey(careerId);
+				//删除后更改 个人状态信息表 中数据状态
+				if(perid != null && ! "".equals(perid.trim())){
+					PerProcess perProcess =  perProcessService.selectByPerIDKey(perid);
+					if(perProcess == null){
+						perProcess = new PerProcess();
+						perProcess.setUuid(UUID.randomUUID().toString().replace("-", ""));
+						perProcess.setPerid(perid);
+						perProcessService.insertSelective(perProcess);
+					}
+					if(careerService.countCareer(perid) == 0){
+						//设置工作经验的属性
+						perProcess.setCareerstate(0);
+					}else{
+						perProcess.setCareerstate(1);
+					}
+					perProcessService.updateByPrimaryKeySelective(perProcess);
+				}
+				msgMap.put("status", true);
+				//日志记录
+				logger.info(moduleName + "[删除个人教育信息]");
+			}else{
+				msgMap.put("status", false);
+				msgMap.put("msg", "未查询到相关数据");
+			}
+		}else{
+			msgMap.put("status",-1);
+			msgMap.put("msg", "登陆超时,请重新登录后再进行删除操作");
+		}
+		return msgMap;
+	}
+	/**
+	 * @Title 异步加载培训信息表
+	 * @author  Administrator  @date 2017-8-22 
+	 * @Description 
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "readProtocols")
+	@RequestMapping("/listTrain")
+	@ResponseBody
+	public Map<String, Object> listTrain(HttpServletRequest request,String trainId) throws ParseException {
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		if(customer != null){
+			if(trainId != null && !"".equals(trainId)){
+				logger.info(moduleName + "[查询培训信息;uuid:"+trainId+"]");
+				Train train = trainService.selectByPrimaryKey(trainId);
+				if(train != null){
+					msgMap.put("train",train);
+					msgMap.put("edit", true);
+					msgMap.put("status", true);
+				}else{
+					msgMap.put("status", false);
+					msgMap.put("msg", "未查询到 该条记录");
+				}
+			}else{
+				//日志记录
+				logger.info(moduleName + "[查询 并获取培训信息列表]");
+				String perID = customer.getPerid();
+				if(perID != null && ! "".equals(perID.trim())){
+					msgMap.put("trainList",trainService.selectByPerID(perID));
+					msgMap.put("edit", false);
+					msgMap.put("status", true);
+				}else{
+					msgMap.put("status", false);
+					msgMap.put("msg", "未查询到工作经验信息");
+				}
+			}
+		}else{
+			msgMap.put("msg", "登录失败,请重新登录后再进行相关操作");
+			msgMap.put("status", -1);
+		}
+		return msgMap;
+	}
+	/**
+	 * @Title 异步更新培训信息表
+	 * @author  Administrator  @date 2017-8-22 
+	 * @Description 
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "readProtocols")
+	@RequestMapping("/updateTrain")
+	@ResponseBody
+	public Map<String, Object> updateTrain(HttpServletRequest request,Train train) throws ParseException {
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		if(customer != null){
+			if(train != null){
+				Train tra =trainService.selectByPrimaryKey(train.getUuid());
+				if(tra !=null){
+					logger.info(moduleName + "[更新培训信息;train:"+train.getUuid()+"]");
+					trainService.updateByPrimaryKeySelective(train);
+				}else{
+					logger.info(moduleName + "[插入培训信息;train:"+train+"]");
+					train.setUuid(UUID.randomUUID().toString().replace("-", ""));
+					train.setPerid(customer.getPerid());
+					trainService.insertSelective(train);
+				}
+				//获取个人信息状态  更改教育的状态 
+				String perid = customer.getPerid();
+				if(perid != null && ! "".equals(perid.trim())){
+					PerProcess perProcess =  perProcessService.selectByPerIDKey(perid);
+					if(perProcess == null){
+						perProcess = new PerProcess();
+						perProcess.setUuid(UUID.randomUUID().toString().replace("-", ""));
+						perProcess.setPerid(perid);
+						perProcessService.insertSelective(perProcess);
+					}
+					if(careerService.countCareer(perid) == 0){
+						//设置教育的属性
+						perProcess.setTrainstate(0);
+					}else{
+						perProcess.setTrainstate(1);
+					}
+					perProcessService.updateByPrimaryKeySelective(perProcess);
+				}
+				msgMap.put("status", true);
+			}else{
+				msgMap.put("msg", "参数错误,请刷新后重新尝试");
+				msgMap.put("status", false);
+			}
+		}else{
+			msgMap.put("msg", "登录失败,请重新登录后再进行相关操作");
+			msgMap.put("status", -1);
+		}
+		return msgMap;
+	}
+	/**
+	 * @Title 异步删除培训信息表
+	 * @author  Administrator  @date 2017-8-22 
+	 * @Description 
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "readProtocols")
+	@RequestMapping("/deleteCareer")
+	@ResponseBody
+	public Map<String, Object> deleteTrain(HttpServletRequest request,String trainId) throws ParseException {
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		if(customer != null){
+			String perid = customer.getEntid();
+			if(trainId != null && ! "".equals(trainId.trim())){
+				careerService.deleteByPrimaryKey(trainId);
+				//删除后更改 个人状态信息表 中数据状态
+				if(perid != null && ! "".equals(perid.trim())){
+					PerProcess perProcess =  perProcessService.selectByPerIDKey(perid);
+					if(perProcess == null){
+						perProcess = new PerProcess();
+						perProcess.setUuid(UUID.randomUUID().toString().replace("-", ""));
+						perProcess.setPerid(perid);
+						perProcessService.insertSelective(perProcess);
+					}
+					if(careerService.countCareer(perid) == 0){
+						//设置工作经验的属性
+						perProcess.setTrainstate(0);
+					}else{
+						perProcess.setTrainstate(1);
+					}
+					perProcessService.updateByPrimaryKeySelective(perProcess);
+				}
+				msgMap.put("status", true);
+				//日志记录
+				logger.info(moduleName + "[删除个人培训信息]");
+			}else{
+				msgMap.put("status", false);
+				msgMap.put("msg", "未查询到相关数据");
+			}
+		}else{
+			msgMap.put("status",-1);
+			msgMap.put("msg", "登陆超时,请重新登录后再进行删除操作");
+		}
+		return msgMap;
+	}
+	
+}

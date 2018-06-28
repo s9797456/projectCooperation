@@ -1,0 +1,21 @@
+package com.credit.mapper.person;
+
+import com.credit.model.person.PerOpinion;
+
+public interface PerOpinionMapper {
+    int deleteByPrimaryKey(String uuid);
+
+    int insert(PerOpinion record);
+
+    int insertSelective(PerOpinion record);
+
+    PerOpinion selectByPrimaryKey(String uuid);
+
+    int updateByPrimaryKeySelective(PerOpinion record);
+
+    int updateByPrimaryKey(PerOpinion record);
+
+	PerOpinion selectByPerIDReject(String perid);
+
+	PerOpinion selectByPerIDAndScore(String perid);
+}

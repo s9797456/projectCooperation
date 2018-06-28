@@ -1,0 +1,548 @@
+package junit.test;
+
+
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.orm.jpa.EntityManagerFactoryUtils;
+import org.springframework.orm.jpa.EntityManagerHolder;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import com.credit.bean.addition.Model;
+import com.credit.bean.enterprise.EntBaseInfo;
+import com.credit.bean.enterprise.EntResult;
+import com.credit.bean.enterprise.ProcessState;
+import com.credit.bean.member.Customer;
+import com.credit.bean.pagelist.QueryResult;
+import com.credit.bean.vo.enterprise.EntScoreVO;
+import com.credit.bean.vo.enterprise.FinalRateImageVo;
+import com.credit.bean.vo.enterprise.FinalcialImageVo;
+import com.credit.service.enterprise.EntResultService;
+import com.credit.service.enterprise.FinanceService;
+import com.credit.service.enterprise.ProcessStateService;
+import com.credit.service.member.UserService;
+import com.credit.util.DateUtil;
+import com.credit.util.FileUtil;
+import com.credit.util.ReflectUtil;
+
+
+
+public class JPASpringTestOfUser {
+	private static ApplicationContext cxt;
+	
+	private static EntityManagerFactory entityManagerFactory;
+	
+	@Resource 
+	private static UserService userService;
+	
+	@Resource 
+	private static EntResultService entResultService;
+	
+	@Resource 
+	private static ProcessStateService processStateService;
+	
+	@Resource
+	private static FinanceService financeService;
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		try {
+			cxt = new ClassPathXmlApplicationContext("beans.xml");
+			
+			userService = (UserService) cxt.getBean("userServiceBean");
+			entResultService = (EntResultService) cxt.getBean("entResultServiceBean");
+			processStateService = (ProcessStateService) cxt.getBean("processStateServiceBean");
+			financeService = (FinanceService) cxt.getBean("financeServiceBean");
+			
+			entityManagerFactory = (EntityManagerFactory) getBean("entityManagerFactory");
+			EntityManager em = entityManagerFactory.createEntityManager();
+			TransactionSynchronizationManager.bindResource(entityManagerFactory,new EntityManagerHolder(em));
+			
+		} catch (Exception e) {
+			System.out.println("-------------err-----------------");
+			System.out.println(e);		
+			System.out.println("--------------err----------------");
+		}
+	}
+	
+	protected static Object getBean(String beanName) {
+		return cxt.getBean(beanName);
+	}
+
+	public void tearDown() throws Exception {//解决延迟加载
+		EntityManagerHolder holder = (EntityManagerHolder)TransactionSynchronizationManager.getResource(entityManagerFactory);
+		EntityManager em = holder.getEntityManager();
+		em.flush();
+		TransactionSynchronizationManager.unbindResource(entityManagerFactory);
+		EntityManagerFactoryUtils.closeEntityManager(holder.getEntityManager());
+	}
+
+	@Test
+	public void test1()throws Exception{
+
+		List<String> strs=new ArrayList<String>();
+		strs.add("aaaa");
+		strs.add("bbbb");
+		strs.add("cccc");
+		strs.add("dddd");
+		for(int i=strs.size()-1;i>=0; i--){
+			System.out.println(i);
+			System.out.println(strs.get(i));
+		}
+		}
+
+	@Test
+	public void Test()  throws Exception{
+		
+		System.out.println("--------------Test----------------"+entResultService);
+		EntResult result=new EntResult();
+		result.setUuid(UUID.randomUUID().toString().replace("-", ""));
+		result.setEntBaseInfo(new EntBaseInfo("d7b42aa815884a1b98c099732070d785"));
+		result.setCustomer(new Customer("hyt56380927"));
+		result.setModel(new Model("0b9d02afd17947bbac78213a71d48830"));
+//		entResultService.save(result);
+
+		ProcessState process=new ProcessState();
+		process.setUuid(UUID.randomUUID().toString().replace("-", ""));
+		process.setEntBaseInfo(new EntBaseInfo("d7b42aa815884a1b98c099732070d785"));
+		processStateService.save(process);
+		System.out.println("保存成功");
+	}
+	
+
+	@Test
+	public void TestOfVisible() {
+		System.out.println(financeService);
+		//b1200a4855004aeca7b75541e3ac2307
+		
+		Map<String, Object> map=this.finalImage("b1200a4855004aeca7b75541e3ac2307");
+		for (Map.Entry<String, Object> entry : map.entrySet()) {  
+			  
+		    System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());  
+		  
+		}
+	}
+	
+	@Test
+	public void TestOfDate() {
+		EntBaseInfo entbaseInfo=new EntBaseInfo();
+		List<String> strs=ReflectUtil.getAttributeName(entbaseInfo);
+		for(String str:strs){
+			System.out.println(str);
+		}
+	}
+	public Map<String, Object> finalImage(String entID) {
+		List<FinalcialImageVo> finalcialImageVos = new ArrayList<FinalcialImageVo>();
+		List<FinalRateImageVo> finalRateImageVos = new ArrayList<FinalRateImageVo>();
+		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		String strs = "";
+		list = financeService.reportFinalData(entID);
+		Map<String, String> map1 = new HashMap<String, String>();
+		Map<String, String> map2 = new HashMap<String, String>();
+		Map<String, String> map3 = new HashMap<String, String>();
+		if (list.size() > 2) {
+			map1 = list.get(0);
+			map2 = list.get(1);
+			map3 = list.get(2);
+			strs = map1.get("年份")+","+map2.get("年份")+","+map3.get("年份");
+			FinalcialImageVo finalcialImageVo1 = new FinalcialImageVo();
+			finalcialImageVo1.setName("流动资产");
+			finalcialImageVo1.setValue1(map1.get("流动资产合计") == null ? "0" : map1
+					.get("流动资产合计"));
+			finalcialImageVo1.setValue2(map2.get("流动资产合计") == null ? "0" : map2
+					.get("流动资产合计"));
+			finalcialImageVo1.setValue3(map3.get("流动资产合计") == null ? "0" : map3
+					.get("流动资产合计"));
+			finalcialImageVos.add(finalcialImageVo1);
+
+			FinalcialImageVo finalcialImageVo2 = new FinalcialImageVo();
+			finalcialImageVo2.setName("流动负债");
+			finalcialImageVo2.setValue1(map1.get("流动负债合计") == null ? "0" : map1
+					.get("流动负债合计"));
+			finalcialImageVo2.setValue2(map2.get("流动负债合计") == null ? "0" : map2
+					.get("流动负债合计"));
+			finalcialImageVo2.setValue3(map3.get("流动负债合计") == null ? "0" : map3
+					.get("流动负债合计"));
+			finalcialImageVos.add(finalcialImageVo2);
+
+			FinalcialImageVo finalcialImageVo3 = new FinalcialImageVo();
+			finalcialImageVo3.setName("营运资本");
+			try {
+				Double workingCapital1 = Double.parseDouble(map1.get("流动资产合计"))
+						- Double.parseDouble(map1.get("流动负债合计"));
+				finalcialImageVo3.setValue1(workingCapital1 + "");
+			} catch (Exception e) {
+				finalcialImageVo3.setValue1("0");
+			}
+			try {
+				Double workingCapital2 = Double.parseDouble(map2.get("流动资产合计"))
+						- Double.parseDouble(map2.get("流动负债合计"));
+				finalcialImageVo3.setValue1(workingCapital2 + "");
+			} catch (Exception e) {
+				finalcialImageVo3.setValue2("0");
+			}
+			try {
+				Double workingCapital3 = Double.parseDouble(map3.get("流动资产合计"))
+						- Double.parseDouble(map3.get("流动负债合计"));
+				finalcialImageVo3.setValue3(workingCapital3 + "");
+			} catch (Exception e) {
+				finalcialImageVo3.setValue3("0");
+			}
+			finalcialImageVos.add(finalcialImageVo3);
+
+			FinalcialImageVo finalcialImageVo4 = new FinalcialImageVo();
+			finalcialImageVo4.setName("有形净值");
+			try {
+				Double tangibleNetWorth1 = Double.parseDouble(map1.get("资产总计"))
+						- Double.parseDouble(map1.get("无形资产"));
+				finalcialImageVo4.setValue1(tangibleNetWorth1 + "");
+			} catch (Exception e) {
+				finalcialImageVo4.setValue1("0");
+			}
+			try {
+				Double tangibleNetWorth2 = Double.parseDouble(map2.get("资产总计"))
+						- Double.parseDouble(map2.get("无形资产"));
+				finalcialImageVo4.setValue2(tangibleNetWorth2 + "");
+			} catch (Exception e) {
+				finalcialImageVo4.setValue2("0");
+			}
+			try {
+				Double tangibleNetWorth3 = Double.parseDouble(map3.get("资产总计"))
+						- Double.parseDouble(map3.get("无形资产"));
+				finalcialImageVo4.setValue3(tangibleNetWorth3 + "");
+			} catch (Exception e) {
+				finalcialImageVo4.setValue3("0");
+			}
+			finalcialImageVos.add(finalcialImageVo4);
+
+			FinalcialImageVo finalcialImageVo5 = new FinalcialImageVo();
+			finalcialImageVo5.setName("固定资产");
+			finalcialImageVo5.setValue1(map1.get("固定资产原价") == null ? "0" : map1
+					.get("固定资产原价"));
+			finalcialImageVo5.setValue2(map2.get("固定资产原价") == null ? "0" : map2
+					.get("固定资产原价"));
+			finalcialImageVo5.setValue3(map3.get("固定资产原价") == null ? "0" : map3
+					.get("固定资产原价"));
+			finalcialImageVos.add(finalcialImageVo5);
+
+			FinalcialImageVo finalcialImageVo6 = new FinalcialImageVo();
+			finalcialImageVo6.setName("总资产");
+			finalcialImageVo6.setValue1(map1.get("资产总计") == null ? "0" : map1
+					.get("资产总计"));
+			finalcialImageVo6.setValue2(map2.get("资产总计") == null ? "0" : map2
+					.get("资产总计"));
+			finalcialImageVo6.setValue3(map3.get("资产总计") == null ? "0" : map3
+					.get("资产总计"));
+			finalcialImageVos.add(finalcialImageVo6);
+
+			FinalcialImageVo finalcialImageVo7 = new FinalcialImageVo();
+			finalcialImageVo7.setName("总负债");
+			finalcialImageVo7.setValue1(map1.get("负债合计") == null ? "0" : map1
+					.get("负债合计"));
+			finalcialImageVo7.setValue2(map2.get("负债合计") == null ? "0" : map2
+					.get("负债合计"));
+			finalcialImageVo7.setValue3(map3.get("负债合计") == null ? "0" : map3
+					.get("负债合计"));
+			finalcialImageVos.add(finalcialImageVo7);
+
+			FinalcialImageVo finalcialImageVo8 = new FinalcialImageVo();
+			finalcialImageVo8.setName("总负债");
+			finalcialImageVo8.setValue1(map1.get("股东权益合计") == null ? "0" : map1
+					.get("股东权益合计"));
+			finalcialImageVo8.setValue2(map2.get("股东权益合计") == null ? "0" : map2
+					.get("股东权益合计"));
+			finalcialImageVo8.setValue3(map3.get("股东权益合计") == null ? "0" : map3
+					.get("股东权益合计"));
+			finalcialImageVos.add(finalcialImageVo8);
+
+			FinalcialImageVo finalcialImageVo9 = new FinalcialImageVo();
+			finalcialImageVo9.setName("营业收入");
+			finalcialImageVo9.setValue1(map1.get("营业收入") == null ? "0" : map1
+					.get("营业收入"));
+			finalcialImageVo9.setValue2(map2.get("营业收入") == null ? "0" : map2
+					.get("营业收入"));
+			finalcialImageVo9.setValue3(map3.get("营业收入") == null ? "0" : map3
+					.get("营业收入"));
+			finalcialImageVos.add(finalcialImageVo9);
+
+			FinalcialImageVo finalcialImageVo10 = new FinalcialImageVo();
+			finalcialImageVo10.setName("净利润");
+			finalcialImageVo10.setValue1(map1.get("净利润") == null ? "0" : map1
+					.get("净利润"));
+			finalcialImageVo10.setValue2(map2.get("净利润") == null ? "0" : map2
+					.get("净利润"));
+			finalcialImageVo10.setValue3(map3.get("净利润") == null ? "0" : map3
+					.get("净利润"));
+			finalcialImageVos.add(finalcialImageVo10);
+
+			FinalRateImageVo finalRateImageVo1 = new FinalRateImageVo();
+			finalRateImageVo1.setName("流动比率");
+			try {
+				Double currentRatio1 = Double.parseDouble(map1.get("流动资产合计"))
+						/ Double.parseDouble(map1.get("流动负债合计"));
+				finalRateImageVo1.setValue1(currentRatio1 + "");
+			} catch (Exception e) {
+				finalRateImageVo1.setValue1("0");
+			}
+			try {
+				Double currentRatio2 = Double.parseDouble(map2.get("流动资产合计"))
+						/ Double.parseDouble(map2.get("流动负债合计"));
+				finalRateImageVo1.setValue2(currentRatio2 + "");
+			} catch (Exception e) {
+				finalRateImageVo1.setValue2("0");
+			}
+			try {
+				Double currentRatio3 = Double.parseDouble(map3.get("流动资产合计"))
+						/ Double.parseDouble(map3.get("流动负债合计"));
+				finalRateImageVo1.setValue3(currentRatio3 + "");
+			} catch (Exception e) {
+				finalRateImageVo1.setValue3("0");
+			}
+			finalRateImageVos.add(finalRateImageVo1);
+
+			FinalRateImageVo finalRateImageVo2 = new FinalRateImageVo();
+			finalRateImageVo2.setName("速动比率");
+			//
+			try {
+				Double quickRatio1 = (Double.parseDouble(map1.get("流动资产合计")) - Double
+						.parseDouble(map1.get("存货")))
+						/ Double.parseDouble(map1.get("流动负债合计"));
+				finalRateImageVo2.setValue1(quickRatio1 + "");
+			} catch (Exception e) {
+				finalRateImageVo2.setValue1("0");
+			}
+			try {
+				Double quickRatio2 = (Double.parseDouble(map2.get("流动资产合计")) - Double
+						.parseDouble(map2.get("存货")))
+						/ Double.parseDouble(map2.get("流动负债合计"));
+				finalRateImageVo2.setValue1(quickRatio2 + "");
+			} catch (Exception e) {
+				finalRateImageVo2.setValue2("0");
+			}
+			try {
+				Double quickRatio3 = (Double.parseDouble(map3.get("流动资产合计")) - Double
+						.parseDouble(map3.get("存货")))
+						/ Double.parseDouble(map3.get("流动负债合计"));
+				finalRateImageVo2.setValue3(quickRatio3 + "");
+			} catch (Exception e) {
+				finalRateImageVo2.setValue3("0");
+			}
+			finalRateImageVos.add(finalRateImageVo2);
+
+			FinalRateImageVo finalRateImageVo3 = new FinalRateImageVo();
+			finalRateImageVo3.setName("负债权益比率");
+			try {
+				Double debtequityRatio1 = Double.parseDouble(map1.get("负债合计"))
+						/ Double.parseDouble(map1.get("股东权益合计"));
+				finalRateImageVo3.setValue1(debtequityRatio1 + "");
+			} catch (Exception e) {
+				finalRateImageVo3.setValue1("0");
+			}
+			try {
+				Double debtequityRatio2 = Double.parseDouble(map2.get("负债合计"))
+						/ Double.parseDouble(map2.get("股东权益合计"));
+				finalRateImageVo3.setValue2(debtequityRatio2 + "");
+			} catch (Exception e) {
+				finalRateImageVo3.setValue2("0");
+			}
+			try {
+				Double debtequityRatio3 = Double.parseDouble(map3.get("负债合计"))
+						/ Double.parseDouble(map3.get("股东权益合计"));
+				finalRateImageVo3.setValue3(debtequityRatio3 + "");
+			} catch (Exception e) {
+				finalRateImageVo3.setValue3("0");
+			}
+			finalRateImageVos.add(finalRateImageVo3);
+
+			FinalRateImageVo finalRateImageVo4 = new FinalRateImageVo();
+			finalRateImageVo4.setName("负债权益比率");
+			try {
+				Double assetliabilityRatio1 = Double.parseDouble(map1
+						.get("负债合计")) / Double.parseDouble(map1.get("资产总计"));
+				finalRateImageVo4.setValue1(assetliabilityRatio1 + "");
+			} catch (Exception e) {
+				finalRateImageVo4.setValue1("0");
+			}
+			try {
+				Double assetliabilityRatio2 = Double.parseDouble(map2
+						.get("负债合计")) / Double.parseDouble(map2.get("资产总计"));
+				finalRateImageVo4.setValue2(assetliabilityRatio2 + "");
+			} catch (Exception e) {
+				finalRateImageVo4.setValue2("0");
+			}
+			try {
+				Double assetliabilityRatio3 = Double.parseDouble(map3
+						.get("负债合计")) / Double.parseDouble(map3.get("资产总计"));
+				finalRateImageVo4.setValue3(assetliabilityRatio3 + "");
+			} catch (Exception e) {
+				finalRateImageVo4.setValue3("0");
+			}
+			finalRateImageVos.add(finalRateImageVo4);
+
+			FinalRateImageVo finalRateImageVo5 = new FinalRateImageVo();
+			finalRateImageVo5.setName("资产周转率");
+			try {
+				Double assetTurnover1 = Double.parseDouble(map1.get("营业收入"))
+						/ Double.parseDouble(map1.get("资产总计"));
+				finalRateImageVo5.setValue1(assetTurnover1 + "");
+			} catch (Exception e) {
+				finalRateImageVo5.setValue1("0");
+			}
+			try {
+				Double assetTurnover2 = Double.parseDouble(map2.get("营业收入"))
+						/ Double.parseDouble(map2.get("资产总计"));
+				finalRateImageVo5.setValue1(assetTurnover2 + "");
+			} catch (Exception e) {
+				finalRateImageVo5.setValue2("0");
+			}
+			try {
+				Double assetTurnover3 = Double.parseDouble(map3.get("营业收入"))
+						/ Double.parseDouble(map3.get("资产总计"));
+				finalRateImageVo5.setValue1(assetTurnover3 + "");
+			} catch (Exception e) {
+				finalRateImageVo5.setValue3("0");
+			}
+			finalRateImageVos.add(finalRateImageVo5);
+
+			FinalRateImageVo finalRateImageVo6 = new FinalRateImageVo();
+			finalRateImageVo6.setName("毛利润率");
+			try {
+				Double grossProfitMargin1 = (Double.parseDouble(map1
+						.get("营业收入")) - Double.parseDouble(map1.get("营业成本")))
+						/ Double.parseDouble(map1.get("营业收入"));
+				finalRateImageVo6.setValue1(grossProfitMargin1 + "");
+			} catch (Exception e) {
+				finalRateImageVo6.setValue1("0");
+			}
+			try {
+				Double grossProfitMargin2 = (Double.parseDouble(map2
+						.get("营业收入")) - Double.parseDouble(map2.get("营业成本")))
+						/ Double.parseDouble(map2.get("营业收入"));
+				finalRateImageVo6.setValue2(grossProfitMargin2 + "");
+			} catch (Exception e) {
+				finalRateImageVo6.setValue2("0");
+			}
+			try {
+				Double grossProfitMargin3 = (Double.parseDouble(map3
+						.get("营业收入")) - Double.parseDouble(map3.get("营业成本")))
+						/ Double.parseDouble(map3.get("营业收入"));
+				finalRateImageVo6.setValue3(grossProfitMargin3 + "");
+			} catch (Exception e) {
+				finalRateImageVo6.setValue3("0");
+			}
+			finalRateImageVos.add(finalRateImageVo6);
+
+			FinalRateImageVo finalRateImageVo7 = new FinalRateImageVo();
+			finalRateImageVo7.setName("净利润率");
+			try {
+				Double netProfitMargin1 = Double.parseDouble(map1.get("净利润"))
+						/ Double.parseDouble(map1.get("营业收入"));
+				finalRateImageVo7.setValue1(netProfitMargin1 + "");
+			} catch (Exception e) {
+				finalRateImageVo7.setValue1("0");
+			}
+			try {
+				Double netProfitMargin2 = Double.parseDouble(map2.get("净利润"))
+						/ Double.parseDouble(map2.get("营业收入"));
+				finalRateImageVo7.setValue2(netProfitMargin2 + "");
+			} catch (Exception e) {
+				finalRateImageVo7.setValue2("0");
+			}
+			try {
+				Double netProfitMargin3 = Double.parseDouble(map3.get("净利润"))
+						/ Double.parseDouble(map3.get("营业收入"));
+				finalRateImageVo7.setValue3(netProfitMargin3 + "");
+			} catch (Exception e) {
+				finalRateImageVo7.setValue3("0");
+			}
+			finalRateImageVos.add(finalRateImageVo7);
+
+			FinalRateImageVo finalRateImageVo8 = new FinalRateImageVo();
+			finalRateImageVo8.setName("股东权益收益率");
+			try {
+				Double shareholdersEquity1 = Double
+						.parseDouble(map1.get("净利润"))
+						/ Double.parseDouble(map1.get("股东权益合计"));
+				finalRateImageVo8.setValue1(shareholdersEquity1 + "");
+			} catch (Exception e) {
+				finalRateImageVo8.setValue1("0");
+			}
+			try {
+				Double shareholdersEquity2 = Double
+						.parseDouble(map2.get("净利润"))
+						/ Double.parseDouble(map2.get("股东权益合计"));
+				finalRateImageVo8.setValue2(shareholdersEquity2 + "");
+			} catch (Exception e) {
+				finalRateImageVo8.setValue2("0");
+			}
+			try {
+				Double shareholdersEquity3 = Double
+						.parseDouble(map3.get("净利润"))
+						/ Double.parseDouble(map3.get("股东权益合计"));
+				finalRateImageVo8.setValue3(shareholdersEquity3 + "");
+			} catch (Exception e) {
+				finalRateImageVo8.setValue3("0");
+			}
+			finalRateImageVos.add(finalRateImageVo8);
+
+			FinalRateImageVo finalRateImageVo9 = new FinalRateImageVo();
+			finalRateImageVo9.setName("资产收益率");
+			try {
+				Double assetEarningRate1 = Double.parseDouble(map1.get("净利润"))
+						* 2
+						/ (Double.parseDouble(map1.get("资产总计")) + Double
+								.parseDouble(map1.get("资产总计")));
+				finalRateImageVo9.setValue1(assetEarningRate1 + "");
+			} catch (Exception e) {
+				finalRateImageVo9.setValue1("0");
+			}
+			try {
+				Double assetEarningRate2 = Double.parseDouble(map2.get("净利润"))
+						* 2
+						/ (Double.parseDouble(map2.get("资产总计")) + Double
+								.parseDouble(map2.get("资产总计")));
+				finalRateImageVo9.setValue1(assetEarningRate2 + "");
+			} catch (Exception e) {
+				finalRateImageVo9.setValue2("0");
+			}
+			try {
+				Double assetEarningRate3 = Double.parseDouble(map3.get("净利润"))
+						* 2
+						/ (Double.parseDouble(map3.get("资产总计")) + Double
+								.parseDouble(map3.get("资产总计")));
+				finalRateImageVo9.setValue3(assetEarningRate3 + "");
+			} catch (Exception e) {
+				finalRateImageVo9.setValue3("0");
+			}
+			finalRateImageVos.add(finalRateImageVo9);
+		}
+
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		msgMap.put("finalcialImageVos", finalcialImageVos);
+		msgMap.put("finalRateImageVos", finalRateImageVos);
+		if(strs!=null&&!strs.equals("")){
+			msgMap.put("listNames", strs.split(","));
+		}else{
+			msgMap.put("listNames", "");
+		}
+		msgMap.put("success", true);
+		msgMap.put("status", true);
+		return msgMap;
+	}
+}

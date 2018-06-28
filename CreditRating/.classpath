@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.7.0_79"/>
+	<classpathentry kind="con" path="melibrary.com.genuitec.eclipse.j2eedt.core.MYECLIPSE_JAVAEE_6_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SpringMVC4.3.4"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Hibernate"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Oracle12c">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Jstl">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Dom4j">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Geetest"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Log4j"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Velocity1.6"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Jackson"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/freemarker"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jacob"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/html2pdf"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/HttpClient"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/itext5.5"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Kaptcha-2.3.2"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/CFX2.4"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Fck2.6"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Generator"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Tika"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/UserAgent"/>
+	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
+</classpath>

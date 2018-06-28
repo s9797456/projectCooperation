@@ -1,0 +1,26 @@
+log4j.rootLogger=DEBUG,Console
+#让某些包下的日志信息能写入数据库
+log4j.logger.com.hytcreditscore=INFO,db
+#Console  
+log4j.appender.Console=org.apache.log4j.ConsoleAppender  
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout  
+log4j.appender.Console.layout.ConversionPattern=%d [%t] %-5p [%c] - %m%n  
+  
+#mybaits输出
+log4j.logger.com.ibatis=DEBUG 
+log4j.logger.com.ibatis.common.jdbc.SimpleDataSource=DEBUG 
+log4j.logger.com.ibatis.common.jdbc.ScriptRunner=DEBUG 
+log4j.logger.com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate=DEBUG 
+log4j.logger.java.sql.Connection=DEBUG 
+log4j.logger.java.sql.Statement=DEBUG 
+log4j.logger.java.sql.PreparedStatement=DEBUG
+log4j.logger.org.mybatis.example=DEBUG
+
+log4j.appender.db=org.apache.log4j.jdbc.JDBCAppender
+log4j.appender.db.bufferSize =1
+log4j.appender.db.URL=jdbc:oracle:thin:@HytDataCenter:1521:ORCL
+log4j.appender.db.driver=oracle.jdbc.driver.OracleDriver
+log4j.appender.db.user=creditrating
+log4j.appender.db.password=123456
+log4j.appender.db.layout.ConversionPattern=INSERT INTO TP_LOG4J (userName,LOGLEVE,message,updateTime) VALUES ('%X{userName}','%p','%m',to_date('%d{yyyy-MM-dd HH:mm:ss}','yyyy-MM-dd HH24:mi:ss'))
+log4j.appender.db.layout=org.apache.log4j.PatternLayout

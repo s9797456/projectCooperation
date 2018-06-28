@@ -1,0 +1,72 @@
+package com.credit.service.privilege.impl;
+
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.credit.mapper.member.OrganizationMapper;
+import com.credit.mapper.privilege.C_SystemPrivilegeMapper;
+import com.credit.model.privilege.C_SystemPrivilege;
+import com.credit.model.privilege.C_SystemPrivilegeKey;
+import com.credit.service.privilege.C_SystemPrivilegeService;
+
+@Service
+@Transactional
+public class C_SystemPrivilegeServiceBean<T extends C_SystemPrivilege> implements C_SystemPrivilegeService<T> {
+	
+	@Resource
+	private C_SystemPrivilegeMapper mapper;
+	
+	private static final Logger logger = Logger.getLogger(C_SystemPrivilegeServiceBean.class);
+
+	@Override
+	public int deleteByPrimaryKey(C_SystemPrivilegeKey key) {
+		// TODO Auto-generated method stub
+		return mapper.deleteByPrimaryKey(key);
+	}
+
+	@Override
+	public int insertSelective(C_SystemPrivilege record) {
+		// TODO Auto-generated method stub
+		System.out.println(mapper.insertSelective(record));
+		return mapper.insertSelective(record);
+	}
+
+	@Override
+	public C_SystemPrivilege selectByPrimaryKey(C_SystemPrivilegeKey key) {
+		// TODO Auto-generated method stub
+		return mapper.selectByPrimaryKey(key);
+	}
+
+	@Override
+	public int updateByPrimaryKey(C_SystemPrivilege record) {
+		// TODO Auto-generated method stub
+		return mapper.updateByPrimaryKeySelective(record);
+	}
+
+	@Override
+	public int getCount() {
+		// TODO Auto-generated method stub
+		return mapper.getCount();
+	}
+
+	@Override
+	public boolean batchInsert(List<C_SystemPrivilege> systemPrivileges) {
+		boolean flag=true;
+		for(C_SystemPrivilege cs : systemPrivileges){
+			int value=mapper.insertSelective(cs);
+			if(value!=1){
+				flag=false;
+			}
+		}
+		return flag;
+	}
+
+
+
+}

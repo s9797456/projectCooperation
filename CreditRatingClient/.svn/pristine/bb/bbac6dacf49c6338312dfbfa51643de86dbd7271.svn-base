@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.person.PerOpinionMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.person.PerOpinion" >
+    <id column="UUID" property="uuid" jdbcType="VARCHAR" />
+    <result column="DEALER" property="dealer" jdbcType="VARCHAR" />
+    <result column="FEEKBACKNUM" property="feekbacknum" jdbcType="DECIMAL" />
+    <result column="ISADMIN" property="isadmin" jdbcType="DECIMAL" />
+    <result column="ISCONFIRM" property="isconfirm" jdbcType="DECIMAL" />
+    <result column="OPINION" property="opinion" jdbcType="VARCHAR" />
+    <result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="PERID" property="perid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UUID, DEALER, FEEKBACKNUM, ISADMIN, ISCONFIRM, OPINION, UPDATETIME, PERID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TI_PEROPINION
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TI_PEROPINION
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.person.PerOpinion" >
+    insert into TI_PEROPINION (UUID, DEALER, FEEKBACKNUM, 
+      ISADMIN, ISCONFIRM, OPINION, 
+      UPDATETIME, PERID)
+    values (#{uuid,jdbcType=VARCHAR}, #{dealer,jdbcType=VARCHAR}, #{feekbacknum,jdbcType=DECIMAL}, 
+      #{isadmin,jdbcType=DECIMAL}, #{isconfirm,jdbcType=DECIMAL}, #{opinion,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{perid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.person.PerOpinion" >
+    insert into TI_PEROPINION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        UUID,
+      </if>
+      <if test="dealer != null" >
+        DEALER,
+      </if>
+      <if test="feekbacknum != null" >
+        FEEKBACKNUM,
+      </if>
+      <if test="isadmin != null" >
+        ISADMIN,
+      </if>
+      <if test="isconfirm != null" >
+        ISCONFIRM,
+      </if>
+      <if test="opinion != null" >
+        OPINION,
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME,
+      </if>
+      <if test="perid != null" >
+        PERID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="dealer != null" >
+        #{dealer,jdbcType=VARCHAR},
+      </if>
+      <if test="feekbacknum != null" >
+        #{feekbacknum,jdbcType=DECIMAL},
+      </if>
+      <if test="isadmin != null" >
+        #{isadmin,jdbcType=DECIMAL},
+      </if>
+      <if test="isconfirm != null" >
+        #{isconfirm,jdbcType=DECIMAL},
+      </if>
+      <if test="opinion != null" >
+        #{opinion,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="perid != null" >
+        #{perid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.person.PerOpinion" >
+    update TI_PEROPINION
+    <set >
+      <if test="dealer != null" >
+        DEALER = #{dealer,jdbcType=VARCHAR},
+      </if>
+      <if test="feekbacknum != null" >
+        FEEKBACKNUM = #{feekbacknum,jdbcType=DECIMAL},
+      </if>
+      <if test="isadmin != null" >
+        ISADMIN = #{isadmin,jdbcType=DECIMAL},
+      </if>
+      <if test="isconfirm != null" >
+        ISCONFIRM = #{isconfirm,jdbcType=DECIMAL},
+      </if>
+      <if test="opinion != null" >
+        OPINION = #{opinion,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="perid != null" >
+        PERID = #{perid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.person.PerOpinion" >
+    update TI_PEROPINION
+    set DEALER = #{dealer,jdbcType=VARCHAR},
+      FEEKBACKNUM = #{feekbacknum,jdbcType=DECIMAL},
+      ISADMIN = #{isadmin,jdbcType=DECIMAL},
+      ISCONFIRM = #{isconfirm,jdbcType=DECIMAL},
+      OPINION = #{opinion,jdbcType=VARCHAR},
+      UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      PERID = #{perid,jdbcType=VARCHAR}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectByPerIDReject" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TI_PEROPINION
+    where PERID = #{_parameter,jdbcType=VARCHAR} and ISADMIN = 1 and ISCONFIRM = 0
+  </select>
+</mapper>

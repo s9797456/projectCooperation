@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.person.PerResultMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.person.PerResult" >
+    <id column="UUID" property="uuid" jdbcType="VARCHAR" />
+    <result column="ADJUSTOPTION" property="adjustoption" jdbcType="VARCHAR" />
+    <result column="ADJUSTREASON" property="adjustreason" jdbcType="VARCHAR" />
+    <result column="ADVANTAGEREASON" property="advantagereason" jdbcType="VARCHAR" />
+    <result column="ENCODING" property="encoding" jdbcType="VARCHAR" />
+    <result column="FINALLEVEL" property="finallevel" jdbcType="VARCHAR" />
+    <result column="FINALSCORE" property="finalscore" jdbcType="DECIMAL" />
+    <result column="GRADETIME" property="gradetime" jdbcType="TIMESTAMP" />
+    <result column="INPUTXMLSTATE" property="inputxmlstate" jdbcType="DECIMAL" />
+    <result column="INPUTXMLTIME" property="inputxmltime" jdbcType="TIMESTAMP" />
+    <result column="INPUTXMLURL" property="inputxmlurl" jdbcType="VARCHAR" />
+    <result column="PRELIMINARYLEVEL" property="preliminarylevel" jdbcType="VARCHAR" />
+    <result column="PRELIMINARYSCORE" property="preliminaryscore" jdbcType="DECIMAL" />
+    <result column="REPORTURL" property="reporturl" jdbcType="VARCHAR" />
+    <result column="SCORESUMMARY" property="scoresummary" jdbcType="VARCHAR" />
+    <result column="SCOREXMLTIME" property="scorexmltime" jdbcType="TIMESTAMP" />
+    <result column="SCOREXMLURL" property="scorexmlurl" jdbcType="VARCHAR" />
+    <result column="SENTIMENT" property="sentiment" jdbcType="VARCHAR" />
+    <result column="CUSTOMERID" property="customerid" jdbcType="VARCHAR" />
+    <result column="MODELID" property="modelid" jdbcType="VARCHAR" />
+    <result column="PERID" property="perid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UUID, ADJUSTOPTION, ADJUSTREASON, ADVANTAGEREASON, ENCODING, FINALLEVEL, FINALSCORE, 
+    GRADETIME, INPUTXMLSTATE, INPUTXMLTIME, INPUTXMLURL, PRELIMINARYLEVEL, PRELIMINARYSCORE, 
+    REPORTURL, SCORESUMMARY, SCOREXMLTIME, SCOREXMLURL, SENTIMENT, CUSTOMERID, MODELID, 
+    PERID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TI_PERRESULT
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TI_PERRESULT
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.person.PerResult" >
+    insert into TI_PERRESULT (UUID, ADJUSTOPTION, ADJUSTREASON, 
+      ADVANTAGEREASON, ENCODING, FINALLEVEL, 
+      FINALSCORE, GRADETIME, INPUTXMLSTATE, 
+      INPUTXMLTIME, INPUTXMLURL, PRELIMINARYLEVEL, 
+      PRELIMINARYSCORE, REPORTURL, SCORESUMMARY, 
+      SCOREXMLTIME, SCOREXMLURL, SENTIMENT, 
+      CUSTOMERID, MODELID, PERID
+      )
+    values (#{uuid,jdbcType=VARCHAR}, #{adjustoption,jdbcType=VARCHAR}, #{adjustreason,jdbcType=VARCHAR}, 
+      #{advantagereason,jdbcType=VARCHAR}, #{encoding,jdbcType=VARCHAR}, #{finallevel,jdbcType=VARCHAR}, 
+      #{finalscore,jdbcType=DECIMAL}, #{gradetime,jdbcType=TIMESTAMP}, #{inputxmlstate,jdbcType=DECIMAL}, 
+      #{inputxmltime,jdbcType=TIMESTAMP}, #{inputxmlurl,jdbcType=VARCHAR}, #{preliminarylevel,jdbcType=VARCHAR}, 
+      #{preliminaryscore,jdbcType=DECIMAL}, #{reporturl,jdbcType=VARCHAR}, #{scoresummary,jdbcType=VARCHAR}, 
+      #{scorexmltime,jdbcType=TIMESTAMP}, #{scorexmlurl,jdbcType=VARCHAR}, #{sentiment,jdbcType=VARCHAR}, 
+      #{customerid,jdbcType=VARCHAR}, #{modelid,jdbcType=VARCHAR}, #{perid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.person.PerResult" >
+    insert into TI_PERRESULT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        UUID,
+      </if>
+      <if test="adjustoption != null" >
+        ADJUSTOPTION,
+      </if>
+      <if test="adjustreason != null" >
+        ADJUSTREASON,
+      </if>
+      <if test="advantagereason != null" >
+        ADVANTAGEREASON,
+      </if>
+      <if test="encoding != null" >
+        ENCODING,
+      </if>
+      <if test="finallevel != null" >
+        FINALLEVEL,
+      </if>
+      <if test="finalscore != null" >
+        FINALSCORE,
+      </if>
+      <if test="gradetime != null" >
+        GRADETIME,
+      </if>
+      <if test="inputxmlstate != null" >
+        INPUTXMLSTATE,
+      </if>
+      <if test="inputxmltime != null" >
+        INPUTXMLTIME,
+      </if>
+      <if test="inputxmlurl != null" >
+        INPUTXMLURL,
+      </if>
+      <if test="preliminarylevel != null" >
+        PRELIMINARYLEVEL,
+      </if>
+      <if test="preliminaryscore != null" >
+        PRELIMINARYSCORE,
+      </if>
+      <if test="reporturl != null" >
+        REPORTURL,
+      </if>
+      <if test="scoresummary != null" >
+        SCORESUMMARY,
+      </if>
+      <if test="scorexmltime != null" >
+        SCOREXMLTIME,
+      </if>
+      <if test="scorexmlurl != null" >
+        SCOREXMLURL,
+      </if>
+      <if test="sentiment != null" >
+        SENTIMENT,
+      </if>
+      <if test="customerid != null" >
+        CUSTOMERID,
+      </if>
+      <if test="modelid != null" >
+        MODELID,
+      </if>
+      <if test="perid != null" >
+        PERID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="adjustoption != null" >
+        #{adjustoption,jdbcType=VARCHAR},
+      </if>
+      <if test="adjustreason != null" >
+        #{adjustreason,jdbcType=VARCHAR},
+      </if>
+      <if test="advantagereason != null" >
+        #{advantagereason,jdbcType=VARCHAR},
+      </if>
+      <if test="encoding != null" >
+        #{encoding,jdbcType=VARCHAR},
+      </if>
+      <if test="finallevel != null" >
+        #{finallevel,jdbcType=VARCHAR},
+      </if>
+      <if test="finalscore != null" >
+        #{finalscore,jdbcType=DECIMAL},
+      </if>
+      <if test="gradetime != null" >
+        #{gradetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inputxmlstate != null" >
+        #{inputxmlstate,jdbcType=DECIMAL},
+      </if>
+      <if test="inputxmltime != null" >
+        #{inputxmltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inputxmlurl != null" >
+        #{inputxmlurl,jdbcType=VARCHAR},
+      </if>
+      <if test="preliminarylevel != null" >
+        #{preliminarylevel,jdbcType=VARCHAR},
+      </if>
+      <if test="preliminaryscore != null" >
+        #{preliminaryscore,jdbcType=DECIMAL},
+      </if>
+      <if test="reporturl != null" >
+        #{reporturl,jdbcType=VARCHAR},
+      </if>
+      <if test="scoresummary != null" >
+        #{scoresummary,jdbcType=VARCHAR},
+      </if>
+      <if test="scorexmltime != null" >
+        #{scorexmltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scorexmlurl != null" >
+        #{scorexmlurl,jdbcType=VARCHAR},
+      </if>
+      <if test="sentiment != null" >
+        #{sentiment,jdbcType=VARCHAR},
+      </if>
+      <if test="customerid != null" >
+        #{customerid,jdbcType=VARCHAR},
+      </if>
+      <if test="modelid != null" >
+        #{modelid,jdbcType=VARCHAR},
+      </if>
+      <if test="perid != null" >
+        #{perid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.person.PerResult" >
+    update TI_PERRESULT
+    <set >
+      <if test="adjustoption != null" >
+        ADJUSTOPTION = #{adjustoption,jdbcType=VARCHAR},
+      </if>
+      <if test="adjustreason != null" >
+        ADJUSTREASON = #{adjustreason,jdbcType=VARCHAR},
+      </if>
+      <if test="advantagereason != null" >
+        ADVANTAGEREASON = #{advantagereason,jdbcType=VARCHAR},
+      </if>
+      <if test="encoding != null" >
+        ENCODING = #{encoding,jdbcType=VARCHAR},
+      </if>
+      <if test="finallevel != null" >
+        FINALLEVEL = #{finallevel,jdbcType=VARCHAR},
+      </if>
+      <if test="finalscore != null" >
+        FINALSCORE = #{finalscore,jdbcType=DECIMAL},
+      </if>
+      <if test="gradetime != null" >
+        GRADETIME = #{gradetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inputxmlstate != null" >
+        INPUTXMLSTATE = #{inputxmlstate,jdbcType=DECIMAL},
+      </if>
+      <if test="inputxmltime != null" >
+        INPUTXMLTIME = #{inputxmltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inputxmlurl != null" >
+        INPUTXMLURL = #{inputxmlurl,jdbcType=VARCHAR},
+      </if>
+      <if test="preliminarylevel != null" >
+        PRELIMINARYLEVEL = #{preliminarylevel,jdbcType=VARCHAR},
+      </if>
+      <if test="preliminaryscore != null" >
+        PRELIMINARYSCORE = #{preliminaryscore,jdbcType=DECIMAL},
+      </if>
+      <if test="reporturl != null" >
+        REPORTURL = #{reporturl,jdbcType=VARCHAR},
+      </if>
+      <if test="scoresummary != null" >
+        SCORESUMMARY = #{scoresummary,jdbcType=VARCHAR},
+      </if>
+      <if test="scorexmltime != null" >
+        SCOREXMLTIME = #{scorexmltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scorexmlurl != null" >
+        SCOREXMLURL = #{scorexmlurl,jdbcType=VARCHAR},
+      </if>
+      <if test="sentiment != null" >
+        SENTIMENT = #{sentiment,jdbcType=VARCHAR},
+      </if>
+      <if test="customerid != null" >
+        CUSTOMERID = #{customerid,jdbcType=VARCHAR},
+      </if>
+      <if test="modelid != null" >
+        MODELID = #{modelid,jdbcType=VARCHAR},
+      </if>
+      <if test="perid != null" >
+        PERID = #{perid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.person.PerResult" >
+    update TI_PERRESULT
+    set ADJUSTOPTION = #{adjustoption,jdbcType=VARCHAR},
+      ADJUSTREASON = #{adjustreason,jdbcType=VARCHAR},
+      ADVANTAGEREASON = #{advantagereason,jdbcType=VARCHAR},
+      ENCODING = #{encoding,jdbcType=VARCHAR},
+      FINALLEVEL = #{finallevel,jdbcType=VARCHAR},
+      FINALSCORE = #{finalscore,jdbcType=DECIMAL},
+      GRADETIME = #{gradetime,jdbcType=TIMESTAMP},
+      INPUTXMLSTATE = #{inputxmlstate,jdbcType=DECIMAL},
+      INPUTXMLTIME = #{inputxmltime,jdbcType=TIMESTAMP},
+      INPUTXMLURL = #{inputxmlurl,jdbcType=VARCHAR},
+      PRELIMINARYLEVEL = #{preliminarylevel,jdbcType=VARCHAR},
+      PRELIMINARYSCORE = #{preliminaryscore,jdbcType=DECIMAL},
+      REPORTURL = #{reporturl,jdbcType=VARCHAR},
+      SCORESUMMARY = #{scoresummary,jdbcType=VARCHAR},
+      SCOREXMLTIME = #{scorexmltime,jdbcType=TIMESTAMP},
+      SCOREXMLURL = #{scorexmlurl,jdbcType=VARCHAR},
+      SENTIMENT = #{sentiment,jdbcType=VARCHAR},
+      CUSTOMERID = #{customerid,jdbcType=VARCHAR},
+      MODELID = #{modelid,jdbcType=VARCHAR},
+      PERID = #{perid,jdbcType=VARCHAR}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+    <select id="selectByPerID" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TI_PERRESULT
+    where PERID = #{_parameter,jdbcType=VARCHAR}
+  </select>
+</mapper>

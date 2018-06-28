@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>第58款插件：kxbdSuperMarquee.js滚动的神器</title>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<link rel="stylesheet" type="text/css" href="http://j.sxjsjlxh.com/demo/css.css" media="all" />
+		
+		<script type="text/javascript" src="http://j.sxjsjlxh.com/js/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="http://j.sxjsjlxh.com/js/kxbdSuperMarquee.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$('#marquee').kxbdSuperMarquee({
+					isMarquee:true,
+					isEqual:false,
+					scrollDelay:20,
+					controlBtn:{up:'#goUM',down:'#goDM'},
+					direction:'up'
+				});
+			});
+		</script>
+		
+		<style type="text/css">
+			#marquee{width:600px;height:200px; overflow:hidden;background:#EFEFEF;margin:0 auto;}
+			#marquee ul li{padding:0 10px;line-height:24px;height:24px;overflow:hidden;text-align:left;font-size:12px;}
+			/* control */
+			.control{height:24px;line-height:24px;overflow:hidden;padding:15px 0 0 0;}
+		</style>
+		
+	</head>
+	<body>
+		
+		<div id="header">
+			<h1>第58款插件：kxbdSuperMarquee.js滚动的神器</h1>
+		</div>
+		
+		<div class="container">
+			<div id="container" style="margin:0 auto;text-align:center;">
+				
+				
+				<!--start -->
+				<h2>无缝上下文字滚动 支持左右无缝滚动</h2>
+				<div id="marquee">
+					<ul>
+						<li><a href="#" title="">jquery HTML5 幻灯片插件 用 Canvas 制作类似百叶窗拍摄快门摄影拍摄效果</a></li>
+						<li><a href="#" title="">制作CSS3和HTML5的一个单页网站模板</a></li>
+						<li><a href="#" title="">jquery 幻灯片切换应用一个HTML5的幻灯片</a></li>
+						<li><a href="#" title="">jquery 图片滚动特效应用旋转幻灯片使用jQuery和CSS3</a></li>
+						<li><a href="#" title="">用div+css制作纯CSS下拉菜单，兼容IE6 IE7 IE8及以上 Firefox</a></li>
+						<li><a href="#" title="">CSS如何定位工程</a></li>
+						<li><a href="#" title="">jquery HTML5 幻灯片插件 用 Canvas 制作类似百叶窗拍摄快门摄影拍摄效果</a></li>
+						<li><a href="#" title="">制作CSS3和HTML5的一个单页网站模板</a></li>
+						<li><a href="#" title="">jquery 幻灯片切换应用一个HTML5的幻灯片</a></li>
+						<li><a href="#" title="">jquery 图片滚动特效应用旋转幻灯片使用jQuery和CSS3</a></li>
+						<li><a href="#" title="">用div+css制作纯CSS下拉菜单，兼容IE6 IE7 IE8及以上 Firefox</a></li>
+						<li><a href="#" title="">CSS如何定位工程</a></li>
+					</ul>
+				</div>
+				<div class="control">↑鼠标按住：<a href="javascript:void(0);" id="goUM">加速上移</a> <a href="javascript:void(0);" id="goDM">加速下移</a></div>
+				<!--end-->
+				
+				<br/><br/>
+				更多示例,<a href="moredemo.html">请点击</a>
+				
+			</div>
+		</div>
+		
+		<div id="footer"></div>
+		
+		<script type="text/javascript" src="http://tajs.qq.com/stats?sId=19799522" charset="UTF-8"></script>
+		
+	</div>
+	
+</body>
+</html>

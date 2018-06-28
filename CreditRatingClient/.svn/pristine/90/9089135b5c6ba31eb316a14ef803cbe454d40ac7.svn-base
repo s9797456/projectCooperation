@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.credit.mapper.security.IPLockMapper">
+  <resultMap id="BaseResultMap" type="com.credit.model.security.IPLock">
+    <id column="UUID" jdbcType="VARCHAR" property="uuid" />
+    <result column="ADDTIME" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="IP" jdbcType="VARCHAR" property="ip" />
+    <result column="IPLIMIT" jdbcType="VARCHAR" property="iplimit" />
+    <result column="ISFOREVER" jdbcType="DECIMAL" property="isforever" />
+    <result column="ISLIMIT" jdbcType="DECIMAL" property="islimit" />
+    <result column="LOCKDATE" jdbcType="DECIMAL" property="lockdate" />
+    <result column="STATUE" jdbcType="DECIMAL" property="statue" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    UUID, ADDTIME, IP, IPLIMIT, ISFOREVER, ISLIMIT, LOCKDATE, STATUE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TS_IPLOCK
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from TS_IPLOCK
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.security.IPLock">
+    insert into TS_IPLOCK (UUID, ADDTIME, IP, 
+      IPLIMIT, ISFOREVER, ISLIMIT, 
+      LOCKDATE, STATUE)
+    values (#{uuid,jdbcType=VARCHAR}, #{addtime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, 
+      #{iplimit,jdbcType=VARCHAR}, #{isforever,jdbcType=DECIMAL}, #{islimit,jdbcType=DECIMAL}, 
+      #{lockdate,jdbcType=DECIMAL}, #{statue,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.security.IPLock">
+    insert into TS_IPLOCK
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        UUID,
+      </if>
+      <if test="addtime != null">
+        ADDTIME,
+      </if>
+      <if test="ip != null">
+        IP,
+      </if>
+      <if test="iplimit != null">
+        IPLIMIT,
+      </if>
+      <if test="isforever != null">
+        ISFOREVER,
+      </if>
+      <if test="islimit != null">
+        ISLIMIT,
+      </if>
+      <if test="lockdate != null">
+        LOCKDATE,
+      </if>
+      <if test="statue != null">
+        STATUE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="iplimit != null">
+        #{iplimit,jdbcType=VARCHAR},
+      </if>
+      <if test="isforever != null">
+        #{isforever,jdbcType=DECIMAL},
+      </if>
+      <if test="islimit != null">
+        #{islimit,jdbcType=DECIMAL},
+      </if>
+      <if test="lockdate != null">
+        #{lockdate,jdbcType=DECIMAL},
+      </if>
+      <if test="statue != null">
+        #{statue,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.security.IPLock">
+    update TS_IPLOCK
+    <set>
+      <if test="addtime != null">
+        ADDTIME = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null">
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="iplimit != null">
+        IPLIMIT = #{iplimit,jdbcType=VARCHAR},
+      </if>
+      <if test="isforever != null">
+        ISFOREVER = #{isforever,jdbcType=DECIMAL},
+      </if>
+      <if test="islimit != null">
+        ISLIMIT = #{islimit,jdbcType=DECIMAL},
+      </if>
+      <if test="lockdate != null">
+        LOCKDATE = #{lockdate,jdbcType=DECIMAL},
+      </if>
+      <if test="statue != null">
+        STATUE = #{statue,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.security.IPLock">
+    update TS_IPLOCK
+    set ADDTIME = #{addtime,jdbcType=TIMESTAMP},
+      IP = #{ip,jdbcType=VARCHAR},
+      IPLIMIT = #{iplimit,jdbcType=VARCHAR},
+      ISFOREVER = #{isforever,jdbcType=DECIMAL},
+      ISLIMIT = #{islimit,jdbcType=DECIMAL},
+      LOCKDATE = #{lockdate,jdbcType=DECIMAL},
+      STATUE = #{statue,jdbcType=DECIMAL}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+
+  
+  <select id="selectIPList" resultMap="BaseResultMap" resultType="list" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from TS_IPLOCK
+    where STATUE = #{statue,jdbcType=VARCHAR}
+    order by ADDTIME desc
+  </select>
+  
+      <select id="selectByIP" resultMap="BaseResultMap" resultType="list" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TS_IPLOCK
+    where IP = #{ip,jdbcType=VARCHAR}
+    order by ADDTIME desc
+  </select>
+</mapper>

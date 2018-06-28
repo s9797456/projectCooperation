@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.credit.mapper.security.RegistLimitMapper">
+  <resultMap id="BaseResultMap" type="com.credit.model.security.RegistLimit">
+    <id column="UUID" jdbcType="VARCHAR" property="uuid" />
+    <result column="IP" jdbcType="VARCHAR" property="ip" />
+    <result column="ISSUCCESS" jdbcType="DECIMAL" property="issuccess" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="REGISTTIME" jdbcType="TIMESTAMP" property="registtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    UUID, IP, ISSUCCESS, PHONE, REGISTTIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TS_REGISTLIMIT
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from TS_REGISTLIMIT
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.security.RegistLimit">
+    insert into TS_REGISTLIMIT (UUID, IP, ISSUCCESS, 
+      PHONE, REGISTTIME)
+    values (#{uuid,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{issuccess,jdbcType=DECIMAL}, 
+      #{phone,jdbcType=VARCHAR}, #{registtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.security.RegistLimit">
+    insert into TS_REGISTLIMIT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        UUID,
+      </if>
+      <if test="ip != null">
+        IP,
+      </if>
+      <if test="issuccess != null">
+        ISSUCCESS,
+      </if>
+      <if test="phone != null">
+        PHONE,
+      </if>
+      <if test="registtime != null">
+        REGISTTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="issuccess != null">
+        #{issuccess,jdbcType=DECIMAL},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="registtime != null">
+        #{registtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.security.RegistLimit">
+    update TS_REGISTLIMIT
+    <set>
+      <if test="ip != null">
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="issuccess != null">
+        ISSUCCESS = #{issuccess,jdbcType=DECIMAL},
+      </if>
+      <if test="phone != null">
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="registtime != null">
+        REGISTTIME = #{registtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.security.RegistLimit">
+    update TS_REGISTLIMIT
+    set IP = #{ip,jdbcType=VARCHAR},
+      ISSUCCESS = #{issuccess,jdbcType=DECIMAL},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      REGISTTIME = #{registtime,jdbcType=TIMESTAMP}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  
+  
+    <select id="countByIPLimit" resultType="long"  >
+	    select count(uuid) from TS_REGISTLIMIT where IP=#{IP} and 
+	    registtime between to_date(#{startDate},'yyyy-mm-dd hh24:mi:ss') and to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss')
+	 </select>
+	 <select id="countByPhoneLimit" resultType="long"  >
+	     select count(uuid) from TS_REGISTLIMIT where PHONE=#{Phone} and 
+	    registtime between to_date(#{startDate},'yyyy-mm-dd hh24:mi:ss') and to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss')
+	 </select>
+	 <select id="countByNumLimit" resultType="long"  >
+	     select count(uuid) from TS_REGISTLIMIT where ISSUCCESS = 1 and
+	    registtime between to_date(#{startDate},'yyyy-mm-dd hh24:mi:ss') and to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss')
+	 </select>
+</mapper>

@@ -1,0 +1,306 @@
+package com.credit.util;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+
+import com.credit.bean.member.User;
+import com.credit.bean.privilege.SystemPrivilege;
+import com.credit.util.properties.BusinessUtil;
+
+
+public class WebUtil {
+
+	
+	/**
+	 * 获取登录员工
+	 * @param request
+	 * @return
+	 */
+	public static User getUser(HttpServletRequest request){
+		return (User)request.getSession().getAttribute("user");
+	}
+	/**
+	 * 获取登录人员的权限
+	 * @param request
+	 * @return
+	 */
+	public static Set<SystemPrivilege> getUserSps(HttpServletRequest request){
+		return (Set<SystemPrivilege>)request.getSession().getAttribute("mySps");
+	}
+
+	
+    /**
+     * 添加cookie
+     * @param response
+     * @param name cookie的名称
+     * @param value cookie的值
+     * @param maxAge cookie存放的时间(以秒为单位,假如存放三天,即3*24*60*60; 如果值为0,cookie将随浏览器关闭而清除)
+     */
+    public static void addCookie(HttpServletResponse response, String name, String value, int maxAge) {        
+        Cookie cookie = new Cookie(name, value);
+        cookie.setPath("/");
+        if (maxAge>0) cookie.setMaxAge(maxAge);
+        response.addCookie(cookie);
+    }
+    /**
+     * 获取cookie的值
+     * @param request
+     * @param name cookie的名称
+     * @return
+     */
+    public static String getCookieByName(HttpServletRequest request, String name) {
+    	Map<String, Cookie> cookieMap = WebUtil.readCookieMap(request);
+        if(cookieMap.containsKey(name)){
+            Cookie cookie = (Cookie)cookieMap.get(name);
+            return cookie.getValue();
+        }else{
+            return null;
+        }
+    }
+    
+    protected static Map<String, Cookie> readCookieMap(HttpServletRequest request) {
+        Map<String, Cookie> cookieMap = new HashMap<String, Cookie>();
+        Cookie[] cookies = request.getCookies();
+        if (null != cookies) {
+            for (int i = 0; i < cookies.length; i++) {
+                cookieMap.put(cookies[i].getName(), cookies[i]);
+            }
+        }
+        return cookieMap;
+    }   
+    
+/*    public static boolean isNumeric(Object str){ 
+  	  Pattern pattern = Pattern.compile("[0-9]*"); 
+	  return pattern.matcher((CharSequence) str).matches(); 
+	}
+  public static boolean isDouble(Object str) {
+  	boolean tag = false;
+  	final String pattern1 = "^[-\\+]?[,.\\d]*$";
+  	final Pattern pattern = Pattern.compile(pattern1);
+  	final Matcher mat = pattern.matcher((CharSequence) str);
+  	if (!mat.find()){
+  		tag = true;
+  	}
+  	return tag;
+  }*/
+    
+    public static boolean isInteger(String value) {
+    	try {
+    	Integer.parseInt(value);
+    	return true;
+    	} catch (NumberFormatException e) {
+    	return false;
+    	}
+    	}
+
+
+    	public static boolean isDouble(String value) {
+    	try {
+    	Double.parseDouble( value);
+    	if (value.contains("."))
+    	return true;
+    	return false;
+    	} catch (NumberFormatException e) {
+    	return false;
+    	}
+    	}
+
+
+    	public static boolean isNumber(String value) {
+    	return isInteger(value) || isDouble(value);
+    	}
+    
+    
+    /**
+     * 去除html代码
+     * @param inputString
+     * @return
+     */
+    public static String HtmltoText(String inputString) {
+        String htmlStr = inputString; //含html标签的字符串
+        String textStr ="";
+        java.util.regex.Pattern p_script;
+        java.util.regex.Matcher m_script;
+        java.util.regex.Pattern p_style;
+        java.util.regex.Matcher m_style;
+        java.util.regex.Pattern p_html;
+        java.util.regex.Matcher m_html;          
+        java.util.regex.Pattern p_ba;
+        java.util.regex.Matcher m_ba;
+        
+        try {
+            String regEx_script = "<[\\s]*?script[^>]*?>[\\s\\S]*?<[\\s]*?\\/[\\s]*?script[\\s]*?>"; //定义script的正则表达式{或<script[^>]*?>[\\s\\S]*?<\\/script> }
+            String regEx_style = "<[\\s]*?style[^>]*?>[\\s\\S]*?<[\\s]*?\\/[\\s]*?style[\\s]*?>"; //定义style的正则表达式{或<style[^>]*?>[\\s\\S]*?<\\/style> }
+            String regEx_html = "<[^>]+>"; //定义HTML标签的正则表达式
+            String patternStr = "\\s+";
+            
+            p_script = Pattern.compile(regEx_script,Pattern.CASE_INSENSITIVE);
+            m_script = p_script.matcher(htmlStr);
+            htmlStr = m_script.replaceAll(""); //过滤script标签
+
+            p_style = Pattern.compile(regEx_style,Pattern.CASE_INSENSITIVE);
+            m_style = p_style.matcher(htmlStr);
+            htmlStr = m_style.replaceAll(""); //过滤style标签
+         
+            p_html = Pattern.compile(regEx_html,Pattern.CASE_INSENSITIVE);
+            m_html = p_html.matcher(htmlStr);
+            htmlStr = m_html.replaceAll(""); //过滤html标签
+            
+            p_ba = Pattern.compile(patternStr,Pattern.CASE_INSENSITIVE);
+            m_ba = p_ba.matcher(htmlStr);
+            htmlStr = m_ba.replaceAll(""); //过滤空格
+         
+         textStr = htmlStr;
+         
+        }catch(Exception e) {
+                    System.err.println("Html2Text: " + e.getMessage());
+        }          
+        return textStr;//返回文本字符串
+     }
+    /**
+	 * 获取用户真实IP地址，不使用request.getRemoteAddr();的原因是有可能用户使用了代理软件方式避免真实IP地址,
+	 * 
+	 * 可是，如果通过了多级反向代理的话，X-Forwarded-For的值并不止一个，而是一串IP值，究竟哪个才是真正的用户端的真实IP呢？
+	 * 答案是取X-Forwarded-For中第一个非unknown的有效IP字符串。
+	 * 
+	 * 如：X-Forwarded-For：192.168.1.110, 192.168.1.120, 192.168.1.130,
+	 * 192.168.1.100
+	 * 
+	 * 用户真实IP为： 192.168.1.110
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static String getIpAddress(HttpServletRequest request) {
+		String ip = request.getHeader("x-forwarded-for");
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_CLIENT_IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+		}
+		return ip;
+	}
+	
+	public static String getLevelByScore(Double preliminaryScore) {
+		if (1000 >= preliminaryScore && preliminaryScore >= 700) {
+			return "AAA";
+		} else if (700 > preliminaryScore && preliminaryScore >= 650) {
+			return "AA";
+		} else if (650 > preliminaryScore && preliminaryScore >= 600) {
+			return "A";
+		} else if (600 > preliminaryScore && preliminaryScore >= 550) {
+			return "BBB";
+		} else if (550> preliminaryScore && preliminaryScore >= 500) {
+			return "BB";
+		} else if (500 > preliminaryScore && preliminaryScore >= 450) {
+			return "B";
+		} else if (450 > preliminaryScore && preliminaryScore >= 400) {
+			return "CCC";
+		} else if (400 > preliminaryScore && preliminaryScore >= 350) {
+			return "CC";
+		} else if (350 > preliminaryScore) {
+			return "C";
+		} else {
+			return "暂无等级";
+		}
+	}
+	public static String getPerLevelByScore(Double preliminaryScore) {
+		if (100 >= preliminaryScore && preliminaryScore >= 95) {
+			return "AAA";
+		} else if (95 > preliminaryScore && preliminaryScore >= 85) {
+			return "AA";
+		} else if (85 > preliminaryScore && preliminaryScore >= 75) {
+			return "A";
+		} else if (75 > preliminaryScore && preliminaryScore >= 70) {
+			return "BBB";
+		} else if (70> preliminaryScore && preliminaryScore >= 65) {
+			return "BB";
+		} else if (65 > preliminaryScore && preliminaryScore >= 60) {
+			return "B";
+		} else if (60 > preliminaryScore && preliminaryScore >= 50) {
+			return "CCC";
+		} else if (50 > preliminaryScore && preliminaryScore >= 40) {
+			return "CC";
+		} else if (40 > preliminaryScore) {
+			return "C";
+		} else {
+			return "暂无等级";
+		}
+	}
+	
+	 /**
+	  * @param relativePath 相对路径 向服务器传参
+	  * @param absolutePath 绝对路径 本地文件路径
+	  */
+	 public static boolean crossFile(String relativePath,String absolutePath,String url){
+		 boolean success=false;
+		 CloseableHttpClient httpclient = HttpClients.createDefault();  
+		 try {  
+			 url=url+BusinessUtil.getMsg("ReceiveUrl");
+			 HttpPost httppost = new HttpPost(url+"?filepath="+URLEncoder.encode(relativePath, "UTF-8"));  
+			 FileBody bin = new FileBody(new File(absolutePath));  
+			 StringBody comment = new StringBody("A binary file of some kind", ContentType.TEXT_PLAIN);  
+			 HttpEntity reqEntity = MultipartEntityBuilder.create().addPart("bin", bin).addPart("comment", comment).build();  
+			 httppost.setEntity(reqEntity);  
+			 CloseableHttpResponse response = httpclient.execute(httppost);
+			 try {  
+				 System.out.println(response.getStatusLine());  
+				 HttpEntity resEntity = response.getEntity();  
+				 if (resEntity != null&& resEntity.getContentLength() >0) {  
+					 System.out.println("Response content length: " + resEntity.getContentLength());  
+					 //接收返回信息
+					 String result=EntityUtils.toString(resEntity); 
+					 JSONObject json=JSONObject.fromObject(result);
+					 success=json.getBoolean("success");
+				 }  
+				 EntityUtils.consume(resEntity);  
+			 } finally {  
+				 response.close();  
+			 }  
+		 } catch (ClientProtocolException e) {  
+			 e.printStackTrace();  
+		 } catch (IOException e) {  
+			 e.printStackTrace();  
+		 } finally {  
+			 try {  
+				 httpclient.close();  
+			 } catch (IOException e) {  
+				 e.printStackTrace();  
+			 }  
+		 }
+		return success;  
+	 }  
+}

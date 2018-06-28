@@ -1,0 +1,102 @@
+<beans xmlns="http://www.springframework.org/schema/beans"	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop" 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:jaxws="http://cxf.apache.org/jaxws" 
+	xmlns:http-conf="http://cxf.apache.org/transports/http/configuration" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd 
+						http://www.springframework.org/schema/mvc	http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+						http://www.springframework.org/schema/aop	http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+						http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+						http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd">
+						
+	<context:annotation-config/>
+ 	<context:component-scan base-package="com.credit" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>  
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>  
+	</context:component-scan>
+	<!-- <aop:aspectj-autoproxy/> -->
+	
+    <!-- <context:property-placeholder location="classpath*:com/config/jdbc.properties"/>--> 
+    
+    <!-- 风险信息 -->
+	<jaxws:client id="riskInterface" serviceClass="com.nbchina.ws.api.entinfo.riskinfo.RiskInterface"
+		address="http://localhost/DataService/webservice/riskServer">
+		<jaxws:outInterceptors>
+			<bean class="com.credit.ws.auth.AddHeaderInterceptor" >
+				<constructor-arg value="nbchina"/>
+				<constructor-arg value="fd3@MeSQxCo$SMHuhd3KZ%XiFTBmvWgURAJu"/>
+			</bean>
+		</jaxws:outInterceptors>
+	</jaxws:client>
+	<!-- 经营信息 -->
+	<jaxws:client id="operInterface" serviceClass="com.nbchina.ws.api.entinfo.operinfo.OperInterface"
+		address="http://localhost/DataService/webservice/operServer">
+		<jaxws:outInterceptors>
+			<bean class="com.credit.ws.auth.AddHeaderInterceptor" >
+				<constructor-arg value="nbchina"/>
+				<constructor-arg value="fd3@MeSQxCo$SMHuhd3KZ%XiFTBmvWgURAJu"/>
+			</bean>
+		</jaxws:outInterceptors>
+	</jaxws:client>
+	<!-- 知识产权 -->
+	<jaxws:client id="intelInterface" serviceClass="com.nbchina.ws.api.entinfo.intelproperty.IntelInterface"
+		address="http://localhost/DataService/webservice/intelServer">
+		<jaxws:outInterceptors>
+			<bean class="com.credit.ws.auth.AddHeaderInterceptor" >
+				<constructor-arg value="nbchina"/>
+				<constructor-arg value="fd3@MeSQxCo$SMHuhd3KZ%XiFTBmvWgURAJu"/>
+			</bean>
+		</jaxws:outInterceptors>
+	</jaxws:client>
+	<!-- 基本信息 -->
+	<jaxws:client id="baseInterface" serviceClass="com.nbchina.ws.api.entinfo.baseinfo.BaseInterface"
+		address="http://localhost/DataService/webservice/baseServer">
+		<jaxws:outInterceptors>
+			<bean class="com.credit.ws.auth.AddHeaderInterceptor" >
+				<constructor-arg value="nbchina"/>
+				<constructor-arg value="fd3@MeSQxCo$SMHuhd3KZ%XiFTBmvWgURAJu"/>
+			</bean>
+		</jaxws:outInterceptors>
+	</jaxws:client>
+	
+	
+    <context:property-placeholder location="classpath*:com/config/jdbcOracle.properties"/>
+    
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.driverClass}" />
+		<property name="url" value="${jdbc.jdbcUrl}" />
+		<property name="username" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>	
+	
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
+        <property name="dataSource" ref="dataSource" />  
+    </bean>  
+  
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  
+        <property name="dataSource" ref="dataSource" />  
+        <property name="configLocation" value="classpath:mybatis.xml"/> 
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:com/credit/model/**/*-resultmap.xml</value>
+                <value>classpath:com/credit/mapper/**/*-mapper.xml</value>
+                <value>classpath:com/credit/mapper/**/*.xml</value>
+            </list>
+        </property>
+    </bean>  
+
+    <tx:annotation-driven />  
+  
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
+        <property name="basePackage" value="com.credit.mapper" /> 
+        <!-- <property name="markerInterface" value="com.credit.mapper.SqlMapper"/> -->
+    </bean>  
+   
+</beans>

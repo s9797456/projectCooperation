@@ -1,0 +1,663 @@
+/**
+ * 
+ */
+package com.credit.controller.personal;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.credit.model.addition.Model;
+import com.credit.model.member.Customer;
+import com.credit.model.person.PerBaseInfo;
+import com.credit.model.person.PerHistory;
+import com.credit.model.person.PerOpinion;
+import com.credit.model.person.PerProcess;
+import com.credit.model.person.PerResult;
+import com.credit.modelvo.PerHistoriesVO;
+import com.credit.modelvo.Permission;
+import com.credit.modelvo.SessionName;
+import com.credit.service.addition.ModelService;
+import com.credit.service.person.PerBaseInfoService;
+import com.credit.service.person.PerHistoryService;
+import com.credit.service.person.PerOpinionService;
+import com.credit.service.person.PerProcessService;
+import com.credit.service.person.PerResultService;
+import com.credit.util.DateTime;
+import com.credit.util.model.IndexRateVo;
+import com.credit.util.properties.BusinessUtil;
+import com.credit.util.properties.PerScoreLevelDescUtil;
+
+/**
+ * 个人信用
+ * @author Administrator
+ */
+@Controller
+@RequestMapping("/initPersonal")
+public class PersonalController {
+	
+	private static final Logger logger = Logger.getLogger(PersonalController.class);
+
+	private String moduleName = "用户操作情况";
+	
+	@Resource
+	private PerProcessService perProcessService; //个人信用状态
+	
+	@Resource
+	private PerOpinionService perOpinionService;//驳回信息
+	
+	@Resource
+	private PerResultService perResultService;//评分信息
+	
+	@Resource
+	private PerBaseInfoService perBaseInfoService;//个人信用基础信息
+
+	@Resource
+	private PerHistoryService perHistoryService;//历史信息
+	
+	@Resource
+	private ModelService<?> modelService;
+	
+	/**
+	 * @Title spring mvc在绑定表单之前，会先进入该方法（从jsp -> java）本方法是str转换为date类型
+	 * 		      或者使用   实体类 属性上注入方式（    @DateTimeFormat(pattern = "yyyy-MM-dd")）
+	 * @author  Administrator  @date 2017-8-23 
+	 * @Description 
+	 */
+	@InitBinder  
+    public void initBinder(WebDataBinder binder) {  
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+    	dateFormat.setLenient(false);  
+    	binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true)); //"true":允许输入空值，"false":不能为空值 
+    }
+	
+	/**
+	 * @Title 阅读协议
+	 * @author  Administrator  @date 2017-9-15 
+	 * @Description 
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "readProtocols")
+	@RequestMapping("/readProtocols")
+	@ResponseBody
+	public Map<String, Object> readProtocols(HttpServletRequest request){
+		logger.info(moduleName + "[阅读协议]");
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		if(customer != null){
+			PerProcess process = perProcessService.selectByPerID(customer.getPerid());
+		    if(process!=null){
+		    	process.setReadstate(1);
+		    	perProcessService.updateByPrimaryKeySelective(process);
+		    }else{
+		    	process = new PerProcess();
+		    	process.setReadstate(1);
+		    	process.setUuid(UUID.randomUUID().toString().replace("-", ""));
+		    	process.setPerid(customer.getPerid());
+		    	perProcessService.insertSelective(process);
+		    }
+		    msgMap.put("msg", "阅读协议状态更新成功");
+		}else{
+			msgMap.put("msg", "网络错误，请重新登录    错误代码：204");
+		}
+		return msgMap;
+	}
+	/**
+	 * @Title 个人认证
+	 * @author  Administrator  @date 2017-9-15 
+	 * @Description 
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "authentication")
+	@RequestMapping("/authenticationUI")
+	public String authenticationUI(HttpServletRequest request){
+		logger.info(moduleName + "[个人认证]");
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		if(customer != null){
+			PerBaseInfo perBaseInfo = perBaseInfoService.selectByPrimaryKey(customer.getPerid());
+			String name = "";
+			if(perBaseInfo.getName() != null && ! "".equals(perBaseInfo.getName())){
+				name = perBaseInfo.getName();
+			}else{
+				name = customer.getRealname();
+			}
+			request.setAttribute("IDCard", perBaseInfo.getIdcard());
+			request.setAttribute("name", name);
+			return "personal/authentication";
+		}else{
+			request.setAttribute("error", "登录超时,请重新登录");
+			return "redirect:/customer/logonUI.do";
+		}
+	}
+	
+	/**
+	 * @Title 查看驳回项
+	 * @author  Administrator  @date 2017-9-15 
+	 * @Description 
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "lookOpinion")
+	@RequestMapping("/opinion")
+	@ResponseBody
+	public Map<String, Object> opinion(HttpServletRequest request){
+		logger.info(moduleName + "[查看驳回项]");
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		if(customer != null){
+		PerOpinion perOpinion = perOpinionService.selectByPerIDReject(customer.getPerid());
+			msgMap.put("opinion", perOpinion);
+			msgMap.put("status", true);
+		}else{
+			msgMap.put("msg", "网络错误，请重新登录    错误代码：204");
+			msgMap.put("status", false);
+		}
+		return msgMap;
+	}
+
+	/**
+	 * @Title  查看初评信息
+	 * @author  严树伟  @date 2017-9-13 
+	 * @Description 增改查询内容
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "preliminary")
+	@RequestMapping("/viewPreliminary")
+	public String viewScore(HttpServletRequest request)
+			throws Exception {
+		logger.info(moduleName + "[查看初评]");
+		// 得到当前用户的相关信息
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		if (customer != null) {
+			String perid = customer.getPerid();
+			PerProcess perProcess = perProcessService.selectByPerID(perid);
+			if(perProcess.getApplyreportstate() ==1 && perProcess.getScorestate() > 2){
+				PerResult perResult = perResultService.selectByPerID(perid);
+				PerOpinion perOpinion = perOpinionService.selectByPerIDAndScore(perid);
+				
+				String adr=BusinessUtil.getMsg("adr");
+				String root=BusinessUtil.getMsg("root");
+				List<IndexRateVo> indexRates = perResultService.getIndexRate(adr+root+perResult.getScorexmlurl());
+				System.out.println(adr+perResult.getScorexmlurl());
+				//获取等级说明
+				if(perResult.getPreliminarylevel() != null){
+					request.setAttribute("explain", PerScoreLevelDescUtil.scoreLevelDesc(perResult.getPreliminarylevel()));
+				}
+				
+				request.setAttribute("perResult", perResult);//评分
+				request.setAttribute("perOpinion", perOpinion);//反馈
+				request.setAttribute("perProcess", perProcess);//状态
+				request.setAttribute("indexRates", indexRates);//一级指标得分情况
+			}
+			return "personal/reject";
+		}else{
+			request.setAttribute("error", "登录超时,请重新登录");
+			return "redirect:/customer/logonUI.do";
+		}
+	}
+	
+	/**
+	 * @Title  用户反馈初评信息
+	 * @author Administrator  @date 2017-9-13 
+	 * @Description 
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "preliminary")
+	@RequestMapping("/feedbackEvaluation")
+	public String feedbackEvaluation(HttpServletRequest request ,PerOpinion opinion)throws Exception {
+		logger.info(moduleName + "[用户反馈初评信息]");
+		// 得到当前用户的相关信息
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		if (customer != null) {
+			if(opinion == null ){
+				return "personal/reject";
+			}else{
+				String perid = customer.getPerid();
+				PerOpinion perOpinion = perOpinionService.selectByPerIDReject(perid);
+				PerProcess perProcess = perProcessService.selectByPerID(perid);
+				if(perOpinion == null){
+					perOpinion = new PerOpinion();
+					perOpinion.setFeekbacknum(1);
+					perOpinion.setUuid(UUID.randomUUID().toString().replace("-", ""));
+					perOpinion.setIsconfirm(opinion.getIsconfirm());//是否确定
+					if(perOpinion.getIsconfirm() == 1){
+						perProcess.setScorestate(4);//设置个人状态
+					}else{
+						perProcess.setScorestate(2);//设置个人状态
+					}
+					perProcessService.updateByPrimaryKeySelective(perProcess);
+					perOpinion.setIsadmin(0);//是否管理员意见;1是，0否
+					perOpinion.setDealer(customer.getUsername());//处理人
+					perOpinion.setOpinion(new String (opinion.getOpinion().getBytes("iso8859-1"),"UTF-8"));//反馈意见
+					perOpinion.setUpdatetime(DateTime.getCurrentTimeStamp());//反馈时间
+					perOpinion.setPerid(perid);
+					perOpinionService.insertSelective(perOpinion);
+				}else{
+					int feekbacknum=0;
+					if(perOpinion.getFeekbacknum() != null){
+						feekbacknum=perOpinion.getFeekbacknum();
+					} 
+					perOpinion.setFeekbacknum(feekbacknum+1);
+					perOpinion.setIsconfirm(opinion.getIsconfirm());//是否确定
+					if(perOpinion.getIsconfirm() == 1){
+						perProcess.setScorestate(4);//设置个人状态
+					}else{
+						perProcess.setScorestate(2);//设置个人状态
+					}
+					perProcessService.updateByPrimaryKeySelective(perProcess);
+					perOpinion.setIsadmin(0);//是否管理员意见;1是，0否
+					perOpinion.setDealer(customer.getUsername());//处理人
+					perOpinion.setOpinion(new String (opinion.getOpinion().getBytes("iso8859-1"),"UTF-8"));//反馈意见
+					perOpinion.setUpdatetime(DateTime.getCurrentTimeStamp());//反馈时间
+					perOpinion.setPerid(perid);
+					perOpinionService.updateByPrimaryKey(perOpinion);
+				}
+				return "redirect:/customer/jumpToPerMain.do";
+			}
+			
+		}else{
+			request.setAttribute("error", "登陆超时,请重新登录");
+			return "redirect:/customer/logonUI.do";
+		}
+	}
+	
+	/**
+	 * @Title  获取报告相关信息
+	 * @author  Administrator  @date 2017-9-15 
+	 * @Description 
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "downloadReport")
+	@RequestMapping("/downloadReport")
+	@ResponseBody
+	public Map<String, Object> downloadReportUI(HttpServletRequest request){
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		if (customer != null) {
+			String perid = customer.getPerid();
+			PerBaseInfo perBaseInfo = perBaseInfoService.selectByPrimaryKey(perid);
+			PerResult perResult = perResultService.selectByPerID(perid);
+			if(perResult != null && perResult.getReporturl() != null ){
+				String path = BusinessUtil.getMsg("adr")+BusinessUtil.getMsg("root")+perResult.getReporturl();
+				File file = new File(path);
+				if(file.isFile()){
+					msgMap.put("reporturl", 1);
+				}else{
+					msgMap.put("reporturl", 0);
+				}
+			}else{
+				msgMap.put("reporturl", 0);
+			}
+			msgMap.put("perBaseInfoName", perBaseInfo.getName());
+			msgMap.put("perResult", perResult);
+			logger.info(moduleName + "[获取当前账户报告相关信息]");
+			msgMap.put("status", true);
+			return msgMap;
+		}else{
+			msgMap.put("status", false);
+			return msgMap;
+		}
+		
+	}
+	/**
+	 * @Title 下载报告
+	 * @author  Administrator  @date 2017-9-25 
+	 * @Description 
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "downloadReport")
+	@RequestMapping("/downLoad")
+	public String downLoad(HttpServletResponse response,HttpServletRequest request,String report) {
+		logger.info(moduleName + "[评分报告下载]");
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		if( customer != null){
+			String perid = customer.getPerid();
+			PerBaseInfo perBaseInfo= perBaseInfoService.selectByPrimaryKey(perid);
+			PerResult perResult = perResultService.selectByPerID(perid);
+			if(perResult != null && perResult.getReporturl()!=null && !"".equals(perResult.getReporturl().trim())){
+				String path=BusinessUtil.getMsg("adr")+BusinessUtil.getMsg("root")+perResult.getReporturl();
+				String name=perBaseInfo.getName()+"-"+sdf.format(new Date())+".pdf";
+				downLoad(response,name,path);
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * @Title 下载历史报告
+	 * @author  Administrator  @date 2017-9-25 
+	 * @Description 
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "downloadHistoryReport")
+	@RequestMapping("/downLoadHistorical")
+	public String downLoadHistorical(HttpServletResponse response,HttpServletRequest request,String hisId) {
+		logger.info(moduleName + "[评分报告下载]");
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		if( customer != null && hisId != null){
+			//获取
+			PerHistory perHistory =  perHistoryService.selectByPrimaryKey(hisId);
+			String entName = "";
+			String reportUrl = "";
+			if(perHistory != null && perHistory.getHistoricalxmlurl() != null ){
+				 //获取 盘符
+				try {
+					 String adr=BusinessUtil.getMsg("adr")+BusinessUtil.getMsg("root");
+					 File f = new File(adr+perHistory.getHistoricalxmlurl());   
+				     SAXReader reader = new SAXReader();   
+				     Document doc = reader.read(f);
+				     //获取根节点
+				     Element root = doc.getRootElement();   
+				     //查找子节点
+				   //查找子节点
+				     entName =  ((Element) root.elementIterator("PerBaseInfo").next()).elementText("name");
+				     reportUrl =  ((Element) root.elementIterator("PerResult").next()).elementText("reportUrl");
+				} catch (DocumentException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			if(entName != null && reportUrl!=null ){
+				String path=BusinessUtil.getMsg("adr")+BusinessUtil.getMsg("root")+reportUrl;
+				System.out.println("获取历史 报告  pdf : "+ path);
+				String name=entName+"-"+sdf.format(new Date())+".pdf";
+				downLoad(response,name,path);
+			}
+		}
+		return null;
+	}
+	
+	
+	/**
+	  * @Title 展示历史信息
+	  * @author  Administrator  @date 2017-9-25 
+	  * @Description 
+	  *
+	  */
+	@Permission(model = "personal", privilegeValue = "history")
+	@RequestMapping("/historical")
+	 public String historical(HttpServletRequest request){
+		 logger.info(moduleName + "[查看历史记录]");
+		 Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		 if(customer != null){
+			//保存对象的当前数据
+			 PerHistoriesVO  perHistoriesVO = currentObjectInfo(customer.getPerid());
+			 request.setAttribute("perHistoriesVO", perHistoriesVO);
+			 
+			//创建集合 保存对象的历史数据
+			List<PerHistoriesVO> perHistoriesVOs = new ArrayList<PerHistoriesVO>();
+			//获取 盘符
+			String adr=BusinessUtil.getMsg("adr")+BusinessUtil.getMsg("root");
+			
+			//通过xml 获取历史
+		    List<PerHistory> perHistories = perHistoryService.selectByPerID(customer.getPerid());
+			for (PerHistory historical : perHistories) {
+				try {
+					PerHistoriesVO perHistoriesVO2 = historicalObject(historical.getUuid(),adr+historical.getHistoricalxmlurl());
+				    if(perHistoriesVO2 != null){
+				    	perHistoriesVOs.add(perHistoriesVO2);
+				    }
+			    } catch (Exception e) {   
+			     e.printStackTrace();
+			   }   
+			}
+			request.setAttribute("perHistoriesVOs",perHistoriesVOs);
+			return "personal/historical";
+		 }else{
+			return "redirect:/customer/logonUI.do";
+		 }	
+	 }
+	/**
+	 * @Title 比较历史信息
+	 * @author  Administrator  @date 2017-9-25 
+	 * @return 
+	 * @Description 
+	 *
+	 */
+	@Permission(model = "personal", privilegeValue = "history")
+	@RequestMapping("/compare")
+	@ResponseBody
+	public Map<String, Object> compare(HttpServletRequest request,String[] uuid){
+		logger.info(moduleName + "[查看历史记录]");
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		Customer customer = (Customer) request.getSession().getAttribute(SessionName.CUSTOMER);
+		if(customer != null){
+			if(uuid != null && uuid.length > 0 ){
+				//创建集合 保存对象的历史数据
+				List<PerHistoriesVO> perHistoriesVOs = new ArrayList<PerHistoriesVO>();
+				for (String str : uuid) {
+					PerHistoriesVO  perHistoriesVO = null;
+					if("itself".equals(str)){
+						perHistoriesVO = currentObjectInfo(customer.getPerid());
+					}else{
+						try {
+							//获取 盘符
+							String adr=BusinessUtil.getMsg("adr")+BusinessUtil.getMsg("root");
+							PerHistory perHistory = perHistoryService.selectByPrimaryKey(str);
+							perHistoriesVO = historicalObject(perHistory.getUuid(),adr+perHistory.getHistoricalxmlurl());
+						} catch (DocumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					if(perHistoriesVO != null){
+						perHistoriesVOs.add(perHistoriesVO);
+					}
+				}
+				msgMap.put("perHistoriesVOs", perHistoriesVOs);
+				msgMap.put("status", true);
+			}else{
+				msgMap.put("status", false);
+				msgMap.put("msg", "对比记录获取数据失败,请重新尝试");
+			}
+		}else{
+			msgMap.put("status", -1);
+			msgMap.put("msg", "登录超时,请重新登录");
+		}	
+		return msgMap;
+	}
+	
+	/**
+	 * @param perid
+	 * @return
+	 */
+	private PerHistoriesVO currentObjectInfo(String perid){
+		//保存对象的当前数据
+		PerHistoriesVO perHistoriesVO = new PerHistoriesVO();
+		//获取  个人基础信息
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		PerBaseInfo perBaseInfo = perBaseInfoService.selectByPrimaryKey(perid);
+		perHistoriesVO.setBaseinfoid(perBaseInfo.getUuid());
+		perHistoriesVO.setIdissuingagency(perBaseInfo.getIdissuingagency());
+		Date idtermend = perBaseInfo.getIdtermend();
+		if(idtermend != null){
+			perHistoriesVO.setIdtermend(format.format(idtermend));
+		}
+		Date idtermstart = perBaseInfo.getIdtermstart();
+		if(idtermstart != null){
+			perHistoriesVO.setIdtermstart(format.format(idtermstart));
+		}
+		perHistoriesVO.setFertilitycondition(perBaseInfo.getFertilitycondition());
+		perHistoriesVO.setMaritalstatus(perBaseInfo.getMaritalstatus());
+		perHistoriesVO.setName(perBaseInfo.getName());
+		perHistoriesVO.setPermanentaddress(perBaseInfo.getPermanentaddress());
+		perHistoriesVO.setPoliticaloutlook(perBaseInfo.getPoliticaloutlook());
+		perHistoriesVO.setPresentaddress(perBaseInfo.getPresentaddress());
+		perHistoriesVO.setUsedname(perBaseInfo.getUsedname());
+		
+		//获取 评分信息
+		PerResult perResult = perResultService.selectByPerID(perid);
+		//获取 模型信息
+		if(perResult != null){
+			perHistoriesVO.setEncoding(perResult.getEncoding());
+			perHistoriesVO.setFinallevel(perResult.getFinallevel());
+			perHistoriesVO.setPreliminarylevel(perResult.getPreliminarylevel());
+			
+			BigDecimal finalscore = perResult.getFinalscore();
+			if(finalscore != null){
+				perHistoriesVO.setFinalscore(finalscore.toString());
+			}
+			Date gradetime = perResult.getGradetime();
+			if(gradetime != null){
+				perHistoriesVO.setGradetime(format.format(gradetime));
+			}
+			BigDecimal preliminaryscore = perResult.getPreliminaryscore();
+			if(preliminaryscore != null){
+				perHistoriesVO.setPreliminaryscore(preliminaryscore.toString());
+			}
+			Model model = modelService.selectByPrimaryKey(perResult.getModelid());
+			perHistoriesVO.setModelName(model.getName());
+			perHistoriesVO.setModelVersion(model.getVersion());
+		}
+		perHistoriesVO.setUuid("itself");
+		return perHistoriesVO;
+	}
+	
+	private PerHistoriesVO historicalObject(String uuid,String path) throws DocumentException{
+		File f = new File(path);   
+		if(!f.isFile()){
+			logger.debug("该路径下不存在相关文件:"+path);
+			return null;
+		}
+		PerHistoriesVO histories = new PerHistoriesVO();
+		histories.setUuid(uuid);
+		SAXReader reader = new SAXReader();   
+		Document doc = reader.read(f);  
+		//获取根节点
+		Element root = doc.getRootElement();   
+		//查找子节点
+		Element baseInfo =  (Element) root.elementIterator("PerBaseInfo").next();
+		
+		histories.setBaseinfoid(baseInfo.elementText("uuid"));
+		histories.setIdissuingagency(baseInfo.elementText("IDIssuingAgency"));
+		histories.setIdtermend(baseInfo.elementText("IDTermEnd"));
+		histories.setIdtermstart(baseInfo.elementText("IDTermStart"));
+		histories.setFertilitycondition(baseInfo.elementText("fertilityCondition"));
+		histories.setMaritalstatus(baseInfo.elementText("maritalStatus"));
+		histories.setName(baseInfo.elementText("name"));
+		histories.setPermanentaddress(baseInfo.elementText("permanentAddress"));
+		histories.setPoliticaloutlook(baseInfo.elementText("politicalOutlook"));
+		histories.setPresentaddress(baseInfo.elementText("presentAddress"));
+		histories.setUsedname(baseInfo.elementText("usedName"));
+		
+		Element result =  (Element) root.elementIterator("PerResult").next();
+		histories.setEncoding(result.elementText("encoding"));
+		histories.setFinallevel(result.elementText("finalLevel"));
+		histories.setFinalscore(result.elementText("finalScore"));
+		histories.setFinallevel(result.elementText("preliminaryLevel"));
+		histories.setFinalscore(result.elementText("preliminaryScore"));
+		histories.setGradetime(result.elementText("gradeTime"));
+		
+		Element models =  (Element) root.elementIterator("Model").next();
+		histories.setModelName(models.elementText("name"));
+		histories.setModelVersion(models.elementText("version"));
+		
+		return histories;
+	
+	}
+	private void downLoad(HttpServletResponse response,String name ,String path){
+		BufferedInputStream bis = null;
+		BufferedOutputStream bos = null;
+		OutputStream fos = null;
+		InputStream fis = null;
+		// 进行下载
+		try {
+			fis = new FileInputStream(path);
+			bis = new BufferedInputStream(fis);
+			fos = response.getOutputStream();
+			bos = new BufferedOutputStream(fos);
+			// 这个就就是弹出下载对话框的关键代码
+			/*
+			 * System.out.println(name);
+			 * System.out.println(URLEncoder.encode(name,"utf-8"));
+			 */
+			name = URLEncoder.encode(name, "utf-8");
+			name = URLEncoder.encode(name, "utf-8");
+			name = URLDecoder.decode(name, "utf-8");
+			name = URLDecoder.decode(name, "utf-8");
+			/* name = new String(name.getBytes("ISO8859-1"), "utf-8"); */
+			System.out.println(name);
+			name = new String(name.getBytes("gbk"), "ISO8859-1");
+			System.out.println(name);
+			response.setHeader("cache-control", "public");
+			response.setHeader("Pragma", "public");
+			response.setHeader("Content-disposition", "attachment;filename="
+					+ name);
+			int bytesRead = 0;
+			// 都是用输入流进行先读，然后用输出流去写，唯一不同的是我用的是缓冲输入输出流
+			byte[] buffer = new byte[8192];
+			while ((bytesRead = bis.read(buffer, 0, 8192)) != -1) {
+				bos.write(buffer, 0, bytesRead);
+			}
+			bos.flush();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (fos != null) {
+				try {
+					fos.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (bis != null) {
+				try {
+					bis.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (fis != null) {
+				try {
+					fis.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (bos != null) {
+				try {
+					bos.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+}

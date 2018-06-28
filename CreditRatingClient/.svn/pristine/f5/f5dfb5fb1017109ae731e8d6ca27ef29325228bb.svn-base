@@ -1,0 +1,98 @@
+package com.credit.service.privilege.impl;
+
+
+import java.util.List;
+import java.util.Set;
+
+import javax.annotation.Resource;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.credit.mapper.privilege.C_Customer_RoleMapper;
+import com.credit.mapper.privilege.C_Group_PrivilegeMapper;
+import com.credit.mapper.privilege.C_PrivilegeGroupMapper;
+import com.credit.mapper.privilege.C_SystemPrivilegeMapper;
+import com.credit.model.privilege.C_Customer_RoleKey;
+import com.credit.model.privilege.C_Group_PrivilegeKey;
+import com.credit.model.privilege.C_PrivilegeGroup;
+import com.credit.model.privilege.C_SystemPrivilege;
+import com.credit.model.privilege.C_SystemPrivilegeKey;
+import com.credit.service.privilege.C_PrivilegeGroupService;
+
+@Service
+@Transactional
+public class C_PrivilegeGroupServiceBean<T extends C_PrivilegeGroup> implements C_PrivilegeGroupService<T> {
+	
+	@Resource
+	private C_PrivilegeGroupMapper mapper;
+	
+	@Resource
+	private C_Group_PrivilegeMapper cgpmapper;
+	
+	@Resource
+	private C_Customer_RoleMapper ccrmapper;
+
+	private static final Logger logger = Logger.getLogger(C_PrivilegeGroupServiceBean.class);
+
+	@Override
+	public int deleteByPrimaryKey(String uuid) {
+		// TODO Auto-generated method stub
+		return mapper.deleteByPrimaryKey(uuid);
+	}
+
+	@Override
+	public int insertSelective(C_PrivilegeGroup record) {
+		// TODO Auto-generated method stub
+		return mapper.insertSelective(record);
+	}
+
+	@Override
+	public C_PrivilegeGroup selectByPrimaryKey(String uuid) {
+		// TODO Auto-generated method stub
+		return mapper.selectByPrimaryKey(uuid);
+	}
+
+	@Override
+	public int updateByPrimaryKey(C_PrivilegeGroup record) {
+		// TODO Auto-generated method stub
+		return mapper.updateByPrimaryKeySelective(record);
+	}
+
+	@Override
+	public boolean insertGroupPrivilege(Set<C_SystemPrivilege> systemPrivileges,String uuid) {
+		boolean flag=true;
+		for(C_SystemPrivilege csp : systemPrivileges){
+			C_Group_PrivilegeKey cgpk=new C_Group_PrivilegeKey();
+			cgpk.setGroupid(uuid);
+			cgpk.setModel(csp.getModel());
+			cgpk.setPrivilegevalue(csp.getPrivilegevalue());
+			int value=cgpmapper.insertSelective(cgpk);
+			if(value!=1){
+				flag=false;
+			}
+		}
+		return flag;
+	}
+
+	@Override
+	public void insertCustomerRole(C_Customer_RoleKey ccrk) {
+		ccrmapper.insertSelective(ccrk);
+	}
+
+	@Override
+	public Set<C_SystemPrivilegeKey> selectByCustomer(String username) {
+		// TODO Auto-generated method stub
+		return cgpmapper.selectByCustomer(username);
+	}
+
+	@Override
+	public String selectByRoleName(String string) {
+		// TODO Auto-generated method stub
+		return mapper.selectByRoleName(string);
+	}
+
+
+
+}

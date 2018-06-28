@@ -1,0 +1,39 @@
+#公司名称
+corp_name=\u82CF\u5DDE\u4FE1\u7528\u670D\u52A1\u884C\u4E1A\u534F\u4F1A
+#公司名称简写
+corp_name2=\u4F01\u4E1A\u4FE1\u7528\u8BC4\u4EF7\u5E73\u53F0
+#公司邮箱
+corp_email=szcredit2015@163.com
+#公司电话
+corp_phone=0512-67662908
+corp_address=\u82CF\u5DDE\u5E02\u5341\u6893\u8857338\u53F7\u59D1\u82CF\u5F81\u4FE1\u4EA7\u4E1A\u56ED4\u53F7\u697C201\u5BA4
+#公司主页网址
+corp_url=http\://www.szcsa.org/
+#公司logo图标地址
+corp_logourl=/Resources/Web/Png/logoImage.png
+#公司公众微信号
+corp_weixin=hytdata
+#公司公众微信二维码路径
+corp_weixinurl=/Resources/Web/Png/hytdata.jpg
+#公司微博
+corp_weibo=
+
+#项目名
+obj_name=\u6C47\u8A89\u901A\u4F01\u4E1A\u4FE1\u7528\u8BC4\u4EF7\u5E73\u53F0 V3.0
+obj_name2=\u4F01\u4E1A\u4FE1\u7528\u8BC4\u4EF7\u5E73\u53F0 V3.0
+#项目版本号
+obj_version=3.0
+#项目logo图标
+obj_logoImage=/Images/replace/logo.png
+#网站备案号
+obj_record=\u82CFICP\u590715010454\u53F7-2
+#网站版权信息
+obj_copyright="\u7248\u6743\u6240\u6709 Copyright&Copy; 2005 <a href\='http\://www.hytcredit.com' target\='_blank'><font color\='\#FFFFFF'>\u6C5F\u82CF\u6C47\u8A89\u901A</font></a>"  
+#项目更新时间
+obj_updatetime=2016-11-30
+
+#极验验证
+geetest_id=567416b58f0afd60488d5bea017cfe44
+geetest_key=4eb9cdf0295bba3f2dcb20f9f3918dc5
+
+

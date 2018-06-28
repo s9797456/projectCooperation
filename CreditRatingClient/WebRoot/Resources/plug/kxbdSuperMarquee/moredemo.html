@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jquery 滚动 kxbdSuperMarquee插件支持图片与文字无缝滚动 图片翻滚 banner制作</title>
+<style type="text/css">
+*{margin:0;padding:0;list-style-type:none;}
+body{font-size:12px;line-height:180%;font-family:"宋体",Arial, Helvetica, sans-serif;}
+a,img{border:0;}
+a{color:#333;}
+a:hover{color:#3366cc;text-decoration:none;}
+/* marquee6 */
+#marquee6{width:600px;height:100px; overflow:hidden;background:#EFEFEF;}
+#marquee6 ul li{padding:0 10px;line-height:20px;height:20px;overflow:hidden;}
+/* control */
+.control{height:24px;line-height:24px;overflow:hidden;padding:15px 0 0 0;}
+</style>
+
+<script type="text/javascript" src="http://j.sxjsjlxh.com/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="http://j.sxjsjlxh.com/js/kxbdSuperMarquee.js"></script>
+<script type="text/javascript">
+$(function(){
+	//Marquee
+	$('#marquee6').kxbdSuperMarquee({
+		isMarquee:true,
+		isEqual:false,
+		scrollDelay:20,
+		controlBtn:{up:'#goUM',down:'#goDM'},
+		direction:'up'
+	});
+});
+
+</script>
+</head>
+
+<body>
+
+	
+	<h2>无缝上下文字滚动 支持左右无缝滚动</h2>
+	<div id="marquee6">
+		<ul>
+			<li><a href="http://www.jsfoot.com/html5/items/2011-08-29/153.html" title="jquery HTML5 幻灯片插件 用 Canvas 制作类似百叶窗拍摄快门摄影拍摄效果">jquery HTML5 幻灯片插件 用 Canvas 制作类似百叶窗拍摄快门摄影拍摄效果</a></li>
+			<li><a href="http://www.jsfoot.com/html5/items/2011-03-01/66.html" title="制作CSS3和HTML5的一个单页网站模板">制作CSS3和HTML5的一个单页网站模板</a></li>
+		
+			<li><a href="http://www.jsfoot.com/html5/items/2011-02-21/42.html" title="jquery 幻灯片切换应用一个HTML5的幻灯片">jquery 幻灯片切换应用一个HTML5的幻灯片</a></li>
+			<li><a href="http://www.jsfoot.com/html5/items/2011-02-19/16.html" title="jquery 图片滚动特效应用旋转幻灯片使用jQuery和CSS3">jquery 图片滚动特效应用旋转幻灯片使用jQuery和CSS3</a></li>
+			<li><a href="http://www.jsfoot.com/css3/items/2011-07-23/78.html" title="用div+css制作纯CSS下拉菜单，兼容IE6 IE7 IE8及以上 Firefox">用div+css制作纯CSS下拉菜单，兼容IE6 IE7 IE8及以上 Firefox</a></li>
+			<li><a href="http://www.jsfoot.com/css3/items/2011-02-21/36.html" title="CSS如何定位工程">CSS如何定位工程</a></li>
+		</ul>
+		</div>
+	<div class="control">↑鼠标按住：<a href="javascript:void(0);" id="goUM">加速上移</a> <a href="javascript:void(0);" id="goDM">加速下移</a></div>
+	
+
+
+</body>
+</html>

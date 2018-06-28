@@ -1,0 +1,194 @@
+package com.credit.service.member.impl;
+
+import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Resource;
+import javax.persistence.Query;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.credit.bean.enterprise.EntBaseInfo;
+import com.credit.bean.enterprise.ProcessState;
+import com.credit.bean.member.Customer;
+import com.credit.bean.person.PerBaseInfo;
+import com.credit.bean.person.PerProcess;
+import com.credit.dao.impl.DaoSupport;
+import com.credit.service.enterprise.EntBaseInfoService;
+import com.credit.service.enterprise.ProcessStateService;
+import com.credit.service.member.CustomerService;
+import com.credit.service.person.PerBaseInfoService;
+import com.credit.service.person.PerProcessService;
+
+
+@Service
+@Transactional
+public class CustomerServiceBean extends DaoSupport<Customer> implements CustomerService {
+	private static final Logger logger = Logger.getLogger(CustomerServiceBean.class);
+	
+	@Resource
+	private ProcessStateService processStateService;
+	@Resource
+	private EntBaseInfoService entBaseInfoService;
+	@Resource
+	private PerBaseInfoService perBaseInfoService;
+	@Resource
+	private PerProcessService perProcessService;
+	
+	public void updateVisible(Boolean judgeProccess, String userName,Integer visible, String entID) {
+		if (judgeProccess) {
+			EntBaseInfo ent = entBaseInfoService.find(entID);
+			if(ent!=null&&ent.getProcess()==null){
+				ProcessState processState = new ProcessState();
+				processState.setUuid(UUID.randomUUID().toString().replace("-", ""));
+				processState.setEntBaseInfo(ent);
+				processStateService.save(processState);
+			}
+		}
+		entityManager
+				.createQuery(
+						"update com.credit.bean.member.Customer o set o.visible=?1 where o.userName=?2")
+				.setParameter(1, visible).setParameter(2, userName)
+				.executeUpdate();
+	}
+	
+	public void updatePerVisible(Boolean judgeProccess, String userName,Integer visible, String perID) {
+		if (judgeProccess) {
+			PerBaseInfo info = perBaseInfoService.find(perID);
+			if(info!=null&&info.getProcess()==null){
+				PerProcess processState = new PerProcess();
+				processState.setUuid(UUID.randomUUID().toString().replace("-", ""));
+				processState.setPerBaseInfo(info);
+				perProcessService.save(processState);
+			}
+		}
+		entityManager
+		.createQuery(
+				"update com.credit.bean.member.Customer o set o.visible=?1 where o.userName=?2")
+				.setParameter(1, visible).setParameter(2, userName)
+				.executeUpdate();
+	}
+	@Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
+	public boolean exist(String field, String value) {
+		logger.info("MemberService_exist;field:" + field + ";value:" + value);
+		long count = (Long) entityManager
+				.createQuery(
+						"select count(o) from com.credit.bean.member.Customer o where o."
+								+ field + "=?1").setParameter(1, value)
+				.getSingleResult();
+		return count > 0;
+	}
+	
+	@Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
+	public boolean exist(String field, String value, String value2) {
+		logger.info("MemberService_exist;field:" + field + ";value:" + value
+				+ ";value2:" + value2);
+		long count = (Long) entityManager
+				.createQuery(
+						"select count(o) from com.credit.bean.member.Customer o where o."
+								+ field + "=?1 and o.userName!=?2")
+				.setParameter(1, value).setParameter(2, value2)
+				.getSingleResult();
+
+		return count > 0;
+	}
+	public boolean exist(String enterpriseID) {
+		long count = (Long) entityManager
+				.createQuery(
+						"select count(o) from com.casdata.bean.member.TempRegistration o where o.enterpriseID=?1 and o.status=0").setParameter(1, enterpriseID)
+				.getSingleResult();
+		return count > 0;
+	}
+	public Customer selectByEntID(String entID) {
+		Query querySecond = entityManager.createQuery("select o from com.credit.bean.member.Customer o where o.entBaseInfo.uuid=?1");
+		querySecond.setParameter(1, entID);
+		@SuppressWarnings("unchecked")
+		List<Customer> customers = querySecond.getResultList();
+		Customer customer = null;
+		if (customers != null && customers.size() > 0) {
+			customer = customers.get(0);
+		}
+		return customer;
+	}
+/*	@SuppressWarnings("unchecked")
+	public TempRegistrationVO selectByEntID(String EnterpriseID) {
+		logger.info("MemberService_selectByEnterpriseID;EnterpriseID:"
+				+ EnterpriseID);
+		StringBuffer sql = new StringBuffer();
+		sql.append("select a.UUID as memberid,d.uuid as enterpriseID,c.uuid,a.USERNAME,a.CELLPHONE,a.EMAIL,a.REALNAME,a.REGIP,d.INDUSTRY,d.name,");
+		sql.append("c.userName as reusername,c.cellphone as recellphone,c.email as reemail,c.realName as rerealname,");
+		sql.append("c.regIP as reregip,c.industry as reindustry,c.name as name1 ");
+		sql.append("from tb_member a , tb_tempregistration c inner join tb_enterprise_info d ");
+		sql.append("on d.UUID=?1 and d.UUID=c.enterpriseID  where a.ENTERPRISE_INFOID=c.enterpriseID ");
+		sql.append("and a.ENTERPRISE_INFOID=?1 and c.status=0");
+		String sqlstring  = sql.toString();
+		Query query = entityManager
+				.createNativeQuery(sqlstring);
+		query.setParameter(1, EnterpriseID);
+		List<Object> enterprises = new ArrayList<Object>();
+		enterprises=query.getResultList();
+		Object[] o = (Object[]) enterprises.get(0);
+		TempRegistrationVO temp = new TempRegistrationVO();
+		temp.setMemberid((String)o[0]);
+		temp.setEnterpriseID((String)o[1]);
+		temp.setUuid((String)o[2]);
+		temp.setUsername((String)o[3]);
+		temp.setCellphone((String)o[4]);
+		temp.setEmail((String)o[5]);
+		temp.setRealname((String)o[6]);
+		temp.setRegIP((String)o[7]);
+		temp.setIndustry((String)o[8]);
+		temp.setName((String)o[9]);
+		temp.setReusername((String)o[10]);
+		temp.setRecellphone((String)o[11]);
+		temp.setReemail((String)o[12]);
+		temp.setRerealname((String)o[13]);
+		temp.setReregip((String)o[14]);
+		temp.setReindustry((String)o[15]);
+		temp.setName1((String)o[16]);
+		return temp;
+	
+	}
+	@SuppressWarnings("unchecked")
+	public TempRegistration selectTempByEnterpriseID(String EnterpriseID) {
+		logger.info("MemberService_selectTempByEnterpriseID;EnterpriseID:"
+				+ EnterpriseID);
+		Query querySecond = entityManager
+				.createQuery("select o from TempRegistration o where o.enterpriseID=?1");
+		querySecond.setParameter(1, EnterpriseID);
+		List<TempRegistration> tempRegistrations = querySecond
+				.getResultList();
+		TempRegistration tempRegistration = null;
+		if (tempRegistrations != null && tempRegistrations.size() > 0) {
+			tempRegistration = tempRegistrations.get(0);
+		}
+		return tempRegistration;
+	}
+	public void updateTemp(int status, String enterpriseID) {
+		logger.info("MemberService_updateTemp;enterpriseID:" + enterpriseID
+				+ ";status:" + status);
+		entityManager
+				.createQuery(
+						"update com.casdata.bean.member.TempRegistration o set o.status=?1 where o.enterpriseID=?2")
+				.setParameter(1, status).setParameter(2, enterpriseID)
+				.executeUpdate();
+	
+	}
+	*/
+	public List<Customer> selectByTypeAndOrg(String orgid, Integer type) {
+		String hql = "select o from com.credit.bean.member.Customer o where o.organization.uuid=?1 ";
+		if(type != null){
+			hql += "and o.type = ?2";
+		}
+		Query querySecond = entityManager.createQuery(hql);
+		querySecond.setParameter(1, orgid);
+		if(type != null){
+			querySecond.setParameter(2, type);
+		}
+		return querySecond.getResultList();
+	}
+
+}

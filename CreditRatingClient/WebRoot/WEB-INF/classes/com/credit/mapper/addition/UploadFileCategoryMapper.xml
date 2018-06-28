@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.credit.mapper.addition.UploadFileCategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.credit.model.addition.UploadFileCategory" >
+    <id column="UUID" property="uuid" jdbcType="VARCHAR" />
+    <result column="ISMUST" property="ismust" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="DECIMAL" />
+    <result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="ISENT" property="isent" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UUID, ISMUST, NAME, REMARK, TYPE, UPDATETIME, ISENT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CREDITRATING.TB_UPLOADFILECATEGORY
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CREDITRATING.TB_UPLOADFILECATEGORY
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.credit.model.addition.UploadFileCategory" >
+    insert into CREDITRATING.TB_UPLOADFILECATEGORY (UUID, ISMUST, NAME, 
+      REMARK, TYPE, UPDATETIME, 
+      ISENT)
+    values (#{uuid,jdbcType=VARCHAR}, #{ismust,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{type,jdbcType=DECIMAL}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{isent,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.credit.model.addition.UploadFileCategory" >
+    insert into CREDITRATING.TB_UPLOADFILECATEGORY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        UUID,
+      </if>
+      <if test="ismust != null" >
+        ISMUST,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME,
+      </if>
+      <if test="isent != null" >
+        ISENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="ismust != null" >
+        #{ismust,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isent != null" >
+        #{isent,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.credit.model.addition.UploadFileCategory" >
+    update CREDITRATING.TB_UPLOADFILECATEGORY
+    <set >
+      <if test="ismust != null" >
+        ISMUST = #{ismust,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isent != null" >
+        ISENT = #{isent,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.credit.model.addition.UploadFileCategory" >
+    update CREDITRATING.TB_UPLOADFILECATEGORY
+    set ISMUST = #{ismust,jdbcType=DECIMAL},
+      NAME = #{name,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=DECIMAL},
+      UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      ISENT = #{isent,jdbcType=DECIMAL}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectEntRelevant" resultMap="BaseResultMap" resultType="list" >
+    select 
+    <include refid="Base_Column_List" />
+    from TB_UPLOADFILECATEGORY where ISENT = 0  order by ISMUST desc
+  </select>
+  <select id="selectPersonalRelevant" resultMap="BaseResultMap" resultType="list" >
+    select 
+    <include refid="Base_Column_List" />
+    from TB_UPLOADFILECATEGORY where ISENT = 1 order by ISMUST desc
+  </select>
+</mapper>
